@@ -1,0 +1,93 @@
+<style>
+  /* Styles for the form */
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+  }
+
+  .form-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .form-submit:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="form-container">
+  <h2 class="form-title">Upload document</h2>
+
+  <form (ngSubmit)="addDocument()">
+    <label for="name" class="form-label">Document name:</label>
+    <input
+      type="text"
+      id="name"
+      class="form-input"
+      name="name"
+      [(ngModel)]="name"
+      required
+    />
+
+    <label for="docUrl" class="form-label">Document url</label>
+    <input
+      type="text"
+      class="form-input"
+      name="docUrl"
+      id="docUrl"
+      [(ngModel)]="docUrl"
+      required
+      placeholder="/assets/documents/yourdocname"
+    />
+
+    <label for="idService" class="form-label">Numero de service:</label>
+    <input
+      type="number"
+      name="idService"
+      id="idService"
+      [(ngModel)]="idService"
+      required
+    />
+
+    <button type="submit" class="form-submit">Submit</button>
+  </form>
+</div>

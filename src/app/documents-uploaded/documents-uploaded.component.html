@@ -1,0 +1,48 @@
+<!--div class="container">
+  <h1 class="mt-3 mb-3">Liste de documents</h1>
+
+  <h4>
+    <p *ngFor="let document of documents | async">
+      {{ document.name }} :
+      <a href="{{ document.docUrl }}">Visualiser</a>
+      <a href="">Modifier</a>
+
+      <button class="btn btn-info" href={{document.docUrl }}>
+        Telecharger
+      </button>
+      <button class="btn btn-info" style="margin-left: 10px">Modifier</button>
+    </p>
+  </h4>
+</div-->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Document name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let document of documents | async">
+      <td>{{ document.name }}</td>
+      <td class="align-middle">
+        <a
+          href="{{ document.docUrl }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Telecharger</a
+        >
+      </td>
+
+      <!--td class="align-middle">
+        <button class="btn btn-info" onclick="{{" document.docUrl }}>
+          Telecharger
+        </button>
+        <button class="btn btn-danger" style="margin-left: 10px">
+          Modifier
+        </button>
+      </td-->
+    </tr>
+  </tbody>
+</table>
