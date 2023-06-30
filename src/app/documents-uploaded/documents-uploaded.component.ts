@@ -10,6 +10,7 @@ import { UploadDocumentService } from '../upload-document.service';
 })
 export class DocumentsUploadedComponent implements OnInit {
   documents?: Observable<any[]>;
+  services!: string[];
   constructor(private uploadService: UploadDocumentService) {}
 
   ngOnInit(): void {
@@ -17,5 +18,26 @@ export class DocumentsUploadedComponent implements OnInit {
   }
   getAll() {
     this.documents = this.uploadService.getdocuments();
+  }
+  deleteDocument(id: number): void {
+    this.uploadService.deleteDocument(id).subscribe(
+      () => {
+        console.log('Document deleted successfully');
+        this.getAll();
+      },
+      (error) => {
+        console.error('Error deleting document:', error);
+      }
+    );
+  }
+  getServices(): void {
+    this.uploadService.getServices().subscribe(
+      (services) => {
+        this.services = services;
+      },
+      (error) => {
+        console.error('Error retrieving services:', error);
+      }
+    );
   }
 }

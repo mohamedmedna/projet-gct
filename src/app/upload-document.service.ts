@@ -23,13 +23,25 @@ export class UploadDocumentService {
   addDocument(
     name: string,
     docUrl: string,
-    idService: number
+    nomservice: string
   ): Observable<any> {
     const body = {
       name: name,
       docUrl: docUrl,
-      idService: idService,
+      nomservice: nomservice,
     };
     return this.http.post<any>(this.baseUrl + 'adddocument', body);
+  }
+
+  getServices(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'services');
+  }
+
+  getDocumentsByService(serviceName: string): Observable<Fichier[]> {
+    return this.http.get<Fichier[]>(this.baseUrl + 'documents/' + serviceName);
+  }
+
+  deleteDocument(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}documents/${id}`);
   }
 }

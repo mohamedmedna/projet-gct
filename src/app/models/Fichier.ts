@@ -1,4 +1,9 @@
-import { Service } from "./Service";
+import { Service } from './Service';
 export class Fichier {
-  constructor(public iddoc?:number,public name?: string, public doc_url?: string,public service?:Service) {}
+  constructor(
+    public iddoc?: number,
+    public name?: string,
+    public docUrl?: string,
+    public idService?: number
+  ) {}
 }

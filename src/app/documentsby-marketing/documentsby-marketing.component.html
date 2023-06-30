@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Liste de documents</title>
+    <title>Liste de documents Marketing</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -69,17 +69,8 @@
     </style>
   </head>
   <body>
-
-
-        <div class="container">
-    <div class="nav-container">
-      <nav>
-        <a href="documentsbyMarketing">Liste de documents Marketing</a>
-        <a href="documentsbyLogistics">Liste de documents Logistics</a>
-      </nav>
-    </div>
-    <div class="content">
-    <h2>Liste de documents</h2>
+    <div class="container">
+      <h2>Liste de documents Marketing</h2>
       <table>
         <thead>
           <tr>
@@ -88,7 +79,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let document of documents | async">
+          <tr *ngFor="let document of documents">
             <td>{{ document.name }}</td>
             <td>
               <a
@@ -97,13 +88,11 @@
                 href="{{ document.docUrl }}"
                 >Telecharger</a
               >
-              <a (click)="deleteDocument(document.iddoc)">Supprimer</a>
             </td>
           </tr>
           <tr></tr>
         </tbody>
       </table>
-    </div>
     </div>
   </body>
 </html>

@@ -5,6 +5,8 @@ import { SupervisorDashComponent } from './supervisor-dash/supervisor-dash.compo
 import { WorkerDashComponent } from './worker-dash/worker-dash.component';
 import { AdddocumentComponent } from './adddocument/adddocument.component';
 import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploaded.component';
+import { DocumentsbyMarketingComponent } from './documentsby-marketing/documentsby-marketing.component';
+import { DocumentsbyLogisticsComponent } from './documentsby-logistics/documentsby-logistics.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'workerdash', component: WorkerDashComponent },
   { path: 'adddocument', component: AdddocumentComponent },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
+  { path: 'documentsbyMarketing', component: DocumentsbyMarketingComponent },
+  { path: 'documentsbyLogistics', component: DocumentsbyLogisticsComponent },
 ];
 
 @NgModule({

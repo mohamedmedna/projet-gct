@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UploadDocumentService } from './upload-document.service';
 import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploaded.component';
+import { DocumentsbyMarketingComponent } from './documentsby-marketing/documentsby-marketing.component';
+import { DocumentsbyLogisticsComponent } from './documentsby-logistics/documentsby-logistics.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploa
     WorkerDashComponent,
     AdddocumentComponent,
     DocumentsUploadedComponent,
+    DocumentsbyMarketingComponent,
+    DocumentsbyLogisticsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [UploadDocumentService],

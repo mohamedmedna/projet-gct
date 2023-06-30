@@ -5,21 +5,26 @@ package com.projetgct.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.projetgct.entities.Document;
 import com.projetgct.entities.Servic;
 import com.projetgct.repositories.DocumentRepo;
+import com.projetgct.utilities.DocumentRequest;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -40,42 +45,38 @@ public class DocumentController {
 	@PersistenceContext
     private EntityManager entityManager;
 
-    @PostMapping("/adddocument")
-    @Transactional
-    public ResponseEntity<String> addDocument(
-            @RequestParam String name,
-            @RequestParam String docUrl,
-            @RequestParam Long idService
-    ) {
-        try {
-            Document document = new Document();
-            document.setDocUrl(docUrl);
-            document.setName(name);
+	@PostMapping("/adddocument")
+	@Transactional
+	public ResponseEntity<Document> addDocument(@RequestBody DocumentRequest requestdoc) {
+	    try {
+	        Document document = new Document();
+	        document.setDocUrl(requestdoc.getDocUrl());
+	        document.setName(requestdoc.getName());
 
-            Servic service = entityManager.find(Servic.class, idService);
-            if (service == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Service not found.");
-            }
-            document.setServic(service);
+	        jakarta.persistence.Query query = entityManager.createQuery("SELECT s FROM Servic s WHERE s.nomservice = :nomservice");
+	        query.setParameter("nomservice", requestdoc.getNomservice());
+	        Servic service = (Servic) query.getSingleResult();
 
-            entityManager.persist(document);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Document added successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding document.");
-        }
-    }
+	        if (service == null) {
+		    	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-	/*@PostMapping("/adddocument")
-	public ResponseEntity<Document> addDocument(@RequestBody Document doc){
-		try {
-			Document document=repo.save(new Document(doc.getName(), doc.getDocUrl(),doc.getServic()));
-			return new ResponseEntity<>(document,HttpStatus.OK);
-			
-		}catch(Exception e) {
-			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-			
-		}
-	}*/
+	        	
+	        }
+	        document.setServic(service);
+
+	        entityManager.persist(document);
+
+	        return new ResponseEntity<Document>(document,HttpStatus.OK);
+	    } catch (NoResultException e) {
+	    	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+	    } catch (Exception e) {
+	    	return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
+
+
 
 	@GetMapping("/documents")
 	public ResponseEntity<List<Document>> getAllDocuments(@RequestParam(required = false) String nom) {
@@ -91,7 +92,28 @@ public class DocumentController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 
 }
+	@GetMapping("/documents/{serviceName}")
+	public ResponseEntity<List<Document>> getDocumentsByService(@PathVariable("serviceName") String serviceName) {
+	    try {
+	        List<Document> documents = repo.findByServiceName(serviceName);
+	        return new ResponseEntity<>(documents, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
+	@DeleteMapping("/documents/{id}")
+	public ResponseEntity<HttpStatus> deleteDocument(@PathVariable("id") Long id) {
+		try {
+			repo.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}
+	}
 }
 

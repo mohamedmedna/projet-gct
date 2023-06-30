@@ -79,14 +79,12 @@
       placeholder="/assets/documents/yourdocname"
     />
 
-    <label for="idService" class="form-label">Numero de service:</label>
-    <input
-      type="number"
-      name="idService"
-      id="idService"
-      [(ngModel)]="idService"
-      required
-    />
+    <label for="nomservice">Service Name:</label>
+    <select id="nomservice" name="nomservice" [(ngModel)]="nomservice" required>
+      <option *ngFor="let service of services" [value]="service">
+        {{ service }}
+      </option>
+    </select>
 
     <button type="submit" class="form-submit">Submit</button>
   </form>
