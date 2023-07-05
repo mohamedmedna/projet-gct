@@ -11,8 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UploadDocumentService } from './upload-document.service';
 import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploaded.component';
-import { DocumentsbyMarketingComponent } from './documentsby-marketing/documentsby-marketing.component';
-import { DocumentsbyLogisticsComponent } from './documentsby-logistics/documentsby-logistics.component';
+import { Form1Component } from './form1/form1.component';
+import { Form2Component } from './form2/form2.component';
+import { Form3Component } from './form3/form3.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +23,9 @@ import { DocumentsbyLogisticsComponent } from './documentsby-logistics/documents
     WorkerDashComponent,
     AdddocumentComponent,
     DocumentsUploadedComponent,
-    DocumentsbyMarketingComponent,
-    DocumentsbyLogisticsComponent,
+    Form1Component,
+    Form2Component,
+    Form3Component,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [UploadDocumentService],

@@ -4,6 +4,7 @@ export class Fichier {
     public iddoc?: number,
     public name?: string,
     public docUrl?: string,
-    public idService?: number
+    public idService?: number,
+    public form?: string
   ) {}
 }

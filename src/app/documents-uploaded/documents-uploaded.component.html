@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Liste de documents</title>
+    <title>Liste de tous les documents</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -10,100 +10,123 @@
       }
 
       .container {
+        display: flex;
+        justify-content: space-between;
         margin: 20px auto;
-        max-width: 600px;
+        max-width: 800px;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
       }
-      .nav-container {
+
+      .sidebar {
         width: 200px;
         background-color: #f2f2f2;
+        padding: 20px;
+        box-sizing: border-box;
       }
 
-      .nav-container nav {
+      .sidebar h3 {
+        margin-top: 0;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar li {
+        margin-bottom: 10px;
+      }
+
+      .sidebar button {
+        width: 100%;
         padding: 10px;
-      }
-
-      .nav-container a {
-        display: block;
-        text-decoration: none;
-        color: #007bff;
-        margin-bottom: 10px;
-        font-size: 18px;
-      }
-
-      .nav-container a:hover {
+        border: none;
         background-color: #ddd;
+        color: #333;
+        cursor: pointer;
       }
 
-      .container h2 {
+      .sidebar button:hover {
+        background-color: #ccc;
+      }
+
+      .content {
+        flex-grow: 1;
+        margin-left: 20px;
+      }
+
+      .content h2 {
         margin-bottom: 10px;
       }
 
-      .container table {
+      .content table {
         width: 100%;
         border-collapse: collapse;
       }
 
-      .container th,
-      .container td {
+      .content th,
+      .content td {
         padding: 8px;
         text-align: left;
         border-bottom: 1px solid #ddd;
       }
 
-      .container th {
+      .content th {
         background-color: #f2f2f2;
       }
 
-      .container a {
+      .content a {
         text-decoration: none;
         color: #007bff;
         margin-right: 10px;
       }
-      .container a:hover {
+
+      .content a:hover {
         background-color: #f2f2f2;
         color: #000;
       }
     </style>
   </head>
   <body>
-
-
-        <div class="container">
-    <div class="nav-container">
-      <nav>
-        <a href="documentsbyMarketing">Liste de documents Marketing</a>
-        <a href="documentsbyLogistics">Liste de documents Logistics</a>
-      </nav>
-    </div>
-    <div class="content">
-    <h2>Liste de documents</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Noms du documents</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let document of documents | async">
-            <td>{{ document.name }}</td>
-            <td>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="{{ document.docUrl }}"
-                >Telecharger</a
-              >
-              <a (click)="deleteDocument(document.iddoc)">Supprimer</a>
-            </td>
-          </tr>
-          <tr></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="container">
+      <div class="sidebar">
+        <h3>Liste de document par services</h3>
+        <ul>
+          <li *ngFor="let service of services">
+            <button (click)="loadDocumentsByService(service)">
+              {{ service }}
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="content">
+        <h2>Liste de tous les documents</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Noms du documents</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let document of documents | async">
+              <td>{{ document.name }}</td>
+              <td>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [href]="getDownloadUrl(document.iddoc)"
+                  >Telecharger</a
+                >
+                <a (click)="deleteDocument(document.iddoc)">Supprimer</a>
+                <a (click)="editDocument(document.form)">Éditer</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

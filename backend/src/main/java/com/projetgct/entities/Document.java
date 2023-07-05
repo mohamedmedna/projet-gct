@@ -22,12 +22,15 @@ private Long iddoc;
 @Column(name="name")
 private String name;
 
-@Column(name="doc_url")
-private String doc_url;
+@Column(name="doc_content",length=1000000000)
+private  byte[] doc_content;
 
 @ManyToOne
 @JoinColumn(name="idservice",nullable=false)
 private Servic servic;
+
+@Column(name="form")
+private String form;
 
 
 public Document() {
@@ -35,13 +38,15 @@ public Document() {
 }
 
 
-public Document(String name, String docUrl, Servic servic) {
+
+
+public Document(String name, byte[] doc_content, Servic servic,String form) {
 	super();
 	this.name = name;
-	this.doc_url = docUrl;
+	this.doc_content = doc_content;
 	this.servic = servic;
+	this.form=form;
 }
-
 
 
 
@@ -66,13 +71,30 @@ public void setName(String name) {
 }
 
 
-public String getDocUrl() {
-	return doc_url;
+
+
+
+public String getForm() {
+	return form;
 }
 
 
-public void setDocUrl(String docUrl) {
-	this.doc_url = docUrl;
+
+
+public void setForm(String form) {
+	this.form = form;
+}
+
+
+
+
+public byte[] getDoc_content() {
+	return doc_content;
+}
+
+
+public void setDoc_content(byte[] doc_content) {
+	this.doc_content = doc_content;
 }
 
 

@@ -1,6 +1,4 @@
 import { Component, OnInit, asNativeElements } from '@angular/core';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { UploadDocumentService } from '../upload-document.service';
 import { Router } from '@angular/router';
 @Component({
@@ -10,9 +8,11 @@ import { Router } from '@angular/router';
 })
 export class AdddocumentComponent implements OnInit {
   name!: string;
-  docUrl!: string;
+  form!: string;
+  file!: File;
   nomservice!: string;
   services!: string[];
+  forms: Array<string> = ['Form1', 'Form2', 'Form3'];
 
   ngOnInit(): void {
     this.getServices();
@@ -34,16 +34,20 @@ export class AdddocumentComponent implements OnInit {
     );
   }
 
-  addDocument(): void {
+  public onFileChange(event: any): void {
+    this.file = event.target.files[0];
+  }
+
+  public onSubmit(): void {
     this.uploaddocumentservice
-      .addDocument(this.name, this.docUrl, this.nomservice)
+      .addDocument(this.name, this.nomservice, this.file, this.form)
       .subscribe(
         (response) => {
-          console.log('Document added successfully:', response);
-          this.router.navigate(['/documentsuploaded']);
+          console.log('Document ajouté avec succès');
+          this.router.navigateByUrl('/documentsuploaded');
         },
-        error => {
-          console.error('Error adding document:', error);
+        (error) => {
+          console.error("Erreur lors de l'ajout du document:", error);
         }
       );
   }

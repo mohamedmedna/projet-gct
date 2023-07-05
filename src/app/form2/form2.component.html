@@ -55,49 +55,21 @@
 </style>
 
 <div class="form-container">
-  <h2 class="form-title">Upload document</h2>
+  <h2 class="form-title">Formulaire 2</h2>
 
-  <form enctype="multipart/form-data" (ngSubmit)="onSubmit()">
-    <label for="name" class="form-label">Document name:</label>
-    <input
-      type="text"
-      id="name"
-      class="form-input"
-      name="name"
-      [(ngModel)]="name"
-      required
-    />
+  <form>
     <div>
-      <label for="nomservice">Service Name:</label>
-      <select
-        id="nomservice"
-        name="nomservice"
-        [(ngModel)]="nomservice"
-        required
-      >
-        <option *ngFor="let service of services" [value]="service">
-          {{ service }}
-        </option>
-      </select>
+      <label for="name" class="form-label">Numéro consultation:</label>
+      <input type="number" id="name" name="name" required />
+      <label for="titre" class="form-label">Titre consultation:</label>
+      <input type="text" id="titre" name="titre" required />
+      <label for="name" class="form-label">Objet consultation:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="name" class="form-label">Conditions Participation:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="name" class="form-label">Délai livraison:</label>
+      <input type="date" id="name" name="name" required />
     </div>
-
-    <label for="form">Formulaire Associé:</label>
-    <select id="form" name="form" [(ngModel)]="form" required>
-      <option *ngFor="let Formulaire of forms" [value]="Formulaire">
-        {{ Formulaire }}
-      </option>
-    </select>
-    <div>
-      <label for="file">File:</label>
-      <input
-        type="file"
-        id="file"
-        (change)="onFileChange($event)"
-        accept=".pdf,.doc,.docx"
-        required
-      />
-    </div>
-
     <button type="submit" class="form-submit">Submit</button>
   </form>
 </div>
