@@ -14,6 +14,8 @@ import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploa
 import { Form1Component } from './form1/form1.component';
 import { Form2Component } from './form2/form2.component';
 import { Form3Component } from './form3/form3.component';
+import { AddserviceComponent } from './addservice/addservice.component';
+import { ServicesListComponent } from './services-list/services-list.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { Form3Component } from './form3/form3.component';
     Form1Component,
     Form2Component,
     Form3Component,
+    AddserviceComponent,
+    ServicesListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [UploadDocumentService],
