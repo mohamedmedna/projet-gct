@@ -1,4 +1,4 @@
-import { Service } from './Service';
+import { Servic } from './Servic';
 export class Fichier {
   constructor(
     public iddoc?: number,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Service } from '../models/Service';
+import { Servic } from '../models/Servic';
 import { AddServiceService } from '../add-service.service';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./addservice.component.css'],
 })
 export class AddserviceComponent implements OnInit {
-  service: Service = {
+  service: Servic = {
+    idservice: undefined,
     nomservice: '',
   };
 

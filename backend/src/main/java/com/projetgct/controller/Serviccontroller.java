@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.projetgct.entities.Document;
 import com.projetgct.entities.Servic;
 import com.projetgct.repositories.ServiceRepo;
 

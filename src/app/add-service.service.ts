@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Service } from './models/Service';
+import { Servic } from './models/Servic';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,8 @@ export class AddServiceService {
     return this.http.put(this.baseUrl + 'service/' + id, data);
   }
 
-  getServices(): Observable<Service[]> {
-    return this.http.get<Service[]>(this.baseUrl + 'servics');
+  getServices(): Observable<Servic[]> {
+    return this.http.get<Servic[]>(this.baseUrl + 'servics');
   }
 
   deleteService(id: number): Observable<any> {

@@ -9,17 +9,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./services-list.component.css'],
 })
 export class ServicesListComponent implements OnInit {
-  constructor(private addservice: AddServiceService) {}
+  constructor(private service: AddServiceService) {}
 
   services?: Observable<any[]>;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadServices();
+  }
 
   loadServices(): void {
-    this.services = this.addservice.getServices();
+    this.services = this.service.getServices();
   }
   deleteService(id: number): void {
-    this.addservice.deleteService(id).subscribe(
+    this.service.deleteService(id).subscribe(
       () => {
         console.log('Document deleted successfully');
         this.loadServices();
