@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.projetgct.entities.ChampVisibilite;
 import com.projetgct.entities.Formulaire;
 import com.projetgct.repositories.FormulaireRepo;
 
@@ -23,6 +24,12 @@ public class FormulaireController {
     @GetMapping("/formulaires")
     public ResponseEntity<List<Formulaire>> getAllFormulaires() {
         List<Formulaire> formulaires = repo.findAll();
+
+        for (Formulaire formulaire : formulaires) {
+            List<ChampVisibilite> champsVisibilite = repo.findByFormulaireId(formulaire.getId());
+            formulaire.setChampsVisibilite(champsVisibilite);
+        }
+
         return new ResponseEntity<>(formulaires, HttpStatus.OK);
     }
 

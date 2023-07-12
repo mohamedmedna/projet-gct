@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Formulaire } from '../models/formulaire.model';
+import { FormulaireModel } from './app/models/FormulaireModel';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +11,12 @@ export class FormulaireService {
 
   constructor(private http: HttpClient) {}
 
-  getAllFormulaires(): Observable<Formulaire[]> {
-    return this.http.get<Formulaire[]>(this.baseUrl + '/formulaires');
+  getAllFormulaires(): Observable<FormulaireModel[]> {
+    return this.http.get<FormulaireModel[]>(this.baseUrl + '/formulaires');
   }
 
-  addFormulaire(formulaire: Formulaire): Observable<Formulaire> {
-    return this.http.post<Formulaire>(
+  addFormulaire(formulaire: FormulaireModel): Observable<FormulaireModel> {
+    return this.http.post<FormulaireModel>(
       this.baseUrl + '/addformulaire',
       formulaire
     );
