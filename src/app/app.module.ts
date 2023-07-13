@@ -15,6 +15,7 @@ import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploa
 import { AddserviceComponent } from './addservice/addservice.component';
 import { ServicesListComponent } from './services-list/services-list.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
+import { ModifierChampsComponent } from './modifier-champs/modifier-champs.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FormulaireComponent } from './formulaire/formulaire.component';
     AddserviceComponent,
     ServicesListComponent,
     FormulaireComponent,
+    ModifierChampsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [UploadDocumentService],

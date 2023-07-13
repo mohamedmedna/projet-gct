@@ -1,15 +1,63 @@
+<style>
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  form {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button[type="submit"],
+  button[type="button"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+</style>
+
 <h2>Ajouter un formulaire</h2>
 <form (submit)="addFormulaire()">
   <label for="nom">Nom :</label>
-  <input type="text" id="nom" name="nom" [(ngModel)]="formulaire.nom" required />
-
-  <h3>Champs du formulaire :</h3>
-  <div *ngFor="let champ of formulaire.champs">
-    <label>
-      <input type="checkbox" name="{{ champ.nom }}" [(ngModel)]="champ.visible" />
-      {{ champ.nom }}
-    </label>
-  </div>
+  <input
+    type="text"
+    name="nom"
+    id="nom"
+    [(ngModel)]="formulaire.nom"
+    required
+  />
 
   <button type="submit">Ajouter</button>
 </form>
@@ -19,7 +67,6 @@
   <thead>
     <tr>
       <th>Nom</th>
-      <th>Champs visibles</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -27,14 +74,8 @@
     <tr *ngFor="let formulaire of formulaires">
       <td>{{ formulaire.nom }}</td>
       <td>
-        <ul>
-          <li *ngFor="let champ of formulaire.champs">
-            {{ champ.nom }} <span *ngIf="champ.visible">(Visible)</span>
-          </li>
-        </ul>
-      </td>
-      <td>
         <button (click)="deleteFormulaire(formulaire)">Supprimer</button>
+        <button (click)="toggleModifier(formulaire)">Modifier</button>
       </td>
     </tr>
   </tbody>

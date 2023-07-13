@@ -1,14 +1,14 @@
 package com.projetgct.entities;
 
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Formulaire {
@@ -16,15 +16,29 @@ public class Formulaire {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long Id;
+    
     private String nom;
 
     private String numConsultation;
+    private boolean numConsultationestVisible=true;
+    
+    
     private String titreConsultation;
+    private boolean titreConsultationestVisible=true;
+    
+    
     private String objetConsultation;
+    private boolean objetConsultationestVisible=true;
+    
     private String conditionsParticipation;
-    private String delaiLivraison;
-    @OneToMany(mappedBy = "formulaire", cascade = CascadeType.ALL)
-    private List<ChampVisibilite> champsVisibilite;
+    private boolean conditionsParticipationestVisible=true;
+    
+    private Date delaiLivraison;
+    private boolean delaiLivraisonestVisible=true;
+    
+    private Date dureeGarantie;
+    private boolean dureeGarantieestVisible=true;
+
 
     public Formulaire() {
     }
@@ -69,11 +83,11 @@ public class Formulaire {
         this.conditionsParticipation = conditionsParticipation;
     }
 
-    public String getDelaiLivraison() {
+    public Date getDelaiLivraison() {
         return delaiLivraison;
     }
 
-    public void setDelaiLivraison(String delaiLivraison) {
+    public void setDelaiLivraison(Date delaiLivraison) {
         this.delaiLivraison = delaiLivraison;
     }
 
@@ -85,14 +99,65 @@ public class Formulaire {
 		this.nom = nom;
 	}
 
-	public List<ChampVisibilite> getChampsVisibilite() {
-		return champsVisibilite;
+	public boolean isNumConsultationestVisible() {
+		return numConsultationestVisible;
 	}
 
-	public void setChampsVisibilite(List<ChampVisibilite> champsVisibilite) {
-		this.champsVisibilite = champsVisibilite;
+	public void setNumConsultationestVisible(boolean numConsultationestVisible) {
+		this.numConsultationestVisible = numConsultationestVisible;
+	}
+
+	public boolean isTitreConsultationestVisible() {
+		return titreConsultationestVisible;
+	}
+
+	public void setTitreConsultationestVisible(boolean titreConsultationestVisible) {
+		this.titreConsultationestVisible = titreConsultationestVisible;
+	}
+
+	public boolean isObjetConsultationestVisible() {
+		return objetConsultationestVisible;
+	}
+
+	public void setObjetConsultationestVisible(boolean objetConsultationestVisible) {
+		this.objetConsultationestVisible = objetConsultationestVisible;
+	}
+
+	public boolean isConditionsParticipationestVisible() {
+		return conditionsParticipationestVisible;
+	}
+
+	public void setConditionsParticipationestVisible(boolean conditionsParticipationestVisible) {
+		this.conditionsParticipationestVisible = conditionsParticipationestVisible;
+	}
+
+	public boolean isDelaiLivraisonestVisible() {
+		return delaiLivraisonestVisible;
+	}
+
+	public void setDelaiLivraisonestVisible(boolean delaiLivraisonestVisible) {
+		this.delaiLivraisonestVisible = delaiLivraisonestVisible;
+	}
+
+	public Date getDureeGarantie() {
+		return dureeGarantie;
+	}
+
+	public void setDureeGarantie(Date dureeGarantie) {
+		this.dureeGarantie = dureeGarantie;
+	}
+
+	public boolean isDureeGarantieestVisible() {
+		return dureeGarantieestVisible;
+	}
+
+	public void setDureeGarantieestVisible(boolean dureeGarantieestVisible) {
+		this.dureeGarantieestVisible = dureeGarantieestVisible;
 	}
 	
+	
+
+
 	
     
 }

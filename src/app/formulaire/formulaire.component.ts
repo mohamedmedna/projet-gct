@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ChampModel, FormulaireModel } from '../models/FormulaireModel';
+import { FormulaireModel } from '../models/FormulaireModel';
 import { FormulaireService } from '../../formulaire.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-formulaire',
   templateUrl: './formulaire.component.html',
@@ -12,57 +12,54 @@ export class FormulaireComponent implements OnInit {
   formulaire: FormulaireModel = {
     id: 0,
     nom: '',
-    champs: [
-      { nom: 'numConsultation', visible: true },
-      { nom: 'titreConsultation', visible: true },
-      { nom: 'objetConsultation', visible: true },
-      { nom: 'conditionsParticipation', visible: true },
-      { nom: 'delaiLivraison', visible: true },
-    ],
+    numConsultation: '',
+    numConsultationestVisible: true,
+    titreConsultation: '',
+    titreConsultationestVisible: true,
+    objetConsultation: '',
+    objetConsultationestVisible: true,
+    conditionsParticipation: '',
+    conditionsParticipationestVisible: true,
+    delaiLivraison: new Date(),
+    delaiLivraisonestVisible: true,
+    dureeGarantie: new Date(),
+    dureeGarantieestVisible: true,
+    modifier: false,
   };
 
-  constructor(private formulaireService: FormulaireService) {}
+  constructor(
+    private formulaireService: FormulaireService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getFormulaires();
   }
 
   getFormulaires(): void {
-    this.formulaireService.getAllFormulaires().subscribe((formulaires) => {
-      this.formulaires = formulaires;
-    });
+    this.formulaireService
+      .getAllFormulaires()
+      .subscribe((formulaires: FormulaireModel[]) => {
+        this.formulaires = formulaires;
+      });
   }
 
   addFormulaire(): void {
     this.formulaireService
       .addFormulaire(this.formulaire)
-      .subscribe((response) => {
+      .subscribe((response: any) => {
         this.formulaires.push(response);
-        this.resetFormulaire();
       });
+  }
+
+  toggleModifier(formulaire: FormulaireModel): void {
+    formulaire.modifier = !formulaire.modifier;
+    this.router.navigate(['/modifiers-champs', formulaire.id]);
   }
 
   deleteFormulaire(formulaire: FormulaireModel): void {
     this.formulaireService.deleteFormulaire(formulaire.id).subscribe(() => {
       this.formulaires = this.formulaires.filter((f) => f.id !== formulaire.id);
     });
-  }
-
-  toggleChampVisibility(champ: ChampModel): void {
-    champ.visible = !champ.visible;
-  }
-
-  resetFormulaire(): void {
-    this.formulaire = {
-      id: 0,
-      nom: '',
-      champs: [
-        { nom: 'numConsultation', visible: true },
-        { nom: 'titreConsultation', visible: true },
-        { nom: 'objetConsultation', visible: true },
-        { nom: 'conditionsParticipation', visible: true },
-        { nom: 'delaiLivraison', visible: true },
-      ],
-    };
   }
 }

@@ -1,0 +1,90 @@
+<style>
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+<h2>Formulaire</h2>
+
+<h3>Champs du formulaire :</h3>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.numConsultationestVisible"
+      (change)="updateChampVisibility('numConsultation')"
+    />
+    Numéro de consultation
+  </label>
+</div>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.titreConsultationestVisible"
+      (change)="updateChampVisibility('titreConsultation')"
+    />
+    Titre de consultation
+  </label>
+</div>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.objetConsultationestVisible"
+      (change)="updateChampVisibility('objetConsultation')"
+    />
+    Objet de consultation
+  </label>
+</div>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.conditionsParticipationestVisible"
+      (change)="updateChampVisibility('conditionsParticipation')"
+    />
+    Conditions de participation
+  </label>
+</div>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.delaiLivraisonestVisible"
+      (change)="updateChampVisibility('delaiLivraison')"
+    />
+    Délai de livraison
+  </label>
+</div>
+<div class="form-group">
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="formulaire.dureeGarantieestVisible"
+      (change)="updateChampVisibility('dureeGarantie')"
+    />
+    Duree Garantie
+  </label>
+</div>
+
+<button type="button" (click)="saveChanges()">Save</button>

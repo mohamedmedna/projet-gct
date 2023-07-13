@@ -12,18 +12,43 @@ export class FormulaireService {
   constructor(private http: HttpClient) {}
 
   getAllFormulaires(): Observable<FormulaireModel[]> {
-    return this.http.get<FormulaireModel[]>(this.baseUrl + '/formulaires');
+    return this.http.get<FormulaireModel[]>(`${this.baseUrl}/formulaires`);
   }
 
   addFormulaire(formulaire: FormulaireModel): Observable<FormulaireModel> {
     return this.http.post<FormulaireModel>(
-      this.baseUrl + '/addformulaire',
+      `${this.baseUrl}/addformulaire`,
       formulaire
     );
   }
 
-  deleteFormulaire(id: number): Observable<void> {
+  updateFormulaire(
+    id: number,
+    formulaire: FormulaireModel
+  ): Observable<FormulaireModel> {
     const url = `${this.baseUrl}/formulaire/${id}`;
-    return this.http.delete<void>(url);
+    return this.http.put<FormulaireModel>(url, formulaire);
+  }
+
+  getFormulaireById(id: number): Observable<FormulaireModel> {
+    const url = `${this.baseUrl}/formulaire/${id}`;
+    return this.http.get<FormulaireModel>(url);
+  }
+
+  updateChampVisibility(
+    id: number,
+    champ: string,
+    visible: boolean
+  ): Observable<FormulaireModel> {
+    const url = `${this.baseUrl}/${id}/update-champ-visibility`;
+    const params = {
+      champ: champ,
+      visible: visible.toString(),
+    };
+    return this.http.put<FormulaireModel>(url, null, { params: params });
+  }
+
+  deleteFormulaire(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/formulaire/${id}`);
   }
 }

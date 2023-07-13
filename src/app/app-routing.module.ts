@@ -8,6 +8,7 @@ import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploa
 import { AddserviceComponent } from './addservice/addservice.component';
 import { ServicesListComponent } from './services-list/services-list.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
+import { ModifierChampsComponent } from './modifier-champs/modifier-champs.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,7 +22,7 @@ const routes: Routes = [
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
   { path: 'addservice', component: AddserviceComponent },
   { path: 'services-list', component: ServicesListComponent },
-
+  { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
   { path: 'formulaire', component: FormulaireComponent },
 ];
 
