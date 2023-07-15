@@ -1,5 +1,7 @@
 import { Component, OnInit, asNativeElements } from '@angular/core';
 import { UploadDocumentService } from '../upload-document.service';
+import { FormulaireService } from '../../formulaire.service';
+
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-adddocument',
@@ -12,7 +14,7 @@ export class AdddocumentComponent implements OnInit {
   file!: File;
   nomservice!: string;
   services!: string[];
-  forms: Array<string> = ['Form1', 'Form2', 'Form3'];
+  forms!: string[];
 
   ngOnInit(): void {
     this.getServices();
@@ -20,6 +22,7 @@ export class AdddocumentComponent implements OnInit {
 
   constructor(
     private uploaddocumentservice: UploadDocumentService,
+    private formservice: FormulaireService,
     private router: Router
   ) {}
 
@@ -30,6 +33,17 @@ export class AdddocumentComponent implements OnInit {
       },
       (error) => {
         console.error('Error retrieving services:', error);
+      }
+    );
+  }
+
+  getForms(): void {
+    this.formservice.getForms().subscribe(
+      (forms) => {
+        this.forms = forms;
+      },
+      (error) => {
+        console.error('Error retrieving Forms:', error);
       }
     );
   }

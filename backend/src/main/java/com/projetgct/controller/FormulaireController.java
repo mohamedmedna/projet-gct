@@ -12,6 +12,7 @@ import com.projetgct.repositories.FormulaireRepo;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin("http://localhost:4200")
@@ -61,7 +62,12 @@ public class FormulaireController {
     }
 
     
-   
+    @GetMapping("/listesformulaires")
+    @ResponseBody
+    public List<String> getAllFormsnames() {
+        List<Formulaire> formulaires = repo.findAll();
+        return formulaires.stream().map(Formulaire::getNom).collect(Collectors.toList());
+    }
 
     @PutMapping("/{id}/update-champ-visibility")
     public ResponseEntity<Formulaire> updateChampVisibility(

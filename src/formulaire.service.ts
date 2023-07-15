@@ -48,6 +48,10 @@ export class FormulaireService {
     return this.http.put<FormulaireModel>(url, null, { params: params });
   }
 
+  getForms(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'listesformulaires');
+  }
+
   deleteFormulaire(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/formulaire/${id}`);
   }

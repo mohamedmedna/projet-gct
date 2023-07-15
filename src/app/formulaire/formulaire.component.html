@@ -1,82 +1,187 @@
-<style>
-  h2 {
-    margin-bottom: 20px;
-  }
+<app-supervisor-dash>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Formulaires</title>
+      <style>
+        .form-container {
+          max-width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f2f2f2;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-  form {
-    margin-bottom: 20px;
-  }
+        .form-title {
+          font-size: 24px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
 
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
+        .form-label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: bold;
+        }
 
-  input[type="text"] {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+        .form-input {
+          width: 100%;
+          padding: 8px;
+          border-radius: 3px;
+          border: 1px solid #ccc;
+          margin-bottom: 16px;
+        }
 
-  button[type="submit"],
-  button[type="button"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+        .form-select {
+          width: 100%;
+          padding: 8px;
+          border-radius: 3px;
+          border: 1px solid #ccc;
+          margin-bottom: 16px;
+        }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+        .form-submit {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          font-weight: bold;
+        }
 
-  th,
-  td {
-    padding: 5px;
-    border: 1px solid #ccc;
-  }
+        .form-submit:hover {
+          background-color: #45a049;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
 
-  th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-</style>
+        .container {
+          display: flex;
+          justify-content: space-between;
+          margin: 20px auto;
+          max-width: 800px;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
 
-<h2>Ajouter un formulaire</h2>
-<form (submit)="addFormulaire()">
-  <label for="nom">Nom :</label>
-  <input
-    type="text"
-    name="nom"
-    id="nom"
-    [(ngModel)]="formulaire.nom"
-    required
-  />
+        .sidebar {
+          width: 200px;
+          background-color: #f2f2f2;
+          padding: 20px;
+          box-sizing: border-box;
+        }
 
-  <button type="submit">Ajouter</button>
-</form>
+        .sidebar h3 {
+          margin-top: 0;
+        }
 
-<h2>Liste de tous les formulaires</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let formulaire of formulaires">
-      <td>{{ formulaire.nom }}</td>
-      <td>
-        <button (click)="deleteFormulaire(formulaire)">Supprimer</button>
-        <button (click)="toggleModifier(formulaire)">Modifier</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        .sidebar ul {
+          list-style: none;
+          padding: 0;
+        }
+
+        .sidebar li {
+          margin-bottom: 10px;
+        }
+
+        .sidebar button {
+          width: 100%;
+          padding: 10px;
+          border: none;
+          background-color: #ddd;
+          color: #333;
+          cursor: pointer;
+        }
+
+        .sidebar button:hover {
+          background-color: #ccc;
+        }
+
+        .content {
+          flex-grow: 1;
+          margin-left: 20px;
+        }
+
+        .content h2 {
+          margin-bottom: 10px;
+        }
+
+        .content table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .content th,
+        .content td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .content th {
+          background-color: #f2f2f2;
+        }
+
+        .content a {
+          text-decoration: none;
+          color: #007bff;
+          margin-right: 10px;
+        }
+
+        .content a:hover {
+          background-color: #f2f2f2;
+          color: #000;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="form-container">
+        <h2 class="form-title">Ajouter une formulaire</h2>
+
+        <form (submit)="addFormulaire()">
+          <label for="nom" class="form-label">Nom du Formulaire:</label>
+          <input
+            type="text"
+            id="nom"
+            class="form-input"
+            name="nom"
+            [(ngModel)]="formulaire.nom"
+            required
+          />
+
+          <button type="submit" class="form-submit">Ajouter</button>
+        </form>
+      </div>
+      <div class="container">
+        <div class="content">
+          <h2>Liste de tous les formulaires</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Noms du formulaires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let formulaire of formulaires">
+                <td>{{ formulaire.nom }}</td>
+                <td>
+                  <a (click)="deleteFormulaire(formulaire)">Supprimer</a>
+                  <a (click)="toggleModifier(formulaire)">Éditer</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </body>
+  </html>
+</app-supervisor-dash>

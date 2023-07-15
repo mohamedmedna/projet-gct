@@ -29,8 +29,11 @@ private  byte[] doc_content;
 @JoinColumn(name="idservice",nullable=false)
 private Servic servic;
 
-@Column(name="form")
-private String form;
+@ManyToOne
+@JoinColumn(name="id",nullable=false)
+private Formulaire formulaire;
+
+
 
 
 public Document() {
@@ -40,12 +43,12 @@ public Document() {
 
 
 
-public Document(String name, byte[] doc_content, Servic servic,String form) {
+public Document(String name, byte[] doc_content, Servic servic,Formulaire formulaire) {
 	super();
 	this.name = name;
 	this.doc_content = doc_content;
 	this.servic = servic;
-	this.form=form;
+	this.formulaire=formulaire;
 }
 
 
@@ -71,23 +74,6 @@ public void setName(String name) {
 }
 
 
-
-
-
-public String getForm() {
-	return form;
-}
-
-
-
-
-public void setForm(String form) {
-	this.form = form;
-}
-
-
-
-
 public byte[] getDoc_content() {
 	return doc_content;
 }
@@ -110,10 +96,15 @@ public void setServic(Servic servic) {
 
 
 
+public Formulaire getFormulaire() {
+	return formulaire;
+}
 
 
 
 
-
+public void setFormulaire(Formulaire formulaire) {
+	this.formulaire = formulaire;
+}
 
 }

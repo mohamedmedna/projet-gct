@@ -1,103 +1,104 @@
-<style>
-  /* Styles for the form */
-  .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+<app-supervisor-dash>
+  <style>
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-  .form-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+    .form-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
 
-  .form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    margin-bottom: 16px;
-  }
+    .form-input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+    }
 
-  .form-select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    margin-bottom: 16px;
-  }
+    .form-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+    }
 
-  .form-submit {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+    .form-submit {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-  .form-submit:hover {
-    background-color: #45a049;
-  }
-</style>
+    .form-submit:hover {
+      background-color: #45a049;
+    }
+  </style>
 
-<div class="form-container">
-  <h2 class="form-title">Upload document</h2>
+  <div class="form-container">
+    <h2 class="form-title">Ajouter un document</h2>
 
-  <form enctype="multipart/form-data" (ngSubmit)="onSubmit()">
-    <label for="name" class="form-label">Document name:</label>
-    <input
-      type="text"
-      id="name"
-      class="form-input"
-      name="name"
-      [(ngModel)]="name"
-      required
-    />
-    <div>
-      <label for="nomservice">Service Name:</label>
-      <select
-        id="nomservice"
-        name="nomservice"
-        [(ngModel)]="nomservice"
-        required
-      >
-        <option *ngFor="let service of services" [value]="service">
-          {{ service }}
-        </option>
-      </select>
-    </div>
-
-    <label for="form">Formulaire Associé:</label>
-    <select id="form" name="form" [(ngModel)]="form" required>
-      <option *ngFor="let Formulaire of forms" [value]="Formulaire">
-        {{ Formulaire }}
-      </option>
-    </select>
-    <div>
-      <label for="file">File:</label>
+    <form enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+      <label for="name" class="form-label">Nom du document:</label>
       <input
-        type="file"
-        id="file"
-        (change)="onFileChange($event)"
-        accept=".pdf,.doc,.docx"
+        type="text"
+        id="name"
+        class="form-input"
+        name="name"
+        [(ngModel)]="name"
         required
       />
-    </div>
+      <div>
+        <label for="nomservice">Nom du service:</label>
+        <select
+          id="nomservice"
+          name="nomservice"
+          [(ngModel)]="nomservice"
+          required
+        >
+          <option *ngFor="let service of services" [value]="service">
+            {{ service }}
+          </option>
+        </select>
+      </div>
 
-    <button type="submit" class="form-submit">Submit</button>
-  </form>
-</div>
+      <label for="form">Formulaire Associé:</label>
+      <select id="form" name="form" [(ngModel)]="form" required>
+        <option *ngFor="let Formulaire of forms" [value]="Formulaire">
+          {{ Formulaire }}
+        </option>
+      </select>
+      <div>
+        <label for="file">File:</label>
+        <input
+          type="file"
+          id="file"
+          (change)="onFileChange($event)"
+          accept=".pdf,.doc,.docx"
+          required
+        />
+      </div>
+
+      <button type="submit" class="form-submit">Submit</button>
+    </form>
+  </div>
+</app-supervisor-dash>

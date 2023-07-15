@@ -1,36 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <style>
-      body {
-        text-align: center;
-      }
+    <title>Supervisor dashboard</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-      h1 {
-        margin-top: 50px;
-      }
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
 
-      .button {
-        margin: 10px;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        background-color: #4caf50;
-        color: white;
-        text-decoration: none;
-        display: block;
-      }
-
-      .danger-button {
-        background-color: red;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
   <body>
-    <h1>Supervisor Dashboard</h1>
-    <a href="adddocument" class="button">Add document</a>
-    <a href="documentsuploaded" class="button">View documents uploaded</a>
-    <a href="#" class="button">View edited documents</a>
-    <a href="" class="button danger-button">Back</a>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar">
+        <div class="custom-menu">
+          <button type="button" id="sidebarCollapse" class="btn btn-primary">
+            <i class="fa fa-bars"></i>
+            <span class="sr-only">Toggle Menu</span>
+          </button>
+        </div>
+        <div class="p-4 pt-5">
+          <h1><a class="logo">GCT</a></h1>
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a routerLink="/adddocument">Ajouter un document</a>
+            </li>
+            <li>
+              <a routerLink="/documentsuploaded">Liste de documents chargés</a>
+            </li>
+            <li>
+              <a routerLink="/viewdocumentsedited"
+                >Liste de documents modifiés</a
+              >
+            </li>
+                                    <li>
+              <a routerLink="/addservice"
+                >Ajouter une service</a
+              >
+            </li>
+                                                <li>
+              <a routerLink="/services-list"
+                >Liste de services</a
+              >
+            </li>
+                        <li>
+              <a routerLink="/formulaire"
+                >Formulaire</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <ng-content></ng-content>
+      </div>
+    </div>
   </body>
 </html>

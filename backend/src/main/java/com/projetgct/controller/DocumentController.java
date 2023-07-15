@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.projetgct.entities.Document;
+import com.projetgct.entities.Formulaire;
 import com.projetgct.entities.Servic;
 import com.projetgct.repositories.DocumentRepo;
 
@@ -55,22 +56,28 @@ public class DocumentController {
 	@Transactional
 	public ResponseEntity<String> addDocument(@RequestParam("name") String name, 
 	                                          @RequestParam("nomservice") String nomservice, 
-	                                          @RequestParam("form") String form,
+	                                          @RequestParam("formulairenom") String formulairenom,
 	                                          @RequestPart("file") MultipartFile file) {
 	    try {
 	        Document document = new Document();
 	        document.setName(name);
-	        document.setForm(form);
 
 	        jakarta.persistence.Query query = entityManager.createQuery("SELECT s FROM Servic s WHERE s.nomservice = :nomservice");
 	        query.setParameter("nomservice", nomservice);
 	        Servic service = (Servic) query.getSingleResult();
+	        
+	        jakarta.persistence.Query query1 = entityManager.createQuery("SELECT f FROM Formulaire f WHERE f.formulairenom = :formulairenom");
+	        query1.setParameter("formulairenom", formulairenom);
+	        Formulaire formulaire = (Formulaire) query1.getSingleResult();
 
-	        if (service == null) {
+	        if (service == null || formulaire==null) {
 	            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	        }
+	        
+
 
 	        document.setServic(service);
+	        document.setFormulaire(formulaire);
 	        document.setDoc_content(file.getBytes());
 	        entityManager.persist(document);
 	        return ResponseEntity.status(HttpStatus.CREATED).body("Document ajouté avec succès.");
