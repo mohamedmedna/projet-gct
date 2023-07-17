@@ -49,7 +49,7 @@ export class FormulaireService {
   }
 
   getForms(): Observable<string[]> {
-    return this.http.get<string[]>(this.baseUrl + 'listesformulaires');
+    return this.http.get<string[]>(this.baseUrl + '/listesformulaires');
   }
 
   deleteFormulaire(id: number): Observable<void> {

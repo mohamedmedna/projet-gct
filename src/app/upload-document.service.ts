@@ -25,13 +25,13 @@ export class UploadDocumentService {
     name: string,
     nomservice: string,
     file: File,
-    form: string
+    formulairenom: string
   ): Observable<any> {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('nomservice', nomservice);
     formData.append('file', file);
-    formData.append('form', form);
+    formData.append('formulairenom', formulairenom);
 
     return this.http.post(this.baseUrl + 'adddocument', formData, {
       responseType: 'text',

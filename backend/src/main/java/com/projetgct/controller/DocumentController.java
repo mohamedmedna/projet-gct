@@ -66,7 +66,7 @@ public class DocumentController {
 	        query.setParameter("nomservice", nomservice);
 	        Servic service = (Servic) query.getSingleResult();
 	        
-	        jakarta.persistence.Query query1 = entityManager.createQuery("SELECT f FROM Formulaire f WHERE f.formulairenom = :formulairenom");
+	        jakarta.persistence.Query query1 = entityManager.createQuery("SELECT f FROM Formulaire f WHERE f.nom = :formulairenom");
 	        query1.setParameter("formulairenom", formulairenom);
 	        Formulaire formulaire = (Formulaire) query1.getSingleResult();
 

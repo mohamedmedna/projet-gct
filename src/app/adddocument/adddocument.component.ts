@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AdddocumentComponent implements OnInit {
   name!: string;
-  form!: string;
+  formulairenom!: string;
   file!: File;
   nomservice!: string;
   services!: string[];
@@ -18,6 +18,7 @@ export class AdddocumentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getServices();
+    this.getForms();
   }
 
   constructor(
@@ -54,7 +55,7 @@ export class AdddocumentComponent implements OnInit {
 
   public onSubmit(): void {
     this.uploaddocumentservice
-      .addDocument(this.name, this.nomservice, this.file, this.form)
+      .addDocument(this.name, this.nomservice, this.file, this.formulairenom)
       .subscribe(
         (response) => {
           console.log('Document ajouté avec succès');

@@ -81,8 +81,13 @@
         </select>
       </div>
 
-      <label for="form">Formulaire Associé:</label>
-      <select id="form" name="form" [(ngModel)]="form" required>
+      <label for="formulairenom">Formulaire Associé:</label>
+      <select
+        id="formulairenom"
+        name="formulairenom"
+        [(ngModel)]="formulairenom"
+        required
+      >
         <option *ngFor="let Formulaire of forms" [value]="Formulaire">
           {{ Formulaire }}
         </option>
