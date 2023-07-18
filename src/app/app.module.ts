@@ -16,6 +16,7 @@ import { AddserviceComponent } from './addservice/addservice.component';
 import { ServicesListComponent } from './services-list/services-list.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
 import { ModifierChampsComponent } from './modifier-champs/modifier-champs.component';
+import { EditDocumentComponent } from './edit-document/edit-document.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ModifierChampsComponent } from './modifier-champs/modifier-champs.compo
     ServicesListComponent,
     FormulaireComponent,
     ModifierChampsComponent,
+    EditDocumentComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [UploadDocumentService],
