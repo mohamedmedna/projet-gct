@@ -2,8 +2,10 @@ package com.projetgct.controller;
 
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,7 @@ import com.projetgct.entities.Document;
 import com.projetgct.entities.Formulaire;
 import com.projetgct.entities.Servic;
 import com.projetgct.repositories.DocumentRepo;
+import com.projetgct.utils.PdfUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -143,5 +147,33 @@ public class DocumentController {
 			
 		}
 	}
+	
+    @PostMapping("/{id}/generate-updated-pdf")
+    public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
+        Optional<Document> optionalDocument = repo.findById(documentId);
+        if (!optionalDocument.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Document document = optionalDocument.get();
+
+        byte[] originalPdfContent = document.getDoc_content();
+        byte[] updatedPdfContent;
+        try {
+            updatedPdfContent = PdfUtils.generateNewPdf(originalPdfContent, formulaire);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        document.setDoc_content(updatedPdfContent);
+        repo.save(document);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("inline", "updated_document.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+        return ResponseEntity.ok().headers(headers).body(updatedPdfContent);
+    }
 }
 

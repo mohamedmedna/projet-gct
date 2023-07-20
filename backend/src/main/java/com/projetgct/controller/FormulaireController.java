@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
 import com.projetgct.entities.Formulaire;
 import com.projetgct.repositories.FormulaireRepo;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -114,5 +114,7 @@ public class FormulaireController {
         repo.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+   
 }
 
