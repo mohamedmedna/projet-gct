@@ -48,9 +48,16 @@ export class AdddocumentComponent implements OnInit {
       }
     );
   }
-
   public onFileChange(event: any): void {
-    this.file = event.target.files[0];
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.pdf)$/i;
+
+    if (!allowedExtensions.exec(file.name)) {
+      alert('le fichier doit etre format pdf');
+      return;
+    }
+
+    this.file = file;
   }
 
   public onSubmit(): void {

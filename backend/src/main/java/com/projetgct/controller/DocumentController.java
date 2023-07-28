@@ -1,18 +1,20 @@
 package com.projetgct.controller;
 
 
-
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
@@ -40,10 +42,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
-import java.io.ByteArrayOutputStream;
-
-
-
 
 
 
@@ -63,6 +61,7 @@ public class DocumentController {
 	@PersistenceContext
     private EntityManager entityManager;
 
+	
 
 	
 	@PostMapping(value="/adddocument")
@@ -158,63 +157,63 @@ public class DocumentController {
 	}
 	
 	@PostMapping("/{id}/generate-updated-pdf")
-    public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
-        InputStream input = null;
-        Optional<Document> optionalDocument = repo.findById(documentId);
-        if (!optionalDocument.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
+	public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
+	    Optional<Document> optionalDocument = repo.findById(documentId);
+	    if (!optionalDocument.isPresent()) {
+	        return ResponseEntity.notFound().build();
+	    }
 
-        Document document = optionalDocument.get();
+	    Document document = optionalDocument.get();
 
-        byte[] originalPdfContent = document.getDoc_content();
-            input = new ByteArrayInputStream(originalPdfContent);
-        
+	    byte[] originalPdfContent = document.getDoc_content();
 
-        try (PDDocument pdfDoc = PDDocument.load(input)) {
-            PDDocumentCatalog docCatalog = pdfDoc.getDocumentCatalog();
-            PDAcroForm acroForm = docCatalog.getAcroForm();
-            
-            if (acroForm == null) {
-                System.err.println("err.");
-            }
+	    try (PDDocument pdfDoc = PDDocument.load(new ByteArrayInputStream(originalPdfContent))) {
+	        PDDocument updatedPdfDoc = new PDDocument();
 
-            PDField numConsulation = acroForm.getField("#numConsultation");
-            numConsulation.setValue(formulaire.getNumConsultation());
+	        for (PDPage page : pdfDoc.getPages()) {
+	            // Create a new page in the updated PDF
+	            PDPage updatedPage = new PDPage();
+	            updatedPdfDoc.addPage(updatedPage);
 
-           PDField titreConsultation = acroForm.getField("#titreConsultation");
-            titreConsultation.setValue(formulaire.getTitreConsultation());
+	            // Create a content stream to write to the updated page
+	            PDPageContentStream contentStream = new PDPageContentStream(updatedPdfDoc, updatedPage);
 
-            PDField objetConsultation = acroForm.getField("#objetConsultation");
-            objetConsultation.setValue(formulaire.getObjetConsultation());
+	            // Copy the content from the original page to the updated page
+	            contentStream.addPage(page);
 
-            PDField conditionsParticipation = acroForm.getField("#conditionsParticipation");
-            conditionsParticipation.setValue(formulaire.getConditionsParticipation());
+	            // Set the font and position for the updated text
+	            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+	            contentStream.beginText();
+	            contentStream.newLineAtOffset(50, 700);
 
-            PDField delaiLivraison = acroForm.getField("#delaiLivraison");
-            delaiLivraison.setValue(String.valueOf(formulaire.getDelaiLivraison()));
+	            // Replace placeholders in the text and write it to the updated page
+	            String text = new PDFTextStripper().getText(page);
+	            String updatedText = text
+	                    .replace("#numConsultation", formulaire.getNumConsultation())
+	                    .replace("#titreConsultation", formulaire.getTitreConsultation())
+	                    .replace("#objetConsultation", formulaire.getObjetConsultation())
+	                    .replace("#conditionsParticipation", formulaire.getConditionsParticipation())
+	                    .replace("#delaiLivraison", String.valueOf(formulaire.getDelaiLivraison()))
+	                    .replace("#dureeGarantie", String.valueOf(formulaire.getDureeGarantie()));
 
-            PDField dureeGarantie = acroForm.getField("#dureeGarantie");
-            dureeGarantie.setValue(String.valueOf(formulaire.getDureeGarantie()));
+	            contentStream.showText(updatedText);
+	            contentStream.endText();
+	            contentStream.close();
+	        }
 
-          
-            acroForm.flatten();
+	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	        updatedPdfDoc.save(outputStream);
+	        byte[] updatedPdfContent = outputStream.toByteArray();
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            pdfDoc.save(outputStream);
-            byte[] updatedPdfContent = outputStream.toByteArray();
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_PDF);
+	        headers.setContentDisposition(ContentDisposition.parse("attachment; filename=updated-document.pdf"));
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDisposition(ContentDisposition.parse("attachment; filename=updated-document.pdf"));
-
-            return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+	        return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
 
 }
-
