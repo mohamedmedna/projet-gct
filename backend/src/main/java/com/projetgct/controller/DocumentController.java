@@ -1,16 +1,25 @@
 package com.projetgct.controller;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional; // Make sure to import the correct Optional class
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +30,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +45,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import com.groupdocs.redaction.Redaction;
+import com.groupdocs.redaction.Redactor;
+import com.groupdocs.redaction.options.RasterizationOptions;
+import com.groupdocs.redaction.redactions.DeleteAnnotationRedaction;
+import com.groupdocs.redaction.redactions.EraseMetadataRedaction;
+import com.groupdocs.redaction.redactions.ExactPhraseRedaction;
+import com.groupdocs.redaction.redactions.MetadataFilters;
+import com.groupdocs.redaction.redactions.ReplacementOptions;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
@@ -160,109 +178,106 @@ public class DocumentController {
 	
 	 
 	
-	/*
-	 * @GetMapping("generatepdf") public ResponseEntity<HttpStatus> generatepdf()
-	 * throws Exception { final Redactor redactor = new
-	 * Redactor("/home/mohamed/Downloads/Mini CC 27-04-2023 sans retenue de garantie.pdf"
-	 * );
-	 * 
-	 * try { Redaction[] redactionList=new Redaction[] { // Find exact phrase in PDF
-	 * and replace it with some other text using Java new
-	 * RegexRedaction("#numConsultation", new ReplacementOptions("[censored]")), new
-	 * RegexRedaction("#titreConsultation", new ReplacementOptions("[med]")), new
-	 * DeleteAnnotationRedaction(), new EraseMetadataRedaction(MetadataFilters.All)
-	 * 
-	 * }; redactor.apply(redactionList);
-	 * 
-	 * 
-	 * // Save the redacted file at a different location with a different name.
-	 * FileOutputStream stream = new
-	 * FileOutputStream("/home/mohamed/Downloads/exactPhrase.pdf");
-	 * RasterizationOptions rasterOptions = new RasterizationOptions();
-	 * rasterOptions.setEnabled(false); redactor.save(stream,rasterOptions);
-	 * 
-	 * return new ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (IOException e) {
-	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	 * 
-	 * } }
-	 */
 	
-	/*
-	 * @GetMapping("generatepdf") public ResponseEntity<String> generatepdf() { try
-	 * { Map<String, String> map = new HashMap<>(); map.put("#numConsultation",
-	 * "1247");
-	 * 
-	 * File template = new
-	 * File("/home/mohamed/Downloads/Mini CC 27-04-2023 sans retenue de garantie.pdf"
-	 * ); PDDocument document = Loader.loadPDF(template);
-	 * 
-	 * PDDocumentCatalog docCatalog = document.getDocumentCatalog(); PDAcroForm
-	 * acroForm = docCatalog.getAcroForm();
-	 * 
-	 * if (acroForm != null) { List<PDField> fields = acroForm.getFields(); for
-	 * (PDField field : fields) { for (Map.Entry<String, String> entry :
-	 * map.entrySet()) { if (entry.getKey().equals(field.getFullyQualifiedName())) {
-	 * field.setValue(entry.getValue()); field.setReadOnly(true); } } } } else { //
-	 * Handle the case when the PDF template doesn't have an AcroForm return
-	 * ResponseEntity.status(HttpStatus.BAD_REQUEST).
-	 * body("The PDF template does not have form fields."); }
-	 * 
-	 * File out = new File("/home/mohamed/Downloads/out.pdf"); document.save(out);
-	 * document.close();
-	 * 
-	 * return ResponseEntity.ok().build(); } catch (IOException e) {
-	 * e.printStackTrace(); return
-	 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); } }
-	 */
+	  @PostMapping("/{id}/generate-updated-pdf") 
+	  public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) throws Exception {
+		  Optional<Document> optionalDocument = repo.findById(documentId); 
+		  if (!optionalDocument.isPresent()) { 
+			  return ResponseEntity.notFound().build(); 
+			  }
+	  
+	  Document document = optionalDocument.get(); 
+	  byte[] originalPdfContent =document.getDoc_content(); 
+	  
+	  
+	  final Redactor redactor = new Redactor(new ByteArrayInputStream(originalPdfContent));
+	  
+	  
+	  try { 
+		  Redaction[] redactionList=new Redaction[] 
+			  {  
+		new ExactPhraseRedaction("#numConsultation", new ReplacementOptions(formulaire.getNumConsultation())),
+		new ExactPhraseRedaction("#titreConsultation",new ReplacementOptions(formulaire.getTitreConsultation())), 
+		new ExactPhraseRedaction("#objetConsultation",new ReplacementOptions(formulaire.getObjetConsultation())),
+		new ExactPhraseRedaction("#conditionsParticipations",new ReplacementOptions(formulaire.getConditionsParticipation())),
+		new ExactPhraseRedaction("#delaiLivraison",new ReplacementOptions(String.valueOf(formulaire.getDelaiLivraison()))),
+		new ExactPhraseRedaction("#dureeGarantie",new ReplacementOptions(String.valueOf(formulaire.getDureeGarantie()))),
+		new DeleteAnnotationRedaction(), 
+		new EraseMetadataRedaction(MetadataFilters.All)
+	  }; 
+		  
+		  redactor.apply(redactionList);
+	  
+	  
+	  
+	  ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	  RasterizationOptions rasterOptions = new RasterizationOptions();
+	  rasterOptions.setEnabled(false); 
+	  redactor.save(outputStream, rasterOptions);
+	  
+	  byte[] updatedPdfContent = outputStream.toByteArray();
+	  
+	  
+	 HttpHeaders headers = new HttpHeaders(); 
+	 headers.setContentType(MediaType.APPLICATION_PDF);
+	 headers.setContentDisposition(ContentDisposition.parse("attachment; filename="+document.getName()+"_modified.pdf"));
+	  
+	  return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK); 
+	  }
+	  catch (IOException e ) { 
+		  e.printStackTrace(); 
+		  return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); } 
+	  
+	  }
+}
+	
+/*	@PostMapping("/{id}/generate-updated-pdf")
+	public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
+	    Optional<Document> optionalDocument = repo.findById(documentId);
+	    if (!optionalDocument.isPresent()) {
+	        return ResponseEntity.notFound().build();
+	    }
 
+	    Document document = optionalDocument.get();
 
-	@GetMapping("/generatepdf")
-	public ResponseEntity<Resource> generatePdf(
-	        @RequestParam("inputPdfFile") MultipartFile inputPdfFile,
-	        @RequestParam("oldWord") String oldWord,
-	        @RequestParam("newWord") String newWord) {
-	    try {
-	        File inputPdf = convertMultipartFileToFile(inputPdfFile);
+	    byte[] originalPdfContent = document.getDoc_content();
 
-	        PdfReader reader = new PdfReader(inputPdf.getAbsolutePath());
+	    try (PDDocument pdfDoc = PDDocument.load(new ByteArrayInputStream(originalPdfContent))) {
+	        List<PDPage> pagesToRemove = new ArrayList<>();
 
-	        File outputPdf = new File("output.pdf");
-	        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(outputPdf));
+	        for (PDPage page : pdfDoc.getPages()) {
+	            PDPageContentStream contentStream = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.OVERWRITE, true);
 
-	        for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-	            String text = PdfTextExtractor.getTextFromPage(reader, i);
+	            // Set the font and position for the updated text
+	            contentStream.setFont(PDType1Font.HELVETICA, 12);
+	            contentStream.beginText();
+	            contentStream.newLineAtOffset(50, 700);
 
-	            int index = text.indexOf(oldWord);
-	            if (index != -1) {
-	                text = text.substring(0, index) + newWord + text.substring(index + oldWord.length());
-	                PdfContentByte cb = stamper.getOverContent(i);
-	                BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-	                cb.setFontAndSize(bf, 12);
-	                cb.setTextMatrix(36, 36);
-	                cb.showText(text);
-	            }
+	            // Replace placeholders in the text and write it to the updated page
+	            String text = new PDFTextStripper().getText(pdfDoc);
+	            String updatedText = text
+	                    .replace("#numConsultation", formulaire.getNumConsultation())
+	                    .replace("#titreConsultation", formulaire.getTitreConsultation())
+	                    .replace("#objetConsultation", formulaire.getObjetConsultation())
+	                    .replace("#conditionsParticipation", formulaire.getConditionsParticipation())
+	                    .replace("#delaiLivraison", String.valueOf(formulaire.getDelaiLivraison()))
+	                    .replace("#dureeGarantie", String.valueOf(formulaire.getDureeGarantie()));
+
+	            contentStream.showText(updatedText);
+	            contentStream.endText();
+	            contentStream.close();
 	        }
 
-	        stamper.close();
-	        reader.close();
+	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	        pdfDoc.save(outputStream);
+	        byte[] updatedPdfContent = outputStream.toByteArray();
 
-	        Resource resource = new FileSystemResource(outputPdf);
-	        return ResponseEntity.ok()
-	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=output.pdf")
-	                .contentType(MediaType.APPLICATION_PDF)
-	                .body(resource);
-	    } catch (IOException | DocumentException e) {
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_PDF);
+	        headers.setContentDisposition(ContentDisposition.parse("attachment; filename=updated-document.pdf"));
+
+	        return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK);
+	    } catch (IOException e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	    }
-	}
-	private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
-	    File file = new File(multipartFile.getOriginalFilename());
-	    try (FileOutputStream fos = new FileOutputStream(file)) {
-	        fos.write(multipartFile.getBytes());
-	    }
-	    return file;
-	}
-
-
-}
+	    */

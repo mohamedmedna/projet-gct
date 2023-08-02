@@ -4,10 +4,12 @@ import {
   HttpRequest,
   HttpHeaders,
   HttpEvent,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Fichier } from 'src/app/models/Fichier';
+import { FormulaireModel } from './models/FormulaireModel';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +54,20 @@ export class UploadDocumentService {
 
   deleteDocument(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}documents/${id}`);
+  }
+
+  generateUpdatedPdf(
+    documentId: number,
+    formulaire: FormulaireModel
+  ): Observable<HttpResponse<ArrayBuffer>> {
+    const url = `${this.baseUrl}${documentId}/generate-updated-pdf`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(url, formulaire, {
+      headers: headers,
+      observe: 'response',
+      responseType: 'arraybuffer',
+    });
   }
 }
