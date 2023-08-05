@@ -179,59 +179,10 @@ public class DocumentController {
 	 
 	
 	
-	  @PostMapping("/{id}/generate-updated-pdf") 
-	  public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) throws Exception {
-		  Optional<Document> optionalDocument = repo.findById(documentId); 
-		  if (!optionalDocument.isPresent()) { 
-			  return ResponseEntity.notFound().build(); 
-			  }
-	  
-	  Document document = optionalDocument.get(); 
-	  byte[] originalPdfContent =document.getDoc_content(); 
-	  
-	  
-	  final Redactor redactor = new Redactor(new ByteArrayInputStream(originalPdfContent));
-	  
-	  
-	  try { 
-		  Redaction[] redactionList=new Redaction[] 
-			  {  
-		new ExactPhraseRedaction("#numConsultation", new ReplacementOptions(formulaire.getNumConsultation())),
-		new ExactPhraseRedaction("#titreConsultation",new ReplacementOptions(formulaire.getTitreConsultation())), 
-		new ExactPhraseRedaction("#objetConsultation",new ReplacementOptions(formulaire.getObjetConsultation())),
-		new ExactPhraseRedaction("#conditionsParticipations",new ReplacementOptions(formulaire.getConditionsParticipation())),
-		new ExactPhraseRedaction("#delaiLivraison",new ReplacementOptions(String.valueOf(formulaire.getDelaiLivraison()))),
-		new ExactPhraseRedaction("#dureeGarantie",new ReplacementOptions(String.valueOf(formulaire.getDureeGarantie()))),
-		new DeleteAnnotationRedaction(), 
-		new EraseMetadataRedaction(MetadataFilters.All)
-	  }; 
-		  
-		  redactor.apply(redactionList);
-	  
-	  
-	  
-	  ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	  RasterizationOptions rasterOptions = new RasterizationOptions();
-	  rasterOptions.setEnabled(false); 
-	  redactor.save(outputStream, rasterOptions);
-	  
-	  byte[] updatedPdfContent = outputStream.toByteArray();
-	  
-	  
-	 HttpHeaders headers = new HttpHeaders(); 
-	 headers.setContentType(MediaType.APPLICATION_PDF);
-	 headers.setContentDisposition(ContentDisposition.parse("attachment; filename="+document.getName()+"_modified.pdf"));
-	  
-	  return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK); 
-	  }
-	  catch (IOException e ) { 
-		  e.printStackTrace(); 
-		  return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); } 
-	  
-	  }
-}
+
+
 	
-/*	@PostMapping("/{id}/generate-updated-pdf")
+ @PostMapping("/{id}/generate-updated-pdf")
 	public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
 	    Optional<Document> optionalDocument = repo.findById(documentId);
 	    if (!optionalDocument.isPresent()) {
@@ -280,4 +231,6 @@ public class DocumentController {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	    */
+	    }
+	}
+}
