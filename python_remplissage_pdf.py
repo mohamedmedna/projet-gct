@@ -92,11 +92,11 @@ def pdf_to_image(pdf_path, image_path):
             bottom_right_y = redaction_info["bottom_right_y"]
             text = redaction_info["text"]
 
-            # Replace the redacted area with a white rectangle (for demonstration)
+
             white = (255, 255, 255)
             img[top_left_y:bottom_right_y, top_left_x:bottom_right_x] = white
 
-            # Write text on the redacted area using a black color
+
             font = cv2.FONT_HERSHEY_SIMPLEX
             org = (top_left_x + int((bottom_right_x - top_left_x) / 4), top_left_y + int((bottom_right_y - top_left_y) / 2))
             fontScale = 1
@@ -104,24 +104,23 @@ def pdf_to_image(pdf_path, image_path):
             thickness = 2
             img = cv2.putText(img, text, org, font, fontScale, color, thickness, cv2.LINE_AA)
 
-        # Save the resulting image
+
         cv2.imwrite(f"{image_path}_redacted_page{i}.png", img)
 
-# Convert the redacted images back to a PDF
+
     redacted_images = []
     for i in range(len(images)):
         image = Image.open(f"{image_path}_redacted_page{i}.png")
         redacted_images.append(image)
-        # Delete the intermediate redacted image
         os.remove(f"{image_path}_redacted_page{i}.png")
 
-    # Save the redacted images as a PDF
+
     redacted_images[0].save(f"{image_path}_redacted.pdf", save_all=True, append_images=redacted_images[1:], resolution=100.0, quality=95)
 
-    # Delete the intermediate original image files
+
     for i in range(len(images)):
         os.remove(f"{image_path}_page{i}.png")
 
-# Example usage
+
 pdf_to_image('/home/mohamed/Downloads/Mini CC 27-04-2023 sans retenue de garantie.pdf', 'document')
 
