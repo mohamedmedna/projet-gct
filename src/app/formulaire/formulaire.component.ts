@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormulaireModel } from '../models/FormulaireModel';
 import { FormulaireService } from '../../formulaire.service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-formulaire',
   templateUrl: './formulaire.component.html',
@@ -26,6 +27,7 @@ export class FormulaireComponent implements OnInit {
     dureeGarantieestVisible: true,
     modifier: false,
   };
+  @ViewChild('formulaireForm') formulaireForm!: NgForm;
 
   constructor(
     private formulaireService: FormulaireService,
@@ -45,6 +47,10 @@ export class FormulaireComponent implements OnInit {
   }
 
   addFormulaire(): void {
+    if (!this.formulaireForm.valid) {
+      alert('Veuillez donner un nom du formulaire.');
+      return;
+    }
     this.formulaireService
       .addFormulaire(this.formulaire)
       .subscribe((response: any) => {

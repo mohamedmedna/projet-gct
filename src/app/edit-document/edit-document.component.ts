@@ -1,10 +1,9 @@
-// edit-document.component.ts
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormulaireModel } from '../models/FormulaireModel';
 import { UploadDocumentService } from '../upload-document.service';
 import { FormulaireService } from 'src/formulaire.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-document',
@@ -14,6 +13,9 @@ import { FormulaireService } from 'src/formulaire.service';
 export class EditDocumentComponent implements OnInit {
   documentId: number | null = null;
   formulaire: FormulaireModel | null = null;
+  formulaireId: number | null = null;
+  documentname!: string | null;
+  @ViewChild('editDocumentForm') editDocumentForm!: NgForm;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,10 +25,16 @@ export class EditDocumentComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    const documentIdParam = this.route.snapshot.paramMap.get('iddoc');
+    this.documentname = this.route.snapshot.paramMap.get('name');
+    if (documentIdParam !== null) {
+      this.documentId = parseInt(documentIdParam, 10);
+    }
+
     if (id !== null) {
-      this.documentId = parseInt(id, 10);
-      if (!isNaN(this.documentId)) {
-        this.formulaireService.getFormulaireById(this.documentId).subscribe(
+      this.formulaireId = parseInt(id, 10);
+      if (!isNaN(this.formulaireId)) {
+        this.formulaireService.getFormulaireById(this.formulaireId).subscribe(
           (formulaire) => {
             this.formulaire = formulaire;
           },
@@ -38,38 +46,37 @@ export class EditDocumentComponent implements OnInit {
           }
         );
       } else {
-        console.error("L'ID du document n'est pas un nombre valide.");
+        console.error("L'ID du document n'est pas valide.");
       }
     } else {
-      console.error("L'ID du document est manquant dans l'URL.");
+      console.error("L'ID du document n'est pas valide.");
     }
   }
 
-  onSubmit(): void {
+  onSubmit(editDocumentForm: NgForm): void {
     if (this.documentId && this.formulaire) {
       this.documentService
         .generateUpdatedPdf(this.documentId, this.formulaire)
         .subscribe(
           (response) => {
-            if (response && response.body) {
-              this.downloadFile(response.body);
-            } else {
-              console.error('Error: Response body is null.');
-            }
+            const blob = new Blob([response], { type: 'application/pdf' });
+
+            const url = URL.createObjectURL(blob);
+
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = `${this.documentname}_modified.pdf`;
+            anchor.click();
+
+            URL.revokeObjectURL(url);
+            anchor.remove();
           },
           (error) => {
-            console.error('Error generating updated PDF:', error);
+            console.error('Error', error);
           }
         );
+    } else {
+      console.error('error');
     }
-  }
-
-  private downloadFile(data: ArrayBuffer) {
-    const blob = new Blob([data], { type: 'application/pdf' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'updated-document.pdf';
-    link.click();
   }
 }

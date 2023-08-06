@@ -56,18 +56,15 @@ export class UploadDocumentService {
     return this.http.delete<any>(`${this.baseUrl}documents/${id}`);
   }
 
-  generateUpdatedPdf(
-    documentId: number,
-    formulaire: FormulaireModel
-  ): Observable<HttpResponse<ArrayBuffer>> {
+  generateUpdatedPdf(documentId: number, formulaire: any): Observable<Blob> {
     const url = `${this.baseUrl}${documentId}/generate-updated-pdf`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post(url, formulaire, {
-      headers: headers,
-      observe: 'response',
-      responseType: 'arraybuffer',
-    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      responseType: 'blob' as 'json',
+    };
+
+    return this.http.post<Blob>(url, formulaire, httpOptions);
   }
 }

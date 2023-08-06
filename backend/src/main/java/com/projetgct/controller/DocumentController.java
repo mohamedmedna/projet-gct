@@ -1,24 +1,22 @@
 package com.projetgct.controller;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional; // Make sure to import the correct Optional class
+
+import org.apache.commons.codec.binary.Base64;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.text.PDFTextStripper;
+
+import java.util.Map;
+import java.util.Optional;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetgct.entities.Document;
 import com.projetgct.entities.Formulaire;
 import com.projetgct.entities.Servic;
@@ -45,22 +43,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
-import com.groupdocs.redaction.Redaction;
-import com.groupdocs.redaction.Redactor;
-import com.groupdocs.redaction.options.RasterizationOptions;
-import com.groupdocs.redaction.redactions.DeleteAnnotationRedaction;
-import com.groupdocs.redaction.redactions.EraseMetadataRedaction;
-import com.groupdocs.redaction.redactions.ExactPhraseRedaction;
-import com.groupdocs.redaction.redactions.MetadataFilters;
-import com.groupdocs.redaction.redactions.ReplacementOptions;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 
 
@@ -175,62 +157,140 @@ public class DocumentController {
 		}
 	}
 	
+	  @PostMapping("/{id}/generate-updated-pdf")
+	    public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) throws Exception {
+		    Optional<Document> optionalDocument = repo.findById(documentId);
+		    if (!optionalDocument.isPresent()) {
+		        return ResponseEntity.notFound().build();
+		    }
+
+		    Document document = optionalDocument.get();
+	        byte[] pdfContent = document.getDoc_content();
+	        String base64EncodedPdf = Base64.encodeBase64String(pdfContent);
+
+		       List<List<Map<String, String>>> redactions = new ArrayList<>();
+
+		       List<Map<String, String>> page1Redactions = new ArrayList<>();
+		       if (formulaire.isNumConsultationestVisible()) {
+		           page1Redactions.add(Map.of(
+		               "top_left_x", "610",
+		               "top_left_y", "1089",
+		               "bottom_right_x", "1058",
+		               "bottom_right_y", "1135",
+		               "text", formulaire.getNumConsultation()
+		           ));
+		       }
+
+		       if (formulaire.isTitreConsultationestVisible()) {
+		           page1Redactions.add(Map.of(
+		               "top_left_x", "785",
+		               "top_left_y", "1294",
+		               "bottom_right_x", "1227",
+		               "bottom_right_y", "1336",
+		               "text", formulaire.getTitreConsultation()
+		           ));
+		       }
+		       redactions.add(page1Redactions);
+
+		        List<Map<String, String>> page2Redactions = new ArrayList<>();
+		        if(formulaire.isObjetConsultationestVisible()) {
+		        page2Redactions.add(Map.of(
+		            "top_left_x", "767",
+		            "top_left_y", "291",
+		            "bottom_right_x", "1055",
+		            "bottom_right_y", "321",
+		            "text", formulaire.getObjetConsultation()
+		        ));
+		        }
+		        if(formulaire.isConditionsParticipationestVisible()) {
+		        page2Redactions.add(Map.of(
+		            "top_left_x", "531",
+		            "top_left_y", "355",
+		            "bottom_right_x", "1051",
+		            "bottom_right_y", "391",
+		            "text", formulaire.getConditionsParticipation()
+		        ));
+		        }
+		        if(formulaire.isNumConsultationestVisible()) {
+		        page2Redactions.add(Map.of(
+		            "top_left_x", "992",
+		            "top_left_y", "1019",
+		            "bottom_right_x", "1273",
+		            "bottom_right_y", "1048",
+		            "text", formulaire.getNumConsultation()
+		        ));
+		        }
+		        redactions.add(page2Redactions);
+
+		        List<Map<String, String>> page3Redactions = new ArrayList<>();
+		        if(formulaire.isDelaiLivraisonestVisible()) {
+		        page3Redactions.add(Map.of(
+		            "top_left_x", "787",
+		            "top_left_y", "608",
+		            "bottom_right_x", "1009",
+		            "bottom_right_y", "635",
+		            "text", String.valueOf(formulaire.getDelaiLivraison())
+		        ));
+		        }
+		        if(formulaire.isDureeGarantieestVisible()) {
+		        page3Redactions.add(Map.of(
+		            "top_left_x", "711",
+		            "top_left_y", "782",
+		            "bottom_right_x", "924",
+		            "bottom_right_y", "811",
+		            "text", String.valueOf(formulaire.getDureeGarantie())
+		        ));
+		        }
+		        redactions.add(page3Redactions);
+		        
+		        PDDocument pdfDocument = PDDocument.load(pdfContent);
+		        int numberOfPages = pdfDocument.getNumberOfPages();
+		        pdfDocument.close();
+		        
+
+		        
+		        for (int i = 0; i < numberOfPages-3; i++) {
+		            redactions.add(new ArrayList<>());
+		        }
+
+		            ObjectMapper objectMapper = new ObjectMapper();
+		            String redactionsJson = objectMapper.writeValueAsString(redactions);
+		            
+		            
+		           
+		            String pythonScript = "/home/mohamed/projet-gct/pdf_redaction.py";
+		            String imageFolderPath = "/home/mohamed/projet-gct/output_images/document";
+
+		            ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScript, base64EncodedPdf, imageFolderPath, redactionsJson);
+		            processBuilder.redirectInput(ProcessBuilder.Redirect.PIPE);
+		            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+		            processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+		            Process process = processBuilder.start();
+
+		            int exitCode = process.waitFor();
+
+		            if (exitCode == 0) {
+		                byte[] redactedPdfContent = Files.readAllBytes(Paths.get(imageFolderPath + "_redacted.pdf")); 
+		                HttpHeaders headers = new HttpHeaders();
+		                headers.setContentType(MediaType.APPLICATION_PDF);
+		                headers.setContentDisposition(ContentDisposition.parse("attachment; filename=" + document.getName() + "_modified.pdf"));
+		                return new ResponseEntity<>(redactedPdfContent, headers, HttpStatus.OK);
+		            } else {
+		                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		            }
+		        }
 	
-	 
-	
-	
+
+		        
+		}
+		        
+	   
+
+	    
+	    
 
 
-	
- @PostMapping("/{id}/generate-updated-pdf")
-	public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId, @RequestBody Formulaire formulaire) {
-	    Optional<Document> optionalDocument = repo.findById(documentId);
-	    if (!optionalDocument.isPresent()) {
-	        return ResponseEntity.notFound().build();
-	    }
 
-	    Document document = optionalDocument.get();
 
-	    byte[] originalPdfContent = document.getDoc_content();
 
-	    try (PDDocument pdfDoc = PDDocument.load(new ByteArrayInputStream(originalPdfContent))) {
-	        List<PDPage> pagesToRemove = new ArrayList<>();
 
-	        for (PDPage page : pdfDoc.getPages()) {
-	            PDPageContentStream contentStream = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.OVERWRITE, true);
-
-	            // Set the font and position for the updated text
-	            contentStream.setFont(PDType1Font.HELVETICA, 12);
-	            contentStream.beginText();
-	            contentStream.newLineAtOffset(50, 700);
-
-	            // Replace placeholders in the text and write it to the updated page
-	            String text = new PDFTextStripper().getText(pdfDoc);
-	            String updatedText = text
-	                    .replace("#numConsultation", formulaire.getNumConsultation())
-	                    .replace("#titreConsultation", formulaire.getTitreConsultation())
-	                    .replace("#objetConsultation", formulaire.getObjetConsultation())
-	                    .replace("#conditionsParticipation", formulaire.getConditionsParticipation())
-	                    .replace("#delaiLivraison", String.valueOf(formulaire.getDelaiLivraison()))
-	                    .replace("#dureeGarantie", String.valueOf(formulaire.getDureeGarantie()));
-
-	            contentStream.showText(updatedText);
-	            contentStream.endText();
-	            contentStream.close();
-	        }
-
-	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	        pdfDoc.save(outputStream);
-	        byte[] updatedPdfContent = outputStream.toByteArray();
-
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_PDF);
-	        headers.setContentDisposition(ContentDisposition.parse("attachment; filename=updated-document.pdf"));
-
-	        return new ResponseEntity<>(updatedPdfContent, headers, HttpStatus.OK);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-	    }
-	}
-}

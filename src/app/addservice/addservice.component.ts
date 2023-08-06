@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Servic } from '../models/Servic';
 import { AddServiceService } from '../add-service.service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-addservice',
@@ -13,12 +14,17 @@ export class AddserviceComponent implements OnInit {
     idservice: undefined,
     nomservice: '',
   };
+  @ViewChild('serviceForm') serviceForm!: NgForm;
 
   constructor(private addservice: AddServiceService, private router: Router) {}
 
   ngOnInit(): void {}
 
   addservic(): void {
+        if (!this.serviceForm.valid) {
+          alert('Veuillez ecrire une service.');
+          return;
+        }
     const data = {
       nomservice: this.service.nomservice,
     };

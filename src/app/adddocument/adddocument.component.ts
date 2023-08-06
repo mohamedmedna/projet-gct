@@ -1,8 +1,9 @@
-import { Component, OnInit, asNativeElements } from '@angular/core';
+import { Component, OnInit, ViewChild, asNativeElements } from '@angular/core';
 import { UploadDocumentService } from '../upload-document.service';
 import { FormulaireService } from '../../formulaire.service';
 
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-adddocument',
   templateUrl: './adddocument.component.html',
@@ -15,6 +16,7 @@ export class AdddocumentComponent implements OnInit {
   nomservice!: string;
   services!: string[];
   forms!: string[];
+  @ViewChild('documentForm') documentForm!: NgForm;
 
   ngOnInit(): void {
     this.getServices();
@@ -61,6 +63,10 @@ export class AdddocumentComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    if (!this.documentForm.valid) {
+      alert('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
     this.uploaddocumentservice
       .addDocument(this.name, this.nomservice, this.file, this.formulairenom)
       .subscribe(

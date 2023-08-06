@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { SupervisorDashComponent } from './supervisor-dash/supervisor-dash.component';
-import { WorkerDashComponent } from './worker-dash/worker-dash.component';
 import { AdddocumentComponent } from './adddocument/adddocument.component';
 import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploaded.component';
 import { AddserviceComponent } from './addservice/addservice.component';
@@ -12,20 +10,18 @@ import { ModifierChampsComponent } from './modifier-champs/modifier-champs.compo
 import { EditDocumentComponent } from './edit-document/edit-document.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   {
     path: '',
-    component: HomeComponent,
+    component: SupervisorDashComponent,
   },
   { path: 'supervisordash', component: SupervisorDashComponent },
-  { path: 'workerdash', component: WorkerDashComponent },
   { path: 'adddocument', component: AdddocumentComponent },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
   { path: 'addservice', component: AddserviceComponent },
   { path: 'services-list', component: ServicesListComponent },
   { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
   { path: 'formulaire', component: FormulaireComponent },
-  { path: 'edit/:id', component: EditDocumentComponent },
+  { path: 'edit/:id/:iddoc/:name', component: EditDocumentComponent },
 ];
 
 @NgModule({
