@@ -9,9 +9,9 @@ export interface FormulaireModel {
   objetConsultationestVisible: boolean;
   conditionsParticipation: string;
   conditionsParticipationestVisible: boolean;
-  delaiLivraison: Date;
+  delaiLivraison: string;
   delaiLivraisonestVisible: boolean;
-  dureeGarantie: Date;
+  dureeGarantie: string;
   dureeGarantieestVisible: boolean;
   modifier: boolean;
 }

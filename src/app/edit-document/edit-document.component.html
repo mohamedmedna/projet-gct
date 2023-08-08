@@ -47,17 +47,20 @@
           <label for="conditionsParticipation"
             >Conditions Participations:</label
           >
-          <input
-            type="text"
+          <textarea
             id="conditionsParticipation"
             [(ngModel)]="formulaire.conditionsParticipation"
             name="conditionsParticipation"
-          />
+            class="form-input"
+            placeholder="Conditions de participations"
+            rows="5"
+            cols="40"
+          ></textarea>
         </div>
         <div *ngIf="formulaire.delaiLivraisonestVisible">
           <label for="delaiLivraison">Delai livraison:</label>
           <input
-            type="date"
+            type="text"
             id="delaiLivraison"
             [(ngModel)]="formulaire.delaiLivraison"
             name="delaiLivraison"
@@ -66,7 +69,7 @@
         <div *ngIf="formulaire.dureeGarantieestVisible">
           <label for="dureeGarantie">Duree Garantie</label>
           <input
-            type="date"
+            type="text"
             id="dureeGarantie"
             [(ngModel)]="formulaire.dureeGarantie"
             name="dureeGarantie"
@@ -74,6 +77,9 @@
         </div>
         <div *ngIf="editDocumentForm.invalid" class="error-message">
           Veuillez remplir tous les champs.
+        </div>
+        <div class="downloading-message" *ngIf="downloadingInProgress">
+          Téléchargement en cours...
         </div>
         <hr />
         <button type="submit">Generate PDF</button>

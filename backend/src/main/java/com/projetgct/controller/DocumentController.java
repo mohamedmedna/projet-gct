@@ -16,6 +16,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -61,6 +62,12 @@ public class DocumentController {
 	
 	@PersistenceContext
     private EntityManager entityManager;
+	
+	@Value("${python.script.path}")
+	private String pythonScriptPath;
+
+	@Value("${image.folder.path}")
+	private String imageFolder;
 
 	
 
@@ -173,20 +180,20 @@ public class DocumentController {
 		       List<Map<String, String>> page1Redactions = new ArrayList<>();
 		       if (formulaire.isNumConsultationestVisible()) {
 		           page1Redactions.add(Map.of(
-		               "top_left_x", "610",
-		               "top_left_y", "1089",
-		               "bottom_right_x", "1058",
-		               "bottom_right_y", "1135",
+		               "top_left_x", "598",
+		               "top_left_y", "1050",
+		               "bottom_right_x", "1087",
+		               "bottom_right_y", "1143",
 		               "text", formulaire.getNumConsultation()
 		           ));
 		       }
 
 		       if (formulaire.isTitreConsultationestVisible()) {
 		           page1Redactions.add(Map.of(
-		               "top_left_x", "785",
-		               "top_left_y", "1294",
-		               "bottom_right_x", "1227",
-		               "bottom_right_y", "1336",
+		               "top_left_x", "778",
+		               "top_left_y", "1258",
+		               "bottom_right_x", "1239",
+		               "bottom_right_y", "1358",
 		               "text", formulaire.getTitreConsultation()
 		           ));
 		       }
@@ -195,28 +202,28 @@ public class DocumentController {
 		        List<Map<String, String>> page2Redactions = new ArrayList<>();
 		        if(formulaire.isObjetConsultationestVisible()) {
 		        page2Redactions.add(Map.of(
-		            "top_left_x", "767",
-		            "top_left_y", "291",
-		            "bottom_right_x", "1055",
-		            "bottom_right_y", "321",
+		            "top_left_x", "764",
+		            "top_left_y", "272",
+		            "bottom_right_x", "1131",
+		            "bottom_right_y", "336",
 		            "text", formulaire.getObjetConsultation()
 		        ));
 		        }
 		        if(formulaire.isConditionsParticipationestVisible()) {
 		        page2Redactions.add(Map.of(
-		            "top_left_x", "531",
-		            "top_left_y", "355",
-		            "bottom_right_x", "1051",
-		            "bottom_right_y", "391",
+		            "top_left_x", "534",
+		            "top_left_y", "343",
+		            "bottom_right_x", "1200",
+		            "bottom_right_y", "383",
 		            "text", formulaire.getConditionsParticipation()
 		        ));
 		        }
 		        if(formulaire.isNumConsultationestVisible()) {
 		        page2Redactions.add(Map.of(
-		            "top_left_x", "992",
+		            "top_left_x", "998",
 		            "top_left_y", "1019",
-		            "bottom_right_x", "1273",
-		            "bottom_right_y", "1048",
+		            "bottom_right_x", "1281",
+		            "bottom_right_y", "1087",
 		            "text", formulaire.getNumConsultation()
 		        ));
 		        }
@@ -225,20 +232,20 @@ public class DocumentController {
 		        List<Map<String, String>> page3Redactions = new ArrayList<>();
 		        if(formulaire.isDelaiLivraisonestVisible()) {
 		        page3Redactions.add(Map.of(
-		            "top_left_x", "787",
-		            "top_left_y", "608",
-		            "bottom_right_x", "1009",
-		            "bottom_right_y", "635",
-		            "text", String.valueOf(formulaire.getDelaiLivraison())
+		            "top_left_x", "718",
+		            "top_left_y", "574",
+		            "bottom_right_x", "949",
+		            "bottom_right_y", "659",
+		            "text", formulaire.getDelaiLivraison()
 		        ));
 		        }
 		        if(formulaire.isDureeGarantieestVisible()) {
 		        page3Redactions.add(Map.of(
-		            "top_left_x", "711",
-		            "top_left_y", "782",
-		            "bottom_right_x", "924",
-		            "bottom_right_y", "811",
-		            "text", String.valueOf(formulaire.getDureeGarantie())
+		            "top_left_x", "707",
+		            "top_left_y", "767",
+		            "bottom_right_x", "925",
+		            "bottom_right_y", "826",
+		            "text", formulaire.getDureeGarantie()
 		        ));
 		        }
 		        redactions.add(page3Redactions);
@@ -258,8 +265,8 @@ public class DocumentController {
 		            
 		            
 		           
-		            String pythonScript = "/home/mohamed/projet-gct/pdf_redaction.py";
-		            String imageFolderPath = "/home/mohamed/projet-gct/output_images/document";
+		            String pythonScript = pythonScriptPath;
+		            String imageFolderPath = imageFolder;
 
 		            ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScript, base64EncodedPdf, imageFolderPath, redactionsJson);
 		            processBuilder.redirectInput(ProcessBuilder.Redirect.PIPE);

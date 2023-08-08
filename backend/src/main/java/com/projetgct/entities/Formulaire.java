@@ -1,7 +1,6 @@
 package com.projetgct.entities;
 
 
-import java.sql.Date;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -36,10 +35,10 @@ public class Formulaire {
     private String conditionsParticipation;
     private boolean conditionsParticipationestVisible=true;
     
-    private Date delaiLivraison;
+    private String delaiLivraison;
     private boolean delaiLivraisonestVisible=true;
     
-    private Date dureeGarantie;
+    private String dureeGarantie;
     private boolean dureeGarantieestVisible=true;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulaire")
@@ -89,11 +88,11 @@ public class Formulaire {
         this.conditionsParticipation = conditionsParticipation;
     }
 
-    public Date getDelaiLivraison() {
+    public String getDelaiLivraison() {
         return delaiLivraison;
     }
 
-    public void setDelaiLivraison(Date delaiLivraison) {
+    public void setDelaiLivraison(String delaiLivraison) {
         this.delaiLivraison = delaiLivraison;
     }
 
@@ -145,11 +144,11 @@ public class Formulaire {
 		this.delaiLivraisonestVisible = delaiLivraisonestVisible;
 	}
 
-	public Date getDureeGarantie() {
+	public String getDureeGarantie() {
 		return dureeGarantie;
 	}
 
-	public void setDureeGarantie(Date dureeGarantie) {
+	public void setDureeGarantie(String dureeGarantie) {
 		this.dureeGarantie = dureeGarantie;
 	}
 

@@ -15,6 +15,7 @@ export class EditDocumentComponent implements OnInit {
   formulaire: FormulaireModel | null = null;
   formulaireId: number | null = null;
   documentname!: string | null;
+  downloadingInProgress = false;
   @ViewChild('editDocumentForm') editDocumentForm!: NgForm;
 
   constructor(
@@ -55,6 +56,8 @@ export class EditDocumentComponent implements OnInit {
 
   onSubmit(editDocumentForm: NgForm): void {
     if (this.documentId && this.formulaire) {
+      this.downloadingInProgress = true;
+      /*window.alert('Téléchargement en cours...');*/
       this.documentService
         .generateUpdatedPdf(this.documentId, this.formulaire)
         .subscribe(
@@ -70,13 +73,17 @@ export class EditDocumentComponent implements OnInit {
 
             URL.revokeObjectURL(url);
             anchor.remove();
+            editDocumentForm.resetForm();
+            this.downloadingInProgress = false;
           },
           (error) => {
             console.error('Error', error);
+            this.downloadingInProgress = false;
           }
         );
     } else {
       console.error('error');
+      this.downloadingInProgress = false;
     }
   }
 }

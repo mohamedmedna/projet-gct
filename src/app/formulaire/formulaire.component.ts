@@ -21,9 +21,9 @@ export class FormulaireComponent implements OnInit {
     objetConsultationestVisible: true,
     conditionsParticipation: '',
     conditionsParticipationestVisible: true,
-    delaiLivraison: new Date(),
+    delaiLivraison: '',
     delaiLivraisonestVisible: true,
-    dureeGarantie: new Date(),
+    dureeGarantie: '',
     dureeGarantieestVisible: true,
     modifier: false,
   };
