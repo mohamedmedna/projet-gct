@@ -16,14 +16,6 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	<repositories>
-	<repository>
-	<id>GroupDocsJavaAPI</id>
-	<name>GroupDocs Java API</name>
-	<url>https://repository.groupdocs.com/repo/</url>
-</repository>
-
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,12 +31,7 @@
     <artifactId>commons-codec</artifactId>
     <version>1.16.0</version><!--$NO-MVN-MAN-VER$-->
 </dependency>
-
-
-
-
-
-		<dependency>
+<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
@@ -75,11 +62,6 @@
     <version>5.5.13</version>
 </dependency>
 
-<dependency>
-        <groupId>com.groupdocs</groupId>
-        <artifactId>groupdocs-redaction</artifactId>
-        <version>21.12</version> 
-</dependency>
    <dependency>
         <groupId>com.lowagie</groupId>
         <artifactId>itext</artifactId>
@@ -102,6 +84,12 @@
 		<groupId>com.unboundid</groupId>
 		<artifactId>unboundid-ldapsdk</artifactId>
 </dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-crypto</artifactId>
+    <version>6.1.1</version>
+</dependency>
+
 	</dependencies>
 
 	<build>
