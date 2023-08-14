@@ -28,8 +28,8 @@ def pdf_to_image(pdf_content, image_folder_path, redactions_json):
             x, y, width, height = top_left_x, top_left_y, (bottom_right_x - top_left_x), (bottom_right_y - top_left_y)
             text = redaction_info["text"]
 
-            grey = (128, 128, 128)
-            img[y:y + height, x:x + width] = grey
+            white = (255, 255, 255)
+            img[y:y + height, x:x + width] = white
 
             font = cv2.FONT_HERSHEY_COMPLEX
             org = (x + int(width / 4), y + int(height / 2))
