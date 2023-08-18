@@ -1,0 +1,39 @@
+<app-supervisor-dash>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Liste de tous les utilisateurs</title>
+    </head>
+    <body>
+      <div class="container">
+        <div class="content">
+          <h2>Liste de tous les utilisateurs</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Noms et prenom des utilisateurs</th>
+                <th>Service associes</th>
+                <th>Roles</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users | async">
+                <td>{{ user.nomPrenom }}</td>
+                <td>{{ user.servic.nomservice }}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let role of user.role">{{ role.roleName }}</li>
+                  </ul>
+                </td>
+                <td>
+                  <a (click)="deleteUser(user.id)">Supprimer</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </body>
+  </html>
+</app-supervisor-dash>

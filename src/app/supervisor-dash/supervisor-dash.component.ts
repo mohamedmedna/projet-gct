@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserAuthService } from '../authServices/user-auth.service';
 
 @Component({
   selector: 'app-supervisor-dash',
@@ -7,10 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./supervisor-dash.component.css'],
 })
 export class SupervisorDashComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userAuth: UserAuthService) {}
 
-  ngOnInit(): void {
-
+  ngOnInit(): void {}
+  logout() {
+    this.userAuth.clear();
+    this.router.navigateByUrl('/login');
   }
 
+  isLoggedIn() {
+    return this.userAuth.isLoggedIn();
+  }
 }

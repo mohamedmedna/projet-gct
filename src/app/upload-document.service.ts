@@ -41,7 +41,7 @@ export class UploadDocumentService {
   }
 
   getServices(): Observable<string[]> {
-    return this.http.get<string[]>(this.baseUrl + 'services');
+    return this.http.get<string[]>(this.baseUrl + 'servicess');
   }
 
   getDocumentsByService(serviceName: string): Observable<Fichier[]> {

@@ -18,11 +18,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,10 +66,10 @@ public class DocumentController {
     private EntityManager entityManager;
 	
 	@Value("${python.script.path}")
-	private String pythonScriptPath;
+	private Resource pythonScriptPath;
 
 	@Value("${image.folder.path}")
-	private String imageFolder;
+	private Resource imageFolder;
 
 	
 
@@ -265,8 +267,8 @@ public class DocumentController {
 		            
 		            
 		           
-		            String pythonScript = pythonScriptPath;
-		            String imageFolderPath = imageFolder;
+		            String pythonScript = pythonScriptPath.getFile().getAbsolutePath();
+		            String imageFolderPath = imageFolder.getFile().getAbsolutePath();
 
 		            ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScript, base64EncodedPdf, imageFolderPath, redactionsJson);
 		            processBuilder.redirectInput(ProcessBuilder.Redirect.PIPE);

@@ -8,20 +8,32 @@ import { ServicesListComponent } from './services-list/services-list.component';
 import { FormulaireComponent } from './formulaire/formulaire.component';
 import { ModifierChampsComponent } from './modifier-champs/modifier-champs.component';
 import { EditDocumentComponent } from './edit-document/edit-document.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth/auth.guard';
+import { UserComponent } from './user/user.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SupervisorDashComponent,
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'supervisordash', component: SupervisorDashComponent },
-  { path: 'adddocument', component: AdddocumentComponent },
+  {
+    path: 'adddocument',
+    component: AdddocumentComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
   { path: 'addservice', component: AddserviceComponent },
   { path: 'services-list', component: ServicesListComponent },
   { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
   { path: 'formulaire', component: FormulaireComponent },
-  { path: 'edit/:id/:iddoc/:name', component: EditDocumentComponent },
+  {
+    path: 'edit/:id/:iddoc/:name',
+    component: EditDocumentComponent,
+  },
+  { path: 'addUser', component: UserComponent },
+  { path: 'users-list', component: UserListComponent }
 ];
 
 @NgModule({

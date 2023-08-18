@@ -14,6 +14,7 @@ export class AdddocumentComponent implements OnInit {
   formulairenom!: string;
   file!: File;
   nomservice!: string;
+
   services!: string[];
   forms!: string[];
   @ViewChild('documentForm') documentForm!: NgForm;

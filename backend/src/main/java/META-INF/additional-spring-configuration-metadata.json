@@ -1,12 +1,14 @@
-{"properties": [
-  {
-    "name": "python.script.path",
-    "type": "java.lang.String",
-    "description": "A description for 'python.script.path'"
-  },
-  {
-    "name": "image.folder.path",
-    "type": "java.lang.String",
-    "description": "A description for 'image.folder.path'"
-  }
-]}
+{
+	"properties": [
+		{
+			"name": "python.script.path",
+			"type": "java.lang.String",
+			"description": "A description for 'python.script.path'"
+		},
+		{
+			"name": "image.folder.path",
+			"type": "java.lang.String",
+			"description": "A description for 'image.folder.path'"
+		}
+	]
+}

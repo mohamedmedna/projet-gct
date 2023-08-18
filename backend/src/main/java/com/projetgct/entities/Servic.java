@@ -22,8 +22,12 @@ private Long idservice;
 
 @Column(name = "nomservice")
 private String nomservice;
+
 @OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
 private Set<Document> documents;
+
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
+private Set<User> users;
 
 public Long getIdservice() {
 	return idservice;
