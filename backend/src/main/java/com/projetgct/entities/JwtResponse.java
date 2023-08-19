@@ -21,6 +21,9 @@ public class JwtResponse {
 		this.user = user;
 		this.jwtToken = jwtToken;
 	}
+	public JwtResponse() {
+		super();
+	}
 	
 	
 	

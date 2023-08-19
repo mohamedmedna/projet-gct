@@ -27,6 +27,9 @@ private String nomservice;
 private Set<Document> documents;
 
 @OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
+private Set<GeneratedDocument> generatedDocuments;
+
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
 private Set<User> users;
 
 public Long getIdservice() {

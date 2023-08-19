@@ -14,7 +14,7 @@
                 <th>Noms et prenom des utilisateurs</th>
                 <th>Service associes</th>
                 <th>Roles</th>
-                <th>Actions</th>
+                <!--th>Actions</th-->
               </tr>
             </thead>
             <tbody>
@@ -26,9 +26,9 @@
                     <li *ngFor="let role of user.role">{{ role.roleName }}</li>
                   </ul>
                 </td>
-                <td>
+                <!--td>
                   <a (click)="deleteUser(user.id)">Supprimer</a>
-                </td>
+              </td-->
               </tr>
             </tbody>
           </table>

@@ -1,0 +1,39 @@
+<app-supervisor-dash>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Liste du documents</title>
+    </head>
+    <body>
+      <div class="container">
+        <div class="content">
+          <h2>
+            Liste de tous les documents modifiées du service {{ _serviceName }}
+          </h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Noms du documents</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let document of documents | async">
+                <td>{{ document.documentName }}</td>
+                <td>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    [href]="getDownloadUrl(document.id)"
+                    >Telecharger</a
+                  >
+                  <a (click)="deleteDocument(document.id)">Supprimer</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </body>
+  </html>
+</app-supervisor-dash>

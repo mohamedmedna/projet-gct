@@ -110,15 +110,20 @@ public class UserController {
 		
 
 }
-	@DeleteMapping("/users/{id}")
+	/*@DeleteMapping("/users/{id}")
 	public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
-		try {
-			userRepository.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			
-		}
-	}
+	    try {
+	        jakarta.persistence.Query query = entityManager.createQuery("DELETE FROM User_Role u WHERE u.user_id = :id");
+	        query.setParameter("id", id);
+	        query.executeUpdate();
+	        
+	        userRepository.deleteById(id);
+
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}*/
+
 
 }

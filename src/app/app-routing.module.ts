@@ -12,18 +12,22 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserComponent } from './user/user.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { DocumentsByServiceNameComponent } from './documents-by-service-name/documents-by-service-name.component';
+import { GeneratedDocumentComponent } from './generated-document/generated-document.component';
+import { GeneratedDocumentByServiceNameComponent } from './generated-document-by-service-name/generated-document-by-service-name.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'supervisordash', component: SupervisorDashComponent },
+  { path: 'admindash', component: SupervisorDashComponent },
   {
     path: 'adddocument',
     component: AdddocumentComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['Admin'] },
+    data: { roles: ['Admin', 'Supervisor'] },
   },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
+  { path: 'documentsmodified', component: GeneratedDocumentComponent },
   { path: 'addservice', component: AddserviceComponent },
   { path: 'services-list', component: ServicesListComponent },
   { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
@@ -33,7 +37,15 @@ const routes: Routes = [
     component: EditDocumentComponent,
   },
   { path: 'addUser', component: UserComponent },
-  { path: 'users-list', component: UserListComponent }
+  { path: 'users-list', component: UserListComponent },
+  {
+    path: 'loadDocumentsByServiceName/:serviceName',
+    component: DocumentsByServiceNameComponent,
+  },
+  {
+    path: 'loadgeneratedDocumentsByServiceName/:serviceName',
+    component: GeneratedDocumentByServiceNameComponent,
+  },
 ];
 
 @NgModule({

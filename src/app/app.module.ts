@@ -24,6 +24,9 @@ import { AddServiceService } from './add-service.service';
 import { FormulaireService } from 'src/formulaire.service';
 import { UserComponent } from './user/user.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { DocumentsByServiceNameComponent } from './documents-by-service-name/documents-by-service-name.component';
+import { GeneratedDocumentComponent } from './generated-document/generated-document.component';
+import { GeneratedDocumentByServiceNameComponent } from './generated-document-by-service-name/generated-document-by-service-name.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { UserListComponent } from './user-list/user-list.component';
     LoginComponent,
     UserComponent,
     UserListComponent,
+    DocumentsByServiceNameComponent,
+    GeneratedDocumentComponent,
+    GeneratedDocumentByServiceNameComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,15 +2,15 @@
   <!DOCTYPE html>
   <html>
     <head>
-      <title>Liste de tous les documents</title>
+      <title>Liste de tous les documents modifiées</title>
     </head>
     <body>
       <div class="container">
         <div class="sidebar">
-          <h3>Liste de document par service</h3>
+          <h3>Liste de documents modifiées par service</h3>
           <ul>
             <li *ngFor="let service of services">
-              <button (click)="loadDocumentsByService(service)">
+              <button (click)="loadGeneratedDocumentsByService(service)">
                 {{ service }}
               </button>
             </li>
@@ -27,23 +27,16 @@
             </thead>
             <tbody>
               <tr *ngFor="let document of documents | async">
-                <td>{{ document.name }}</td>
+                <td>{{ document.documentName }}</td>
                 <td>
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    [href]="getDownloadUrl(document.iddoc)"
+                    [href]="getDownloadUrl(document.id)"
                     >Telecharger</a
                   >
-                  <a (click)="deleteDocument(document.iddoc)">Supprimer</a>
-                  <a
-                    [routerLink]="[
-                      '/edit',
-                      document.formulaire.id,
-                      document.iddoc,
-                      document.name
-                    ]"
-                    >Éditer</a
+                  <a (click)="deleteGeneratedDocument(document.id)"
+                    >Supprimer</a
                   >
                 </td>
               </tr>

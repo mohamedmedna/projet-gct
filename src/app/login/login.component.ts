@@ -23,16 +23,19 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         console.log(response.jwtToken);
         console.log(response.userauth.role);
+        console.log(response.userauth.service);
 
         this.userauth.setRoles(response.userauth.role);
         this.userauth.setToken(response.jwtToken);
 
         const role = response.userauth.role[0].roleName;
+        const serviceName = response.userauth.servic.nomservice;
+        this.userauth.setServiceName(serviceName);
 
         if (role === 'Admin') {
-          this.router.navigate(['/supervisordash']);
-        } else if (role === 'Supervisor') {
-          this.router.navigate(['/supervisordash']);
+          this.router.navigate(['/admindash']);
+        } else if (role === 'Supervisor' || role === 'Worker') {
+          this.router.navigate(['/loadDocumentsByServiceName/' + serviceName]);
         }
       },
       (error) => {

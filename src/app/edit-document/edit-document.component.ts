@@ -54,7 +54,7 @@ export class EditDocumentComponent implements OnInit {
     }
   }
 
-  onSubmit(editDocumentForm: NgForm): void {
+ onSubmit(editDocumentForm: NgForm): void {
     if (this.documentId && this.formulaire) {
       this.downloadingInProgress = true;
       /*window.alert('Téléchargement en cours...');*/
@@ -85,5 +85,5 @@ export class EditDocumentComponent implements OnInit {
       console.error('error');
       this.downloadingInProgress = false;
     }
-  }
+  } 
 }

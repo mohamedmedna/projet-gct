@@ -2,22 +2,12 @@
   <!DOCTYPE html>
   <html>
     <head>
-      <title>Liste de tous les documents</title>
+      <title>Liste du documents</title>
     </head>
     <body>
       <div class="container">
-        <div class="sidebar">
-          <h3>Liste de document par service</h3>
-          <ul>
-            <li *ngFor="let service of services">
-              <button (click)="loadDocumentsByService(service)">
-                {{ service }}
-              </button>
-            </li>
-          </ul>
-        </div>
         <div class="content">
-          <h2>Liste de tous les documents</h2>
+          <h2>Liste de tous les documents du service {{_serviceName}}</h2>
           <table>
             <thead>
               <tr>

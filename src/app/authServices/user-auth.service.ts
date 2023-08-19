@@ -14,6 +14,14 @@ export class UserAuthService {
     return JSON.parse(localStorage.getItem('roles') || 'null' || '{}');
   }
 
+  setServiceName(service: string) {
+    localStorage.setItem('servic', JSON.stringify(service));
+  }
+
+  getServiceName(): string {
+    return JSON.parse(localStorage.getItem('servic') || 'null' || '{}');
+  }
+
   setToken(jwtToken: string) {
     localStorage.setItem('jwtToken', jwtToken);
   }
