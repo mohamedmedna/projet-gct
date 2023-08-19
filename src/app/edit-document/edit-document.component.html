@@ -1,89 +1,92 @@
-<app-supervisor-dash>
-  <div class="form-container">
-    <div *ngIf="formulaire">
-      <h2 class="form-title">Edit Document</h2>
+<div class="form-container">
+  <div *ngIf="formulaire">
+    <h2 class="form-title">Edit Document</h2>
 
-      <form #editDocumentForm="ngForm" (ngSubmit)="onSubmit(editDocumentForm)">
-        <label for="name">Nom du formulaire associe:</label>
+    <form
+      #editDocumentForm="ngForm"
+      class="form-label"
+      (ngSubmit)="onSubmit(editDocumentForm)"
+    >
+      <label for="name">Nom du formulaire associe:</label>
+      <input
+        type="text"
+        id="name"
+        [(ngModel)]="formulaire.nom"
+        class="form-input"
+        name="name"
+        required
+        disabled
+      />
+
+      <div *ngIf="formulaire.numConsultationestVisible">
+        <label for="numConsultation">Numero Consultation:</label>
         <input
           type="text"
-          id="name"
-          [(ngModel)]="formulaire.nom"
-          name="name"
-          required
-          disabled
+          id="numConsultation"
+          [(ngModel)]="formulaire.numConsultation"
+          name="numConsultation"
+          class="form-input"
         />
+      </div>
 
-        <div *ngIf="formulaire.numConsultationestVisible">
-          <label for="numConsultation">Numero Consultation:</label>
-          <input
-            type="text"
-            id="numConsultation"
-            [(ngModel)]="formulaire.numConsultation"
-            name="numConsultation"
-          />
-        </div>
+      <div *ngIf="formulaire.titreConsultationestVisible">
+        <label for="titreConsultation">Titre Consultation:</label>
+        <input
+          type="text"
+          id="titreConsultation"
+          [(ngModel)]="formulaire.titreConsultation"
+          name="titreConsultation"
+          class="form-input"
+        />
+      </div>
+      <div *ngIf="formulaire.objetConsultationestVisible">
+        <label for="objetConsultation">Objet Consultation:</label>
+        <input
+          type="text"
+          id="objetConsultation"
+          [(ngModel)]="formulaire.objetConsultation"
+          name="objetConsultation"
+          class="form-input"
+        />
+      </div>
 
-        <div *ngIf="formulaire.titreConsultationestVisible">
-          <label for="titreConsultation">Titre Consultation:</label>
-          <input
-            type="text"
-            id="titreConsultation"
-            [(ngModel)]="formulaire.titreConsultation"
-            name="titreConsultation"
-          />
-        </div>
-        <div *ngIf="formulaire.objetConsultationestVisible">
-          <label for="objetConsultation">Objet Consultation:</label>
-          <input
-            type="text"
-            id="objetConsultation"
-            [(ngModel)]="formulaire.objetConsultation"
-            name="objetConsultation"
-          />
-        </div>
+      <div *ngIf="formulaire.conditionsParticipationestVisible">
+        <label for="conditionsParticipation">Conditions Participations:</label>
+        <textarea
+          id="conditionsParticipation"
+          [(ngModel)]="formulaire.conditionsParticipation"
+          name="conditionsParticipation"
+          class="form-input"
+          placeholder="Conditions de participations"
+          rows="5"
+          cols="40"
+        ></textarea>
+      </div>
+      <div *ngIf="formulaire.delaiLivraisonestVisible">
+        <label for="delaiLivraison">Delai livraison:</label>
+        <input
+          type="text"
+          id="delaiLivraison"
+          [(ngModel)]="formulaire.delaiLivraison"
+          name="delaiLivraison"
+          class="form-input"
+        />
+      </div>
+      <div *ngIf="formulaire.dureeGarantieestVisible">
+        <label for="dureeGarantie">Duree Garantie</label>
+        <input
+          type="text"
+          id="dureeGarantie"
+          [(ngModel)]="formulaire.dureeGarantie"
+          name="dureeGarantie"
+          class="form-input"
+        />
+      </div>
+      <div *ngIf="editDocumentForm.invalid" class="error-message">
+        Veuillez remplir tous les champs.
+      </div>
 
-        <div *ngIf="formulaire.conditionsParticipationestVisible">
-          <label for="conditionsParticipation"
-            >Conditions Participations:</label
-          >
-          <textarea
-            id="conditionsParticipation"
-            [(ngModel)]="formulaire.conditionsParticipation"
-            name="conditionsParticipation"
-            class="form-input"
-            placeholder="Conditions de participations"
-            rows="5"
-            cols="40"
-          ></textarea>
-        </div>
-        <div *ngIf="formulaire.delaiLivraisonestVisible">
-          <label for="delaiLivraison">Delai livraison:</label>
-          <input
-            type="text"
-            id="delaiLivraison"
-            [(ngModel)]="formulaire.delaiLivraison"
-            name="delaiLivraison"
-          />
-        </div>
-        <div *ngIf="formulaire.dureeGarantieestVisible">
-          <label for="dureeGarantie">Duree Garantie</label>
-          <input
-            type="text"
-            id="dureeGarantie"
-            [(ngModel)]="formulaire.dureeGarantie"
-            name="dureeGarantie"
-          />
-        </div>
-        <div *ngIf="editDocumentForm.invalid" class="error-message">
-          Veuillez remplir tous les champs.
-        </div>
-        <div class="downloading-message" *ngIf="downloadingInProgress">
-          Téléchargement en cours...
-        </div>
-        <hr />
-        <button type="submit">Generate PDF</button>
-      </form>
-    </div>
+      <button type="submit" class="form-submit">Generate PDF</button>
+    </form>
   </div>
-</app-supervisor-dash>
+</div>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupervisorDashComponent } from './supervisor-dash.component';
+import { FormulaireListComponent } from './formulaire-list.component';
 
-describe('SupervisorDashComponent', () => {
-  let component: SupervisorDashComponent;
-  let fixture: ComponentFixture<SupervisorDashComponent>;
+describe('FormulaireListComponent', () => {
+  let component: FormulaireListComponent;
+  let fixture: ComponentFixture<FormulaireListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SupervisorDashComponent ]
+      declarations: [ FormulaireListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SupervisorDashComponent);
+    fixture = TestBed.createComponent(FormulaireListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

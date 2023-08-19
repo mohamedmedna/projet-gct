@@ -1,71 +1,67 @@
-<app-supervisor-dash>
-  <div class="form-container">
-    <h2 class="form-title">Ajouter un Utilisateur</h2>
+<div class="form-container">
+  <h2 class="form-title">Ajouter un Utilisateur</h2>
 
-    <form (ngSubmit)="onSubmit()">
-      <label for="nomPrenom" class="form-label">Nom et Prenom:</label>
-      <input
-        type="text"
-        id="nomPrenom"
-        class="form-input"
-        name="nomPrenom"
-        [(ngModel)]="nomPrenom"
-        required
-        #nomPrenomInput="ngModel"
-      />
-      <div
-        *ngIf="nomPrenomInput.invalid && nomPrenomInput.touched"
-        class="error-message"
-      >
-        Le nom de l'utilisateur est requis.
-      </div>
-
-      <label for="userName" class="form-label">Nom d'utilisateur:</label>
-      <input
-        type="text"
-        id="userName"
-        class="form-input"
-        name="userName"
-        [(ngModel)]="userName"
-        required
-      />
-      <label for="userPassword" class="form-label">Mot de passe:</label>
-      <input
-        type="text"
-        id="userPassword"
-        class="form-input"
-        name="userPassword"
-        [(ngModel)]="userPassword"
-        required
-      />
-      <div>
-        <label for="nomService">Nom du service:</label>
-        <select
-          id="nomservice"
-          name="nomservice"
-          [(ngModel)]="nomService"
-          required
-        >
-          <option *ngFor="let service of services" [value]="service">
-            {{ service }}
-          </option>
-        </select>
-      </div>
-<div class="form-role-container">
-  <label class="form-role-label">Rôles:</label>
-  <div *ngFor="let role of roles">
+  <form (ngSubmit)="onSubmit()">
+    <label for="nomPrenom" class="form-label">Nom et Prenom:</label>
     <input
-      type="checkbox"
-      name="roleNames"
-      [(ngModel)]="selectedRoles[role]"
+      type="text"
+      id="nomPrenom"
+      class="form-input"
+      name="nomPrenom"
+      [(ngModel)]="nomPrenom"
+      required
+      #nomPrenomInput="ngModel"
     />
-    {{ role }}
-  </div>
+    <div
+      *ngIf="nomPrenomInput.invalid && nomPrenomInput.touched"
+      class="error-message"
+    >
+      Le nom de l'utilisateur est requis.
+    </div>
+
+    <label for="userName" class="form-label">Nom d'utilisateur:</label>
+    <input
+      type="text"
+      id="userName"
+      class="form-input"
+      name="userName"
+      [(ngModel)]="userName"
+      required
+    />
+    <label for="userPassword" class="form-label">Mot de passe:</label>
+    <input
+      type="text"
+      id="userPassword"
+      class="form-input"
+      name="userPassword"
+      [(ngModel)]="userPassword"
+      required
+    />
+    <div>
+      <label for="nomService">Nom du service:</label>
+      <select
+        id="nomservice"
+        name="nomservice"
+        [(ngModel)]="nomService"
+        required
+      >
+        <option *ngFor="let service of services" [value]="service">
+          {{ service }}
+        </option>
+      </select>
+    </div>
+    <div class="form-role-container">
+      <label class="form-role-label">Rôles:</label>
+      <div *ngFor="let role of roles">
+        <input
+          type="checkbox"
+          name="roleNames"
+          [(ngModel)]="selectedRoles[role]"
+        />
+        {{ role }}
+      </div>
+    </div>
+
+    <button type="submit" class="form-submit">Submit</button>
+  </form>
 </div>
-
-
-
-      <button type="submit" class="form-submit">Submit</button>
-    </form>
-  </div>
-</app-supervisor-dash>

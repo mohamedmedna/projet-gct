@@ -12,46 +12,49 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="service")
+@Table(name = "service")
 public class Servic {
 
-@Id
-@GeneratedValue(strategy=GenerationType.IDENTITY)
-@Column(name = "idservice")
-private Long idservice;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idservice")
+	private Long idservice;
 
-@Column(name = "nomservice")
-private String nomservice;
+	@Column(name = "nomservice")
+	private String nomservice;
 
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
-private Set<Document> documents;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
+	private Set<Document> documents;
 
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
-private Set<GeneratedDocument> generatedDocuments;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
+	private Set<GeneratedDocument> generatedDocuments;
 
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
-private Set<User> users;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")
+	private Set<User> users;
 
-public Long getIdservice() {
-	return idservice;
-}
-public void setIdservice(Long idservice) {
-	this.idservice = idservice;
-}
-public String getNomservice() {
-	return nomservice;
-}
-public void setNomservice(String nomservice) {
-	this.nomservice = nomservice;
-}
-public Servic(String nomservice) {
-	super();
-	this.nomservice = nomservice;
-}
-public Servic() {
-	super();
-}
+	public Long getIdservice() {
+		return idservice;
+	}
 
+	public void setIdservice(Long idservice) {
+		this.idservice = idservice;
+	}
 
+	public String getNomservice() {
+		return nomservice;
+	}
+
+	public void setNomservice(String nomservice) {
+		this.nomservice = nomservice;
+	}
+
+	public Servic(String nomservice) {
+		super();
+		this.nomservice = nomservice;
+	}
+
+	public Servic() {
+		super();
+	}
 
 }

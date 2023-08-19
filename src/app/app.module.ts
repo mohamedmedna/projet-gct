@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SupervisorDashComponent } from './supervisor-dash/supervisor-dash.component';
 import { AdddocumentComponent } from './adddocument/adddocument.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -27,11 +26,14 @@ import { UserListComponent } from './user-list/user-list.component';
 import { DocumentsByServiceNameComponent } from './documents-by-service-name/documents-by-service-name.component';
 import { GeneratedDocumentComponent } from './generated-document/generated-document.component';
 import { GeneratedDocumentByServiceNameComponent } from './generated-document-by-service-name/generated-document-by-service-name.component';
+import { FormulaireListComponent } from './formulaire-list/formulaire-list.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { RolesListComponent } from './roles-list/roles-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SupervisorDashComponent,
     AdddocumentComponent,
     DocumentsUploadedComponent,
     AddserviceComponent,
@@ -45,6 +47,10 @@ import { GeneratedDocumentByServiceNameComponent } from './generated-document-by
     DocumentsByServiceNameComponent,
     GeneratedDocumentComponent,
     GeneratedDocumentByServiceNameComponent,
+    FormulaireListComponent,
+    NavbarComponent,
+    AddRoleComponent,
+    RolesListComponent
   ],
   imports: [
     BrowserModule,

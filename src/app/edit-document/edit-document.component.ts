@@ -54,7 +54,7 @@ export class EditDocumentComponent implements OnInit {
     }
   }
 
- onSubmit(editDocumentForm: NgForm): void {
+  onSubmit(editDocumentForm: NgForm): void {
     if (this.documentId && this.formulaire) {
       this.downloadingInProgress = true;
       /*window.alert('Téléchargement en cours...');*/
@@ -68,7 +68,7 @@ export class EditDocumentComponent implements OnInit {
 
             const anchor = document.createElement('a');
             anchor.href = url;
-            anchor.download = `${this.documentname}_modified.pdf`;
+            anchor.download = `${this.documentname}${this.documentId}_modified.pdf`;
             anchor.click();
 
             URL.revokeObjectURL(url);
@@ -85,5 +85,5 @@ export class EditDocumentComponent implements OnInit {
       console.error('error');
       this.downloadingInProgress = false;
     }
-  } 
+  }
 }

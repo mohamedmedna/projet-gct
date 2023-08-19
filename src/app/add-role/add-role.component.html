@@ -1,0 +1,29 @@
+<div class="form-container">
+  <h2 class="form-title">Ajouter une role</h2>
+
+  <form #roleForm="ngForm">
+    <label for="nomservice" class="form-label">Nom du Role:</label>
+    <input
+      type="text"
+      id="roleName"
+      class="form-input"
+      name="roleName"
+      [(ngModel)]="role.roleName"
+      required
+    />
+
+    <label for="nomservice" class="form-label">Description du Role:</label>
+    <input
+      type="text"
+      id="roleDescription"
+      class="form-input"
+      name="roleDescription"
+      [(ngModel)]="role.roleDescription"
+      required
+    />
+
+    <button (click)="addRole()" type="submit" class="form-submit">
+      Submit
+    </button>
+  </form>
+</div>

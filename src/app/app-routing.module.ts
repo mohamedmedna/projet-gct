@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SupervisorDashComponent } from './supervisor-dash/supervisor-dash.component';
 import { AdddocumentComponent } from './adddocument/adddocument.component';
 import { DocumentsUploadedComponent } from './documents-uploaded/documents-uploaded.component';
 import { AddserviceComponent } from './addservice/addservice.component';
@@ -15,23 +14,30 @@ import { UserListComponent } from './user-list/user-list.component';
 import { DocumentsByServiceNameComponent } from './documents-by-service-name/documents-by-service-name.component';
 import { GeneratedDocumentComponent } from './generated-document/generated-document.component';
 import { GeneratedDocumentByServiceNameComponent } from './generated-document-by-service-name/generated-document-by-service-name.component';
+import { FormulaireListComponent } from './formulaire-list/formulaire-list.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { RolesListComponent } from './roles-list/roles-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  /*{ path: '', redirectTo: 'login', pathMatch: 'full' },*/
   { path: 'login', component: LoginComponent },
-  { path: 'admindash', component: SupervisorDashComponent },
+
   {
     path: 'adddocument',
     component: AdddocumentComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['Admin', 'Supervisor'] },
+    data: { roles: ['Supervisor'] },
   },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
   { path: 'documentsmodified', component: GeneratedDocumentComponent },
   { path: 'addservice', component: AddserviceComponent },
+  { path: 'addrole', component: AddRoleComponent },
   { path: 'services-list', component: ServicesListComponent },
+  { path: 'roles-list', component: RolesListComponent },
   { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
-  { path: 'formulaire', component: FormulaireComponent },
+  { path: 'addformulaire', component: FormulaireComponent },
+  { path: 'formulaire-list', component: FormulaireListComponent },
   {
     path: 'edit/:id/:iddoc/:name',
     component: EditDocumentComponent,
@@ -46,6 +52,7 @@ const routes: Routes = [
     path: 'loadgeneratedDocumentsByServiceName/:serviceName',
     component: GeneratedDocumentByServiceNameComponent,
   },
+  { path: 'navbar', component: NavbarComponent },
 ];
 
 @NgModule({

@@ -32,9 +32,11 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name = "idservice", nullable = false)
 	private Servic servic;
-	
-	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<GeneratedDocument> genratedDocuments;*/
+
+	/*
+	 * @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") private
+	 * Set<GeneratedDocument> genratedDocuments;
+	 */
 
 	public Long getId() {
 		return Id;

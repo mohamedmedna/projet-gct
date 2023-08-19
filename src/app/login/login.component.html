@@ -1,26 +1,75 @@
-<div class="form-container">
-  <h2 class="form-title">Login</h2>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center"></div>
+    <div class="row justify-content-center" style="border-radius: 15px">
+      <div class="col-md-7 col-lg-5">
+        <div class="wrap" style="border-radius: 15px">
+          <div class="login-wrap p-4 p-md-5" style="border-radius: 15px">
+            <div class="d-flex">
+              <div class="w-100">
+                <div class="mb-4 text-center">
+                  <div class="img-container">
+                    <img
+                      src="../../../../assets/img/cgt_0204.jpg"
+                      class="img-fluid text-center shadow"
+                    />
+                  </div>
 
-  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-    <label for="userName" class="form-label">Nom d'utilisateur</label>
-    <input
-      type="text"
-      id="userName"
-      class="form-input"
-      name="userName"
-      ngModel
-      required
-    />
-    <label for="userPassword" class="form-label">Mot de passe</label>
-    <input
-      type="text"
-      id="userPassword"
-      class="form-input"
-      name="userPassword"
-      ngModel
-      required
-    />
+                  <br /><br /><br />
+                  <h4>GCT</h4>
+                </div>
+              </div>
+            </div>
+            <br /><br />
+            <form
+              class="signin-form"
+              #loginForm="ngForm"
+              (ngSubmit)="login(loginForm)"
+              #connectForm="ngForm"
+            >
+              <div class="form-group mt-3">
+                <input
+                  type="text"
+                  id="userName"
+                  class="form-control"
+                  name="userName"
+                  ngModel
+                  required
+                />
+                <label class="form-control-placeholder" for="userName"
+                  >Nom d'utilisateur</label
+                >
+              </div>
+              <div class="form-group" id="show_hide_password">
+                <input
+                  type="password"
+                  id="userPassword"
+                  class="form-control"
+                  name="userPassword"
+                  ngModel
+                  required
+                />
 
-    <button type="submit" class="form-submit">Submit</button>
-  </form>
-</div>
+                <label class="form-control-placeholder" for="userPassword"
+                  >Mot de passe</label
+                >
+                <a toggle="#password-field" class="field-icon toggle-password">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                </a>
+              </div>
+              <br /><br />
+              <div class="form-group">
+                <input
+                  type="submit"
+                  value="Se connecter"
+                  class="form-control btn btn-primary rounded submit px-3"
+                />
+              </div>
+              <div class="form-group d-md-flex"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

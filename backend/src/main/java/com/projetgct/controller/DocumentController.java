@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,11 +56,9 @@ public class DocumentController {
 
 	@Autowired
 	private DocumentRepo repo;
-	
+
 	@Autowired
 	private GeneratedDocumentRepo generatedDocumentRepo;
-
-
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -233,11 +232,13 @@ public class DocumentController {
 
 		if (exitCode == 0) {
 			byte[] redactedPdfContent = Files.readAllBytes(Paths.get(imageFolderPath + "_redacted.pdf"));
-		    GeneratedDocument generatedDocument = new GeneratedDocument();
-		    generatedDocument.setDocumentName(document.getName() + "_modified.pdf");
-		    generatedDocument.setDoc_content(redactedPdfContent);
-		    generatedDocument.setServic(document.getServic());
-		    generatedDocument = generatedDocumentRepo.save(generatedDocument);
+			GeneratedDocument generatedDocument = new GeneratedDocument();
+			Random rand = new Random();
+			int rand_int = rand.nextInt(50);
+			generatedDocument.setDocumentName(document.getName() + rand_int + "_modified.pdf");
+			generatedDocument.setDoc_content(redactedPdfContent);
+			generatedDocument.setServic(document.getServic());
+			generatedDocument = generatedDocumentRepo.save(generatedDocument);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_PDF);
 			headers.setContentDisposition(

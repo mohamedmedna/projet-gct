@@ -33,25 +33,20 @@ public class WebSecurityConfiguration {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http
-	        .csrf(csrf -> csrf.disable())
-	        .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	        .authorizeHttpRequests(authorize -> 
-	            authorize
-	                .requestMatchers("/authenticate", "/addUser").permitAll()
-	                .anyRequest().authenticated()
-	        ).cors();
-	    
+		http.csrf(csrf -> csrf.disable())
+				.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/authenticate", "/addUser").permitAll()
+						.anyRequest().authenticated())
+				.cors();
 
-	    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-	    
-	    return http.build();
+		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
 	}
-
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

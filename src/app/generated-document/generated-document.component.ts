@@ -36,6 +36,16 @@ export class GeneratedDocumentComponent implements OnInit {
       this.uploadService.getDocumentsGeneratedByService(serviceName);
   }
 
+  confirmDelete(id: number): void {
+    const confirmation = confirm(
+      'Êtes-vous sûr de vouloir supprimer ce document ?'
+    );
+
+    if (confirmation) {
+      this.deleteGeneratedDocument(id);
+    }
+  }
+
   deleteGeneratedDocument(id: number): void {
     this.uploadService.deleteGeneratedDocument(id).subscribe(
       () => {

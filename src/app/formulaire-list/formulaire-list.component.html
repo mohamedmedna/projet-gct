@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="content">
+    <h2>Liste de tous les formulaires</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Noms du formulaires</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formulaire of formulaires">
+          <td>{{ formulaire.nom }}</td>
+          <td>
+            <button
+              (click)="confirmDelete(formulaire)"
+              type="button"
+              class="btn btn-danger margin=50px btn-sm"
+              style="margin-right: 10px"
+            >
+              Supprimer
+            </button>
+
+            <button
+              (click)="toggleModifier(formulaire)"
+              type="button"
+              class="btn btn-info btn-sm"
+            >
+              Modifier les champs
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

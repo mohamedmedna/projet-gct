@@ -42,6 +42,16 @@ export class GeneratedDocumentByServiceNameComponent implements OnInit {
       }
     );
   }
+
+  confirmDelete(id: number): void {
+    const confirmation = confirm(
+      'Êtes-vous sûr de vouloir supprimer ce document ?'
+    );
+
+    if (confirmation) {
+      this.deleteDocument(id);
+    }
+  }
   deleteDocument(id: number): void {
     this.uploadService.deleteGeneratedDocument(id).subscribe(
       () => {

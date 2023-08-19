@@ -1,51 +1,25 @@
-<app-supervisor-dash>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Formulaires</title>
-    </head>
-    <body>
-      <div class="form-container">
-        <h2 class="form-title">Ajouter une formulaire</h2>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Formulaires</title>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2 class="form-title">Ajouter une formulaire</h2>
 
-        <form (submit)="addFormulaire()" #formulaireForm="ngForm">
-          <label for="nom" class="form-label">Nom du Formulaire:</label>
-          <input
-            type="text"
-            id="nom"
-            class="form-input"
-            name="nom"
-            [(ngModel)]="formulaire.nom"
-            required
-          />
+      <form (submit)="addFormulaire()" #formulaireForm="ngForm">
+        <label for="nom" class="form-label">Nom du Formulaire:</label>
+        <input
+          type="text"
+          id="nom"
+          class="form-input"
+          name="nom"
+          [(ngModel)]="formulaire.nom"
+          required
+        />
 
-          <button type="submit" class="form-submit">Ajouter</button>
-        </form>
-      </div>
-      <div class="container">
-        <div class="content">
-          <h2>Liste de tous les formulaires</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noms du formulaires</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let formulaire of formulaires">
-                <td>{{ formulaire.nom }}</td>
-                <td>
-                  <a (click)="deleteFormulaire(formulaire)">Supprimer</a>
-                  <a (click)="toggleModifier(formulaire)"
-                    >Modifier les champs</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </body>
-  </html>
-</app-supervisor-dash>
+        <button type="submit" class="form-submit">Ajouter</button>
+      </form>
+    </div>
+  </body>
+</html>

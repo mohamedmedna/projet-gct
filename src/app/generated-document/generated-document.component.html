@@ -1,49 +1,56 @@
-<app-supervisor-dash>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Liste de tous les documents modifiées</title>
-    </head>
-    <body>
-      <div class="container">
-        <div class="sidebar">
-          <h3>Liste de documents modifiées par service</h3>
-          <ul>
-            <li *ngFor="let service of services">
-              <button (click)="loadGeneratedDocumentsByService(service)">
-                {{ service }}
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div class="content">
-          <h2>Liste de tous les documents</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noms du documents</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let document of documents | async">
-                <td>{{ document.documentName }}</td>
-                <td>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    [href]="getDownloadUrl(document.id)"
-                    >Telecharger</a
-                  >
-                  <a (click)="deleteGeneratedDocument(document.id)"
-                    >Supprimer</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste de tous les documents modifiées</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h3>Liste de documents modifiées par service</h3>
+        <ul>
+          <li *ngFor="let service of services">
+            <button (click)="loadGeneratedDocumentsByService(service)">
+              {{ service }}
+            </button>
+          </li>
+        </ul>
       </div>
-    </body>
-  </html>
-</app-supervisor-dash>
+      <div class="content">
+        <h2>Liste de tous les documents modifiées</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Noms du documents</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let document of documents | async">
+              <td>{{ document.documentName }}</td>
+              <td>
+                <a
+                  [href]="getDownloadUrl(document.iddoc)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-info margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Télécharger
+                </a>
+
+                <button
+                  (click)="confirmDelete(document.iddoc)"
+                  type="button"
+                  class="btn btn-danger margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

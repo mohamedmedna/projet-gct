@@ -1,6 +1,5 @@
 package com.projetgct.entities;
 
-
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -11,90 +10,86 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-
 @Entity
 public class Formulaire {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long Id;
-    
-    private String nom;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long Id;
 
-    private String numConsultation;
-    private boolean numConsultationestVisible=true;
-    
-    
-    private String titreConsultation;
-    private boolean titreConsultationestVisible=true;
-    
-    
-    private String objetConsultation;
-    private boolean objetConsultationestVisible=true;
-    
-    private String conditionsParticipation;
-    private boolean conditionsParticipationestVisible=true;
-    
-    private String delaiLivraison;
-    private boolean delaiLivraisonestVisible=true;
-    
-    private String dureeGarantie;
-    private boolean dureeGarantieestVisible=true;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulaire")
-    private Set<Document> documents;
+	private String nom;
 
+	private String numConsultation;
+	private boolean numConsultationestVisible = true;
 
-    public Formulaire() {
-    }
+	private String titreConsultation;
+	private boolean titreConsultationestVisible = true;
 
-    public Long getId() {
-        return Id;
-    }
+	private String objetConsultation;
+	private boolean objetConsultationestVisible = true;
 
-    public void setId(Long id) {
-        this.Id = id;
-    }
+	private String conditionsParticipation;
+	private boolean conditionsParticipationestVisible = true;
 
-    public String getNumConsultation() {
-        return numConsultation;
-    }
+	private String delaiLivraison;
+	private boolean delaiLivraisonestVisible = true;
 
-    public void setNumConsultation(String numConsultation) {
-        this.numConsultation = numConsultation;
-    }
+	private String dureeGarantie;
+	private boolean dureeGarantieestVisible = true;
 
-    public String getTitreConsultation() {
-        return titreConsultation;
-    }
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "formulaire")
+	private Set<Document> documents;
 
-    public void setTitreConsultation(String titreConsultation) {
-        this.titreConsultation = titreConsultation;
-    }
+	public Formulaire() {
+	}
 
-    public String getObjetConsultation() {
-        return objetConsultation;
-    }
+	public Long getId() {
+		return Id;
+	}
 
-    public void setObjetConsultation(String objetConsultation) {
-        this.objetConsultation = objetConsultation;
-    }
+	public void setId(Long id) {
+		this.Id = id;
+	}
 
-    public String getConditionsParticipation() {
-        return conditionsParticipation;
-    }
+	public String getNumConsultation() {
+		return numConsultation;
+	}
 
-    public void setConditionsParticipation(String conditionsParticipation) {
-        this.conditionsParticipation = conditionsParticipation;
-    }
+	public void setNumConsultation(String numConsultation) {
+		this.numConsultation = numConsultation;
+	}
 
-    public String getDelaiLivraison() {
-        return delaiLivraison;
-    }
+	public String getTitreConsultation() {
+		return titreConsultation;
+	}
 
-    public void setDelaiLivraison(String delaiLivraison) {
-        this.delaiLivraison = delaiLivraison;
-    }
+	public void setTitreConsultation(String titreConsultation) {
+		this.titreConsultation = titreConsultation;
+	}
+
+	public String getObjetConsultation() {
+		return objetConsultation;
+	}
+
+	public void setObjetConsultation(String objetConsultation) {
+		this.objetConsultation = objetConsultation;
+	}
+
+	public String getConditionsParticipation() {
+		return conditionsParticipation;
+	}
+
+	public void setConditionsParticipation(String conditionsParticipation) {
+		this.conditionsParticipation = conditionsParticipation;
+	}
+
+	public String getDelaiLivraison() {
+		return delaiLivraison;
+	}
+
+	public void setDelaiLivraison(String delaiLivraison) {
+		this.delaiLivraison = delaiLivraison;
+	}
 
 	public String getNom() {
 		return nom;
@@ -159,11 +154,5 @@ public class Formulaire {
 	public void setDureeGarantieestVisible(boolean dureeGarantieestVisible) {
 		this.dureeGarantieestVisible = dureeGarantieestVisible;
 	}
-	
-	
 
-
-	
-    
 }
-

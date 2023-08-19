@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../authServices/user.service';
 import { NgForm } from '@angular/forms';
@@ -10,6 +10,7 @@ import { UserAuthService } from '../authServices/user-auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('connectForm') connectForm!: NgForm;
   constructor(
     private router: Router,
     private userservice: UserService,
@@ -19,6 +20,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login(loginForm: NgForm) {
+    if (!this.connectForm.valid) {
+      alert('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
     this.userservice.login(loginForm.value).subscribe(
       (response: any) => {
         console.log(response.jwtToken);
@@ -31,16 +36,27 @@ export class LoginComponent implements OnInit {
         const role = response.userauth.role[0].roleName;
         const serviceName = response.userauth.servic.nomservice;
         this.userauth.setServiceName(serviceName);
+        if (!response.jwtToken || !response.userauth.role) {
+          this.showLoginError();
+          return;
+        }
 
         if (role === 'Admin') {
-          this.router.navigate(['/admindash']);
+          this.router.navigate(['/navbar']);
         } else if (role === 'Supervisor' || role === 'Worker') {
           this.router.navigate(['/loadDocumentsByServiceName/' + serviceName]);
         }
       },
       (error) => {
         console.log(error);
+        this.showLoginError();
       }
+    );
+  }
+
+  showLoginError() {
+    alert(
+      "Vos informations d'identification sont incorrectes. Veuillez réessayer."
     );
   }
 }

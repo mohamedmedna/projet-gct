@@ -1,56 +1,69 @@
-<app-supervisor-dash>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Liste de tous les documents</title>
-    </head>
-    <body>
-      <div class="container">
-        <div class="sidebar">
-          <h3>Liste de document par service</h3>
-          <ul>
-            <li *ngFor="let service of services">
-              <button (click)="loadDocumentsByService(service)">
-                {{ service }}
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div class="content">
-          <h2>Liste de tous les documents</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noms du documents</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let document of documents | async">
-                <td>{{ document.name }}</td>
-                <td>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    [href]="getDownloadUrl(document.iddoc)"
-                    >Telecharger</a
-                  >
-                  <a (click)="deleteDocument(document.iddoc)">Supprimer</a>
-                  <a
-                    [routerLink]="[
-                      '/edit',
-                      document.formulaire.id,
-                      document.iddoc,
-                      document.name
-                    ]"
-                    >Éditer</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste de tous les documents</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h3>Liste de document par service</h3>
+        <ul>
+          <li *ngFor="let service of services">
+            <button (click)="loadDocumentsByService(service)">
+              {{ service }}
+            </button>
+          </li>
+        </ul>
       </div>
-    </body>
-  </html>
-</app-supervisor-dash>
+      <div class="content">
+        <h2>Liste de tous les documents</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Noms du documents</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let document of documents | async">
+              <td>{{ document.name }}</td>
+              <td>
+                <a
+                  [href]="getDownloadUrl(document.iddoc)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-info margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Télécharger
+                </a>
+
+                <button
+                  (click)="confirmDelete(document.iddoc)"
+                  type="button"
+                  class="btn btn-danger margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Supprimer
+                </button>
+
+                <button
+                  [routerLink]="[
+                    '/edit',
+                    document.formulaire.id,
+                    document.iddoc,
+                    document.name
+                  ]"
+                  type="button"
+                  class="btn btn-info btn-sm"
+                >
+                  Editer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

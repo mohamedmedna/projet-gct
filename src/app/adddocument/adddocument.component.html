@@ -1,62 +1,63 @@
-<app-supervisor-dash>
-  <div class="form-container">
-    <h2 class="form-title">Ajouter un document</h2>
+<div class="form-container">
+  <h2 class="form-title">Ajouter un document</h2>
 
-    <form
-      enctype="multipart/form-data"
-      (ngSubmit)="onSubmit()"
-      #documentForm="ngForm"
-    >
-      <label for="name" class="form-label">Nom du document:</label>
-      <input
-        type="text"
-        id="name"
-        class="form-input"
-        name="name"
-        [(ngModel)]="name"
-        required
-        #nameInput="ngModel"
-      />
-      <div *ngIf="nameInput.invalid && nameInput.touched" class="error-message">
-        Le nom du document est requis.
-      </div>
-      <div>
-        <label for="nomservice">Nom du service:</label>
-        <select
-          id="nomservice"
-          name="nomservice"
-          [(ngModel)]="nomservice"
-          required
-        >
-          <option *ngFor="let service of services" [value]="service">
-            {{ service }}
-          </option>
-        </select>
-      </div>
-
-      <label for="formulairenom">Formulaire Associé:</label>
+  <form
+    enctype="multipart/form-data"
+    (ngSubmit)="onSubmit()"
+    #documentForm="ngForm"
+  >
+    <label for="name" class="form-label">Nom du document:</label>
+    <input
+      type="text"
+      id="name"
+      class="form-input"
+      name="name"
+      [(ngModel)]="name"
+      required
+      #nameInput="ngModel"
+    />
+    <br />
+    <div *ngIf="nameInput.invalid && nameInput.touched" class="error-message">
+      Le nom du document est requis.
+    </div>
+    <div>
+      <label for="nomservice">Nom du service:</label>
       <select
-        id="formulairenom"
-        name="formulairenom"
-        [(ngModel)]="formulairenom"
+        id="nomservice"
+        name="nomservice"
+        [(ngModel)]="nomservice"
         required
       >
-        <option *ngFor="let Formulaire of forms" [value]="Formulaire">
-          {{ Formulaire }}
+        <option *ngFor="let service of services" [value]="service">
+          {{ service }}
         </option>
       </select>
-      <div>
-        <label for="file">File:</label>
-        <input
-          type="file"
-          id="file"
-          (change)="onFileChange($event)"
-          accept=".pdf,.doc,.docx"
-          required
-        />
-      </div>
+    </div>
+    <br />
+    <label for="formulairenom">Formulaire Associé:</label>
+    <select
+      id="formulairenom"
+      name="formulairenom"
+      [(ngModel)]="formulairenom"
+      required
+    >
+      <br />
+      <option *ngFor="let Formulaire of forms" [value]="Formulaire">
+        {{ Formulaire }}
+      </option>
+    </select>
+    <div>
+      <label for="file">File:</label>
+      <input
+        type="file"
+        id="file"
+        (change)="onFileChange($event)"
+        accept=".pdf,.doc,.docx"
+        required
+      />
+    </div>
+    <br />
 
-      <button type="submit" class="form-submit">Submit</button>
-    </form>
-  </div>
-</app-supervisor-dash>
+    <button type="submit" class="form-submit">Submit</button>
+  </form>
+</div>

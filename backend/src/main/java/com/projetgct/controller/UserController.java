@@ -41,17 +41,17 @@ public class UserController {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	public String getEncodedPassword(String password){
+
+	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
 	}
 
@@ -92,14 +92,14 @@ public class UserController {
 					.body("Erreur lors de l'ajout de l'utilisateur.");
 		}
 	}
-	
+
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String nom) {
 		try {
 			List<User> Users = new ArrayList<User>();
 			if (nom == null)
 				userRepository.findAll().forEach(Users::add);
-		
+
 			if (Users.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
@@ -107,23 +107,19 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 
-}
-	/*@DeleteMapping("/users/{id}")
-	public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
-	    try {
-	        jakarta.persistence.Query query = entityManager.createQuery("DELETE FROM User_Role u WHERE u.user_id = :id");
-	        query.setParameter("id", id);
-	        query.executeUpdate();
-	        
-	        userRepository.deleteById(id);
-
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    } catch (Exception e) {
-	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}*/
-
+	}
+	/*
+	 * @DeleteMapping("/users/{id}") public ResponseEntity<HttpStatus>
+	 * deleteUser(@PathVariable("id") Long id) { try { jakarta.persistence.Query
+	 * query =
+	 * entityManager.createQuery("DELETE FROM User_Role u WHERE u.user_id = :id");
+	 * query.setParameter("id", id); query.executeUpdate();
+	 * 
+	 * userRepository.deleteById(id);
+	 * 
+	 * return new ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (Exception e) {
+	 * return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); } }
+	 */
 
 }

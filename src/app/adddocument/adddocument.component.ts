@@ -4,6 +4,7 @@ import { FormulaireService } from '../../formulaire.service';
 
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { UserAuthService } from '../authServices/user-auth.service';
 @Component({
   selector: 'app-adddocument',
   templateUrl: './adddocument.component.html',
@@ -18,6 +19,7 @@ export class AdddocumentComponent implements OnInit {
   services!: string[];
   forms!: string[];
   @ViewChild('documentForm') documentForm!: NgForm;
+  serviceName = this.userAuth.getServiceName();
 
   ngOnInit(): void {
     this.getServices();
@@ -27,7 +29,8 @@ export class AdddocumentComponent implements OnInit {
   constructor(
     private uploaddocumentservice: UploadDocumentService,
     private formservice: FormulaireService,
-    private router: Router
+    private router: Router,
+    private userAuth: UserAuthService
   ) {}
 
   getServices(): void {
@@ -73,7 +76,9 @@ export class AdddocumentComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Document ajouté avec succès');
-          this.router.navigateByUrl('/documentsuploaded');
+          this.router.navigateByUrl(
+            '/loadDocumentsByServiceName/' + this.serviceName
+          );
         },
         (error) => {
           console.error("Erreur lors de l'ajout du document:", error);

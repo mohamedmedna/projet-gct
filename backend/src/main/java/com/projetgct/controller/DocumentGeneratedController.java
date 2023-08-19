@@ -19,12 +19,13 @@ import com.projetgct.repositories.GeneratedDocumentRepo;
 @Controller
 @CrossOrigin("http://localhost:4200")
 public class DocumentGeneratedController {
-	
+
 	@Autowired
 	private GeneratedDocumentRepo generatedDocumentRepo;
-	
+
 	@GetMapping("/generateddocuments")
-	public ResponseEntity<List<GeneratedDocument>> getAllDocumentsGenerated(@RequestParam(required = false) String nom) {
+	public ResponseEntity<List<GeneratedDocument>> getAllDocumentsGenerated(
+			@RequestParam(required = false) String nom) {
 		try {
 			List<GeneratedDocument> documents = new ArrayList<GeneratedDocument>();
 			if (nom == null)
@@ -39,9 +40,10 @@ public class DocumentGeneratedController {
 		}
 
 	}
-	
+
 	@GetMapping("/generateddocuments/{serviceName}")
-	public ResponseEntity<List<GeneratedDocument>> getGeneratedDocumentsByService(@PathVariable("serviceName") String serviceName) {
+	public ResponseEntity<List<GeneratedDocument>> getGeneratedDocumentsByService(
+			@PathVariable("serviceName") String serviceName) {
 		try {
 			List<GeneratedDocument> generatedDocuments = generatedDocumentRepo.findByServiceName(serviceName);
 			return new ResponseEntity<>(generatedDocuments, HttpStatus.OK);
@@ -49,7 +51,7 @@ public class DocumentGeneratedController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@DeleteMapping("/generateddocuments/{id}")
 	public ResponseEntity<HttpStatus> deleteDocumentGenerated(@PathVariable("id") Long id) {
 		try {

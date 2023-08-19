@@ -1,77 +1,78 @@
-<app-supervisor-dash>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Modifiers les champs</title>
-    </head>
-    <body>
-      <div class="container">
-        <h2>Modifier les champs</h2>
-        <hr />
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modifiers la visibilité du champs</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Modifier la visibilité du champs</h2>
+      <hr />
 
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.numConsultationestVisible"
-              (change)="updateChampVisibility('numConsultation')"
-            />
-            Numéro de consultation
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.titreConsultationestVisible"
-              (change)="updateChampVisibility('titreConsultation')"
-            />
-            Titre de consultation
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.objetConsultationestVisible"
-              (change)="updateChampVisibility('objetConsultation')"
-            />
-            Objet de consultation
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.conditionsParticipationestVisible"
-              (change)="updateChampVisibility('conditionsParticipation')"
-            />
-            Conditions de participation
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.delaiLivraisonestVisible"
-              (change)="updateChampVisibility('delaiLivraison')"
-            />
-            Délai de livraison
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input
-              type="checkbox"
-              [(ngModel)]="formulaire.dureeGarantieestVisible"
-              (change)="updateChampVisibility('dureeGarantie')"
-            />
-            Duree Garantie
-          </label>
-        </div>
-
-        <button type="button" (click)="saveChanges()">Enregistrer</button>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.numConsultationestVisible"
+            (change)="updateChampVisibility('numConsultation')"
+          />
+          Numéro de consultation
+        </label>
       </div>
-    </body>
-  </html>
-</app-supervisor-dash>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.titreConsultationestVisible"
+            (change)="updateChampVisibility('titreConsultation')"
+          />
+          Titre de consultation
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.objetConsultationestVisible"
+            (change)="updateChampVisibility('objetConsultation')"
+          />
+          Objet de consultation
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.conditionsParticipationestVisible"
+            (change)="updateChampVisibility('conditionsParticipation')"
+          />
+          Conditions de participation
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.delaiLivraisonestVisible"
+            (change)="updateChampVisibility('delaiLivraison')"
+          />
+          Délai de livraison
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formulaire.dureeGarantieestVisible"
+            (change)="updateChampVisibility('dureeGarantie')"
+          />
+          Duree Garantie
+        </label>
+      </div>
+      <div class="downloading-message" *ngIf="editingInProgress">
+        Modification en cours...
+      </div>
+
+      <button type="button" (click)="saveChanges()">Enregistrer</button>
+    </div>
+  </body>
+</html>

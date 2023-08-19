@@ -34,17 +34,7 @@ export class FormulaireComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.getFormulaires();
-  }
-
-  getFormulaires(): void {
-    this.formulaireService
-      .getAllFormulaires()
-      .subscribe((formulaires: FormulaireModel[]) => {
-        this.formulaires = formulaires;
-      });
-  }
+  ngOnInit(): void {}
 
   addFormulaire(): void {
     if (!this.formulaireForm.valid) {
@@ -55,17 +45,7 @@ export class FormulaireComponent implements OnInit {
       .addFormulaire(this.formulaire)
       .subscribe((response: any) => {
         this.formulaires.push(response);
+        this.router.navigateByUrl('/formulaire-list');
       });
-  }
-
-  toggleModifier(formulaire: FormulaireModel): void {
-    formulaire.modifier = !formulaire.modifier;
-    this.router.navigate(['/modifiers-champs', formulaire.id]);
-  }
-
-  deleteFormulaire(formulaire: FormulaireModel): void {
-    this.formulaireService.deleteFormulaire(formulaire.id).subscribe(() => {
-      this.formulaires = this.formulaires.filter((f) => f.id !== formulaire.id);
-    });
   }
 }

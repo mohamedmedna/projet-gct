@@ -10,13 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.projetgct.entities.Document;
 
 @Repository
-public interface DocumentRepo extends JpaRepository<Document,Long> {
+public interface DocumentRepo extends JpaRepository<Document, Long> {
 
-    @Query("SELECT d FROM Document d JOIN d.servic s WHERE s.nomservice = :serviceName")
-    List<Document> findByServiceName(@Param("serviceName") String serviceName);
-	
-
-
-
+	@Query("SELECT d FROM Document d JOIN d.servic s WHERE s.nomservice = :serviceName")
+	List<Document> findByServiceName(@Param("serviceName") String serviceName);
 
 }

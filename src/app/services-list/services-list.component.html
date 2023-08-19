@@ -1,31 +1,36 @@
-<app-supervisor-dash>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Liste de tous les services</title>
-    </head>
-    <body>
-      <div class="container">
-        <div class="content">
-          <h2>Liste de tous les services</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Noms du service</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let service of services | async">
-                <td>{{ service.nomservice }}</td>
-                <td>
-                  <a (click)="deleteService(service.idservice)">Supprimer</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste de tous les services</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <h2>Liste de tous les services</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Noms du service</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let service of services | async">
+              <td>{{ service.nomservice }}</td>
+              <td>
+                <button
+                  (click)="deleteService(service.idservice)"
+                  type="button"
+                  class="btn btn-danger margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </body>
-  </html>
-</app-supervisor-dash>
+    </div>
+  </body>
+</html>

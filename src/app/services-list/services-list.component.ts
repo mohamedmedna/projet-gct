@@ -23,11 +23,11 @@ export class ServicesListComponent implements OnInit {
   deleteService(id: number): void {
     this.service.deleteService(id).subscribe(
       () => {
-        console.log('Document deleted successfully');
+        console.log('Role deleted successfully');
         this.loadServices();
       },
       (error) => {
-        console.error('Error deleting document:', error);
+        console.error('Error deleting role:', error);
       }
     );
   }

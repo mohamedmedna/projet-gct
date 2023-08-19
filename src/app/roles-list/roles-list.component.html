@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste de tous les services</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <h2>Liste de tous les roles</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Noms du role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let role of roles | async">
+              <td>{{ role.roleName }}</td>
+              <td>
+                <button
+                  (click)="deleteRole(role.roleName)"
+                  type="button"
+                  class="btn btn-danger margin=50px btn-sm"
+                  style="margin-right: 10px"
+                >
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

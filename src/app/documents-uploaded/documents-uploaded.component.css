@@ -7,7 +7,7 @@ body {
 .container {
   display: flex;
   justify-content: space-between;
-  margin: 20px auto;
+  margin: 120px auto;
   max-width: 800px;
   padding: 20px;
   border: 1px solid #ccc;

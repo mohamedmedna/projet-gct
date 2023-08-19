@@ -27,6 +27,7 @@ export class ModifierChampsComponent implements OnInit {
     modifier: false,
   };
   formulaireid!: number;
+  editingInProgress = false;
 
   constructor(
     private formulaireService: FormulaireService,
@@ -87,6 +88,6 @@ export class ModifierChampsComponent implements OnInit {
   }
 
   saveChanges(): void {
-    this.router.navigate(['/formulaire']);
+    this.router.navigate(['/formulaire-list']);
   }
 }

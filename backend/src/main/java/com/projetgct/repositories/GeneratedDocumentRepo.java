@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.projetgct.entities.GeneratedDocument;
 
 @Repository
-public interface GeneratedDocumentRepo extends JpaRepository<GeneratedDocument,Long> {
+public interface GeneratedDocumentRepo extends JpaRepository<GeneratedDocument, Long> {
 
-	    @Query("SELECT d FROM GeneratedDocument d JOIN d.servic s WHERE s.nomservice = :serviceName")
-    List<GeneratedDocument> findByServiceName(@Param("serviceName") String serviceName);
+	@Query("SELECT d FROM GeneratedDocument d JOIN d.servic s WHERE s.nomservice = :serviceName")
+	List<GeneratedDocument> findByServiceName(@Param("serviceName") String serviceName);
 
 }
