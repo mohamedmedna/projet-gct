@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Fichier } from '../models/Fichier';
 import { FormulaireModel } from '../models/FormulaireModel';
 import { FormulaireService } from 'src/formulaire.service';
+import { UserService } from '../authServices/user.service';
 
 @Component({
   selector: 'app-documents-by-service-name',
@@ -20,7 +21,8 @@ export class DocumentsByServiceNameComponent implements OnInit {
   constructor(
     private uploadService: UploadDocumentService,
     private formulaireService: FormulaireService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {

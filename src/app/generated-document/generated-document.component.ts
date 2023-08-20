@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UploadDocumentService } from '../upload-document.service';
+import { UserService } from '../authServices/user.service';
 
 @Component({
   selector: 'app-generated-document',
@@ -10,7 +11,10 @@ import { UploadDocumentService } from '../upload-document.service';
 export class GeneratedDocumentComponent implements OnInit {
   documents?: Observable<any[]>;
   services!: string[];
-  constructor(private uploadService: UploadDocumentService) {}
+  constructor(
+    private uploadService: UploadDocumentService,
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.getAll();

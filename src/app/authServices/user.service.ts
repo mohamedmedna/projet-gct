@@ -10,7 +10,6 @@ const baseUrl = 'http://localhost:8080';
 })
 export class UserService {
   requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
-  http: any;
 
   constructor(
     private httpclient: HttpClient,
@@ -40,6 +39,14 @@ export class UserService {
     return this.httpclient.post(baseUrl + '/addUser', formData, {
       responseType: 'text',
     });
+  }
+
+  update(id: any, data: any): Observable<any> {
+    return this.httpclient.put(baseUrl + '/user' + '/' + id, data);
+  }
+
+  getUserById(id: any): Observable<User> {
+    return this.httpclient.get(baseUrl + '/user' + id);
   }
 
   deleteUser(id: number): Observable<any> {

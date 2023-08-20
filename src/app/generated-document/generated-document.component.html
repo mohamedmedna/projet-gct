@@ -38,14 +38,16 @@
                   Télécharger
                 </a>
 
-                <button
-                  (click)="confirmDelete(document.iddoc)"
-                  type="button"
-                  class="btn btn-danger margin=50px btn-sm"
-                  style="margin-right: 10px"
-                >
-                  Supprimer
-                </button>
+                <div *ngIf="this.userService.roleMatch(['Supervisor'])">
+                  <button
+                    (click)="confirmDelete(document.iddoc)"
+                    type="button"
+                    class="btn btn-danger margin=50px btn-sm"
+                    style="margin-right: 10px"
+                  >
+                    Supprimer
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>

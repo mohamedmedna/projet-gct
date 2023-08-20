@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../authServices/user.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./user-list.component.css'],
 })
 export class UserListComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
   users?: Observable<any[]>;
 
   ngOnInit(): void {
@@ -28,5 +29,9 @@ export class UserListComponent implements OnInit {
         console.error('Error deleting user:', error);
       }
     );
+  }
+
+  updateUser(id: any) {
+    this.router.navigate(['updateUser', id]);
   }
 }

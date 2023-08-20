@@ -18,6 +18,8 @@ import { FormulaireListComponent } from './formulaire-list/formulaire-list.compo
 import { NavbarComponent } from './navbar/navbar.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 const routes: Routes = [
   /*{ path: '', redirectTo: 'login', pathMatch: 'full' },*/
@@ -44,6 +46,7 @@ const routes: Routes = [
   },
   { path: 'addUser', component: UserComponent },
   { path: 'users-list', component: UserListComponent },
+  { path: 'updateUser/:id', component: UpdateUserComponent },
   {
     path: 'loadDocumentsByServiceName/:serviceName',
     component: DocumentsByServiceNameComponent,
@@ -53,6 +56,7 @@ const routes: Routes = [
     component: GeneratedDocumentByServiceNameComponent,
   },
   { path: 'navbar', component: NavbarComponent },
+  { path: 'forbidden', component: ForbiddenComponent },
 ];
 
 @NgModule({

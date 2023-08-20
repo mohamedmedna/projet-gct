@@ -30,6 +30,8 @@ import { FormulaireListComponent } from './formulaire-list/formulaire-list.compo
 import { NavbarComponent } from './navbar/navbar.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { RolesListComponent } from './roles-list/roles-list.component';
     FormulaireListComponent,
     NavbarComponent,
     AddRoleComponent,
-    RolesListComponent
+    RolesListComponent,
+    ForbiddenComponent,
+    UpdateUserComponent
   ],
   imports: [
     BrowserModule,

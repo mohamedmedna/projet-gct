@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { UploadDocumentService } from '../upload-document.service';
 import { FormulaireModel } from '../models/FormulaireModel';
 import { FormulaireService } from 'src/formulaire.service';
+import { UserService } from '../authServices/user.service';
 
 @Component({
   selector: 'app-documents-uploaded',
@@ -15,7 +16,8 @@ export class DocumentsUploadedComponent implements OnInit {
   formulaire!: FormulaireModel;
   constructor(
     private uploadService: UploadDocumentService,
-    private formulaireService: FormulaireService
+    private formulaireService: FormulaireService,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {

@@ -27,7 +27,7 @@
                 >
                   Télécharger
                 </a>
-
+                <div *ngIf="this.userService.roleMatch(['Supervisor'])">
                 <button
                   (click)="confirmDelete(document.iddoc)"
                   type="button"
@@ -36,6 +36,7 @@
                 >
                   Supprimer
                 </button>
+                </div>
 
                 <button
                   [routerLink]="[

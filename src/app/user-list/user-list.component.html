@@ -13,7 +13,7 @@
               <th>Noms et prenom des utilisateurs</th>
               <th>Service associes</th>
               <th>Roles</th>
-              <!--th>Actions</th-->
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +24,15 @@
                 <ul>
                   <li *ngFor="let role of user.role">{{ role.roleName }}</li>
                 </ul>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  (click)="updateUser(user.id)"
+                  class="btn btn-info margin=50px btn-sm"
+                >
+                  Details
+                </button>
               </td>
               <!--td>
                   <a (click)="deleteUser(user.id)">Supprimer</a>

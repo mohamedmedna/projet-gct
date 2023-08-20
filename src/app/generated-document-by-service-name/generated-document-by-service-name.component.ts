@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UploadDocumentService } from '../upload-document.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../authServices/user.service';
 
 @Component({
   selector: 'app-generated-document-by-service-name',
@@ -15,7 +16,8 @@ export class GeneratedDocumentByServiceNameComponent implements OnInit {
 
   constructor(
     private uploadService: UploadDocumentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {
