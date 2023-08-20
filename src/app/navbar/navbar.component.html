@@ -273,7 +273,7 @@
           </ul>
         </li>
 
-        <li class="nav-item dropdown m-4 ml-5">
+        <li class="nav-item dropdown m-4 ml-5"  *ngIf="this.userService.roleMatch(['Supervisor'])">
           <a
             class="nav-link dropdown-toggle"
             role="button"

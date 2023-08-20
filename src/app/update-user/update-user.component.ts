@@ -30,7 +30,6 @@ export class UpdateUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = new User();
     this.id = this.route.snapshot.params['id'];
     this.getServices();
     this.getRoles();
@@ -42,8 +41,10 @@ export class UpdateUserComponent implements OnInit {
       (userData: User) => {
         this.user = userData;
         this.initializeSelectedRoles();
-        for (const role of this.user.roleNames) {
-          this.selectedRoles[role] = true;
+        if (this.user.roleNames) {
+          for (const role of this.user.roleNames) {
+            this.selectedRoles[role] = true;
+          }
         }
       },
       (error) => {
