@@ -20,7 +20,7 @@ public class Servic {
 	@Column(name = "idservice")
 	private Long idservice;
 
-	@Column(name = "nomservice")
+	@Column(name = "nomservice",unique=true)
 	private String nomservice;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "servic")

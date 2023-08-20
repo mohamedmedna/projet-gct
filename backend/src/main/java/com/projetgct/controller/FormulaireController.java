@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.projetgct.entities.Formulaire;
+import com.projetgct.entities.User;
 import com.projetgct.repositories.FormulaireRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,19 +56,40 @@ public class FormulaireController {
 		}
 	}
 
+	
 	@GetMapping("/formulaire/{id}")
-	public ResponseEntity<Formulaire> getFormulaireById(@PathVariable("id") Long id) {
-		Optional<Formulaire> formulaireOptional = repo.findById(id);
-		return formulaireOptional.map(formulaire -> new ResponseEntity<>(formulaire, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	public ResponseEntity<Formulaire> getFormulaireById(@PathVariable("id") Long Id) {
+		Optional<Formulaire> formulaireOptional =repo.findById(Id);
+		if (formulaireOptional.isPresent()) {
+			return new ResponseEntity<>(formulaireOptional.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	
 	}
 
-	@GetMapping("/listesformulaires")
+
+
+/*	@GetMapping("/listesformulaires")
 	@ResponseBody
 	public List<String> getAllFormsnames() {
 		List<Formulaire> formulaires = repo.findAll();
 		return formulaires.stream().map(Formulaire::getNom).collect(Collectors.toList());
+	}*/
+	
+	@GetMapping("/listesformulaires")
+	@ResponseBody
+	public List<String> getAllFormsnames() {
+	    List<Formulaire> formulaires = repo.findAll();
+	    List<String> formNames = new ArrayList<>();
+
+	    for (Formulaire formulaire : formulaires) {
+	        formNames.add(formulaire.getNom());
+	    }
+
+	    return formNames;
 	}
+
 
 	@PutMapping("/{id}/update-champ-visibility")
 	public ResponseEntity<Formulaire> updateChampVisibility(@PathVariable("id") Long id,

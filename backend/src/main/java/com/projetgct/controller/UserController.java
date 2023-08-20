@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +24,8 @@ import com.projetgct.entities.Role;
 import com.projetgct.entities.Servic;
 import com.projetgct.entities.User;
 import com.projetgct.repositories.RoleRepository;
+import com.projetgct.repositories.ServiceRepo;
 import com.projetgct.repositories.UserRepository;
-import com.projetgct.services.UserService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -38,8 +37,9 @@ import jakarta.transaction.Transactional;
 @RestController
 public class UserController {
 
-	@Autowired
-	UserService userauthservice;
+	
+
+
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -51,7 +51,54 @@ public class UserController {
 	private UserRepository userRepository;
 
 	@Autowired
+	private ServiceRepo servicRepository;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@PostConstruct
+	@Transactional
+	public String initRoleAndUserAdmin() {
+	    Optional<Role> existingAdminRole = roleRepository.findById("Admin");
+
+	    try {
+	        if (!existingAdminRole.isPresent()) {
+	            Role adminRole = new Role();
+	            adminRole.setRoleName("Admin");
+	            adminRole.setRoleDescription("Admin Role");
+	            roleRepository.save(adminRole);
+
+	            Optional<Servic> existingService = servicRepository.findByNomservice("Administration");
+	            
+	            if (!existingService.isPresent()) {
+	                Servic servic = new Servic();
+	                servic.setNomservice("Administration");
+	                servicRepository.save(servic);
+
+	                User adminUser = new User();
+	                adminUser.setNomPrenom("Admin Account");
+	                adminUser.setUserName("admin");
+	                adminUser.setPassword("admin");
+	                adminUser.setServic(servic);
+
+	                Set<Role> adminRoles = new HashSet<>();
+	                adminRoles.add(adminRole);
+	                adminUser.setRole(adminRoles);
+	                userRepository.save(adminUser);
+
+	                return "Role, User, and Service admin Initialized!";
+	            } else {
+	                return "Role and User admin Initialized, but Service already exists.";
+	            }
+	        } else {
+	            return "Role and User admin already exist.";
+	        }
+	    } catch (Exception e) {
+	        return "Error";
+	    }
+	}
+
+
 
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
@@ -66,7 +113,7 @@ public class UserController {
 			User user = new User();
 			user.setUserName(userName);
 			user.setNomPrenom(nomPrenom);
-			user.setUserPassword(getEncodedPassword(userPassword));
+			user.setUserPassword(userPassword);
 
 			Set<Role> roles = new HashSet<>();
 			for (String roleName : roleNames) {
@@ -111,18 +158,21 @@ public class UserController {
 		}
 
 	}
-	
+
 	@GetMapping("/user/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") Long Id) {
-		Optional<User> userData =userRepository.findById(Id);
+		Optional<User> userData = userRepository.findById(Id);
 		if (userData.isPresent()) {
 			return new ResponseEntity<>(userData.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	
+
 	}
 	
+	
+
+
 	@PutMapping("/user/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
 		Optional<User> userData = userRepository.findById(id);
@@ -131,7 +181,7 @@ public class UserController {
 			User _user = userData.get();
 			_user.setUserName(user.getUserName());
 			_user.setNomPrenom(user.getNomPrenom());
-			_user.setPassword(getEncodedPassword(user.getPassword()));
+			_user.setPassword(user.getPassword());
 
 			return new ResponseEntity<User>(userRepository.save(_user), HttpStatus.OK);
 
@@ -140,6 +190,7 @@ public class UserController {
 
 		}
 	}
+
 	/*
 	 * @DeleteMapping("/users/{id}") public ResponseEntity<HttpStatus>
 	 * deleteUser(@PathVariable("id") Long id) { try { jakarta.persistence.Query

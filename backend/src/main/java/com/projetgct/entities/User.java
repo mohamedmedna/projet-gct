@@ -23,11 +23,12 @@ public class User {
 	private String userName;
 	private String nomPrenom;
 	private String userPassword;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "ROLE_ID") })
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
 	private Set<Role> role;
+
 
 	@ManyToOne
 	@JoinColumn(name = "idservice", nullable = false)

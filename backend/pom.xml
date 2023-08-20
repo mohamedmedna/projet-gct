@@ -14,7 +14,7 @@
 	<name>projet_gct</name>
 	<description>projet pour gct</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

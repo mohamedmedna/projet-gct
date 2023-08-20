@@ -42,11 +42,24 @@ public class Serviccontroller {
 		}
 	}
 
-	@GetMapping("/servicess")
+	/*@GetMapping("/servicess")
 	@ResponseBody
 	public List<String> getAllServicesnames() {
 		List<Servic> services = repo.findAll();
 		return services.stream().map(Servic::getNomservice).collect(Collectors.toList());
+	}*/
+	
+	@GetMapping("/servicess")
+	@ResponseBody
+	public List<String> getAllServicesnames() {
+	    List<Servic> services = repo.findAll();
+	    List<String> serviceNames = new ArrayList<>();
+
+	    for (Servic service : services) {
+	        serviceNames.add(service.getNomservice());
+	    }
+
+	    return serviceNames;
 	}
 
 	@GetMapping("/servics")

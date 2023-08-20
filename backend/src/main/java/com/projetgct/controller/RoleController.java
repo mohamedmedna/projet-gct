@@ -2,7 +2,6 @@ package com.projetgct.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetgct.entities.Role;
-import com.projetgct.entities.Servic;
 import com.projetgct.repositories.RoleRepository;
-import com.projetgct.services.RoleService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class RoleController {
 
-	@Autowired
-	private RoleService service;
+
 
 	@Autowired
 	private RoleRepository repo;
@@ -75,11 +71,24 @@ public class RoleController {
 
 	
 
-	@GetMapping("/roless")
+	/*@GetMapping("/roless")
 	@ResponseBody
 	public List<String> getAllRolesNames() {
 		List<Role> roles = repo.findAll();
 		return roles.stream().map(Role::getRoleName).collect(Collectors.toList());
+	}*/
+	@GetMapping("/roless")
+	@ResponseBody
+	public List<String> getAllRolesNames() {
+	    List<Role> roles = repo.findAll();
+	    List<String> roleNames = new ArrayList<>();
+
+	    for (Role role : roles) {
+	        roleNames.add(role.getRoleName());
+	    }
+
+	    return roleNames;
 	}
+
 
 }
