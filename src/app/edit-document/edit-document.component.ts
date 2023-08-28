@@ -22,7 +22,7 @@ export class EditDocumentComponent implements OnInit {
     private route: ActivatedRoute,
     private documentService: UploadDocumentService,
     private formulaireService: FormulaireService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -57,18 +57,17 @@ export class EditDocumentComponent implements OnInit {
   onSubmit(editDocumentForm: NgForm): void {
     if (this.documentId && this.formulaire) {
       this.downloadingInProgress = true;
-      /*window.alert('Téléchargement en cours...');*/
-      this.documentService
-        .generateUpdatedPdf(this.documentId, this.formulaire)
+
+      this.documentService.generateUpdatedDocx(this.documentId, this.formulaire)
         .subscribe(
           (response) => {
-            const blob = new Blob([response], { type: 'application/pdf' });
+            const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
 
             const url = URL.createObjectURL(blob);
 
             const anchor = document.createElement('a');
             anchor.href = url;
-            anchor.download = `${this.documentname}${this.documentId}_modified.pdf`;
+            anchor.download = `${this.documentname}${this.documentId}_modified.docx`; // Change the extension back to .docx
             anchor.click();
 
             URL.revokeObjectURL(url);
@@ -82,7 +81,7 @@ export class EditDocumentComponent implements OnInit {
           }
         );
     } else {
-      console.error('error');
+      console.error('Error');
       this.downloadingInProgress = false;
     }
   }

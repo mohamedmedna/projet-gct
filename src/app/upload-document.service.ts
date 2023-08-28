@@ -52,7 +52,9 @@ export class UploadDocumentService {
     return this.http.get<Fichier[]>(this.baseUrl + 'documents/' + serviceName);
   }
   getDocumentsGeneratedByService(serviceName: string): Observable<Fichier[]> {
-    return this.http.get<Fichier[]>(this.baseUrl + 'generateddocuments/' + serviceName);
+    return this.http.get<Fichier[]>(
+      this.baseUrl + 'generateddocuments/' + serviceName
+    );
   }
 
   getDownloadUrl(iddoc: number): string {
@@ -67,8 +69,8 @@ export class UploadDocumentService {
     return this.http.delete<any>(`${this.baseUrl}generateddocuments/${id}`);
   }
 
-  generateUpdatedPdf(documentId: number, formulaire: any): Observable<Blob> {
-    const url = `${this.baseUrl}${documentId}/generate-updated-pdf`;
+  generateUpdatedDocx(documentId: number, formulaire: any): Observable<Blob> {
+    const url = `${this.baseUrl}${documentId}/generate-updated-docx`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

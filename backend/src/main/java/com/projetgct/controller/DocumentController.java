@@ -1,8 +1,11 @@
 package com.projetgct.controller;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -66,8 +69,8 @@ public class DocumentController {
 	@Value("${python.script.path}")
 	private Resource pythonScriptPath;
 
-	@Value("${image.folder.path}")
-	private Resource imageFolder;
+	@Value("${doc.folder.path}")
+	private Resource docFolder;
 
 	@PostMapping(value = "/adddocument")
 	@Transactional
@@ -155,8 +158,8 @@ public class DocumentController {
 		}
 	}
 
-	@PostMapping("/{id}/generate-updated-pdf")
-	public ResponseEntity<byte[]> generateUpdatedPdf(@PathVariable("id") Long documentId,
+	@PostMapping("/{id}/generate-updated-docx")
+	public ResponseEntity<byte[]> generateUpdatedDocx(@PathVariable("id") Long documentId,
 			@RequestBody Formulaire formulaire) throws Exception {
 		Optional<Document> optionalDocument = repo.findById(documentId);
 		if (!optionalDocument.isPresent()) {
@@ -164,65 +167,49 @@ public class DocumentController {
 		}
 
 		Document document = optionalDocument.get();
-		byte[] pdfContent = document.getDoc_content();
-		String base64EncodedPdf = Base64.encodeBase64String(pdfContent);
+		byte[] docContent = document.getDoc_content();
+		String base64EncodedDocContent = Base64.encodeBase64String(docContent);
 
-		List<List<Map<String, String>>> redactions = new ArrayList<>();
-
-		List<Map<String, String>> page1Redactions = new ArrayList<>();
+		Map<String, String> replacements = new HashMap<>();
 		if (formulaire.isNumConsultationestVisible()) {
-			page1Redactions.add(Map.of("top_left_x", "598", "top_left_y", "1050", "bottom_right_x", "1087",
-					"bottom_right_y", "1143", "text", formulaire.getNumConsultation()));
-		}
+			replacements.put("#numConsultation", formulaire.getNumConsultation());
 
+		}
 		if (formulaire.isTitreConsultationestVisible()) {
-			page1Redactions.add(Map.of("top_left_x", "778", "top_left_y", "1258", "bottom_right_x", "1239",
-					"bottom_right_y", "1358", "text", formulaire.getTitreConsultation()));
-		}
-		redactions.add(page1Redactions);
+			replacements.put("#titreConsultation", formulaire.getTitreConsultation());
 
-		List<Map<String, String>> page2Redactions = new ArrayList<>();
+		}
 		if (formulaire.isObjetConsultationestVisible()) {
-			page2Redactions.add(Map.of("top_left_x", "764", "top_left_y", "272", "bottom_right_x", "1131",
-					"bottom_right_y", "336", "text", formulaire.getObjetConsultation()));
+			replacements.put("#objetConsultation", formulaire.getObjetConsultation());
+
 		}
 		if (formulaire.isConditionsParticipationestVisible()) {
-			page2Redactions.add(Map.of("top_left_x", "534", "top_left_y", "343", "bottom_right_x", "1200",
-					"bottom_right_y", "383", "text", formulaire.getConditionsParticipation()));
-		}
-		if (formulaire.isNumConsultationestVisible()) {
-			page2Redactions.add(Map.of("top_left_x", "998", "top_left_y", "1019", "bottom_right_x", "1281",
-					"bottom_right_y", "1087", "text", formulaire.getNumConsultation()));
-		}
-		redactions.add(page2Redactions);
+			replacements.put("#conditionsParticipation", formulaire.getConditionsParticipation());
 
-		List<Map<String, String>> page3Redactions = new ArrayList<>();
-		if (formulaire.isDelaiLivraisonestVisible()) {
-			page3Redactions.add(Map.of("top_left_x", "718", "top_left_y", "574", "bottom_right_x", "949",
-					"bottom_right_y", "659", "text", formulaire.getDelaiLivraison()));
 		}
 		if (formulaire.isDureeGarantieestVisible()) {
-			page3Redactions.add(Map.of("top_left_x", "707", "top_left_y", "767", "bottom_right_x", "925",
-					"bottom_right_y", "826", "text", formulaire.getDureeGarantie()));
+			replacements.put("#dureeGarantie", formulaire.getDureeGarantie());
+
 		}
-		redactions.add(page3Redactions);
+		if (formulaire.isDelaiLivraisonestVisible()) {
+			replacements.put("#delaiLivraison", formulaire.getDelaiLivraison());
 
-		PDDocument pdfDocument = PDDocument.load(pdfContent);
-		int numberOfPages = pdfDocument.getNumberOfPages();
-		pdfDocument.close();
-
-		for (int i = 0; i < numberOfPages - 3; i++) {
-			redactions.add(new ArrayList<>());
 		}
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		String redactionsJson = objectMapper.writeValueAsString(redactions);
 
 		String pythonScript = pythonScriptPath.getFile().getAbsolutePath();
-		String imageFolderPath = imageFolder.getFile().getAbsolutePath();
+		String docFolderPath = docFolder.getFile().getAbsolutePath();
+		String modifiedFilePath = docFolderPath + "/output_modified.docx";
 
-		ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScript, base64EncodedPdf, imageFolderPath,
-				redactionsJson);
+		File replacementsFile = File.createTempFile("replacements", ".json");
+		try (FileWriter fileWriter = new FileWriter(replacementsFile)) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String replacementsJson = objectMapper.writeValueAsString(replacements);
+			fileWriter.write(replacementsJson);
+		}
+
+		ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScript, base64EncodedDocContent,
+				docFolderPath, replacementsFile.getAbsolutePath());
+
 		processBuilder.redirectInput(ProcessBuilder.Redirect.PIPE);
 		processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 		processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
@@ -231,19 +218,21 @@ public class DocumentController {
 		int exitCode = process.waitFor();
 
 		if (exitCode == 0) {
-			byte[] redactedPdfContent = Files.readAllBytes(Paths.get(imageFolderPath + "_redacted.pdf"));
+			byte[] modifiedDocContent = Files.readAllBytes(Paths.get(modifiedFilePath));
 			GeneratedDocument generatedDocument = new GeneratedDocument();
 			Random rand = new Random();
 			int rand_int = rand.nextInt(50);
-			generatedDocument.setDocumentName(document.getName() + rand_int + "_modified.pdf");
-			generatedDocument.setDoc_content(redactedPdfContent);
+			generatedDocument.setDocumentName(document.getName() + rand_int + "_modified.docx");
+			generatedDocument.setDoc_content(modifiedDocContent);
 			generatedDocument.setServic(document.getServic());
 			generatedDocument = generatedDocumentRepo.save(generatedDocument);
+
 			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_PDF);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 			headers.setContentDisposition(
-					ContentDisposition.parse("attachment; filename=" + document.getName() + "_modified.pdf"));
-			return new ResponseEntity<>(redactedPdfContent, headers, HttpStatus.OK);
+					ContentDisposition.parse("attachment; filename=" + document.getName() + "_modified.docx"));
+
+			return new ResponseEntity<>(modifiedDocContent, headers, HttpStatus.OK);
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}

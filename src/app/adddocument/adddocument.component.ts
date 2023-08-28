@@ -56,10 +56,10 @@ export class AdddocumentComponent implements OnInit {
   }
   public onFileChange(event: any): void {
     const file = event.target.files[0];
-    const allowedExtensions = /(\.pdf)$/i;
+    const allowedExtensions = /(\.docx)$/i;
 
     if (!allowedExtensions.exec(file.name)) {
-      alert('le fichier doit etre format pdf');
+      alert('le fichier doit etre format docx');
       return;
     }
 

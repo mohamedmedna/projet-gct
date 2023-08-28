@@ -29,7 +29,7 @@
               <td>{{ document.documentName }}</td>
               <td>
                 <a
-                  [href]="getDownloadUrl(document.iddoc)"
+                  [href]="getDownloadUrl(document.id)"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="btn btn-info margin=50px btn-sm"
@@ -40,7 +40,7 @@
 
                 <div *ngIf="this.userService.roleMatch(['Supervisor'])">
                   <button
-                    (click)="confirmDelete(document.iddoc)"
+                    (click)="confirmDelete(document.id)"
                     type="button"
                     class="btn btn-danger margin=50px btn-sm"
                     style="margin-right: 10px"
