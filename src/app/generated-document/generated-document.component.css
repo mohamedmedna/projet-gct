@@ -82,3 +82,7 @@ body {
   background-color: #f2f2f2;
   color: #000;
 }
+.btn-container {
+  display: flex;
+  gap: 10px;
+}

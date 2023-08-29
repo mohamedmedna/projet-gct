@@ -57,8 +57,19 @@ export class UploadDocumentService {
     );
   }
 
-  getDownloadUrl(iddoc: number): string {
+  /* getDownloadUrl(iddoc: number): string {
     return `${this.baseUrl}download/${iddoc}`;
+  }*/
+
+  downloadDocument(iddoc: number): Observable<any> {
+    const url = `${this.baseUrl}download/${iddoc}`;
+
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  downloadGeneratedDocument(iddoc: number): Observable<any> {
+    const url = `${this.baseUrl}generatedDownload/${iddoc}`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
   deleteDocument(id: number): Observable<any> {

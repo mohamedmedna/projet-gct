@@ -74,9 +74,7 @@ export class DocumentsUploadedComponent implements OnInit {
       }
     );
   }
-  getDownloadUrl(iddoc: number): string {
-    return this.uploadService.getDownloadUrl(iddoc);
-  }
+
 
   getFormulaireDetails(id: number): void {
     this.formulaireService.getFormulaireById(id).subscribe(

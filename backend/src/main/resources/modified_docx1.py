@@ -3,6 +3,7 @@ import json
 import base64
 import sys
 import os
+import re
 
 def modify_word_document(base64_encoded_content, doc_folder_path, replacements):
     doc_content = base64.b64decode(base64_encoded_content)
@@ -14,13 +15,19 @@ def modify_word_document(base64_encoded_content, doc_folder_path, replacements):
         
     document = Document(save_filename)
 
-    def find_replace(replacements, paragraph):
-        for keyword, new_value in replacements.items():
-            if keyword in paragraph.text:
-                paragraph.text = paragraph.text.replace(keyword, new_value)
+    #def find_replace(replacements, paragraph):
+        #for keyword, new_value in replacements.items():
+            #if keyword in paragraph.text:
+                #paragraph.text = paragraph.text.replace(keyword, new_value)
 
-    for paragraph in document.paragraphs:
-        find_replace(replacements, paragraph)
+    for para in document.paragraphs:
+        for run in para.runs:
+            if run.text:
+                for keyword, new_value in replacements.items():
+                    if keyword in run.text:
+                        replaced_text = re.sub(keyword, new_value, run.text, 999)
+                        if replaced_text != run.text:
+                            run.text = replaced_text
 
     modified_filename = os.path.join(doc_folder_path, "output_modified.docx")
     document.save(modified_filename)

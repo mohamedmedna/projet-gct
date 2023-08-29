@@ -45,6 +45,26 @@ export class GeneratedDocumentByServiceNameComponent implements OnInit {
     );
   }
 
+  downloadDocument(iddoc: number): void {
+    this.uploadService.downloadDocument(iddoc).subscribe(
+      (response: any) => {
+        const blob = new Blob([response], { type: 'application/octet-stream' });
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `documentName.docx`;
+        link.click();
+
+        window.URL.revokeObjectURL(url);
+      },
+      (error) => {
+        console.error('Error downloading document:', error);
+      }
+    );
+  }
+
   confirmDelete(id: number): void {
     const confirmation = confirm(
       'Êtes-vous sûr de vouloir supprimer ce document ?'
@@ -67,9 +87,5 @@ export class GeneratedDocumentByServiceNameComponent implements OnInit {
         console.error('Error deleting document:', error);
       }
     );
-  }
-
-  getDownloadUrl(iddoc: number): string {
-    return this.uploadService.getDownloadUrl(iddoc);
   }
 }

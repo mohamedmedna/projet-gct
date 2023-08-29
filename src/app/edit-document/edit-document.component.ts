@@ -22,7 +22,7 @@ export class EditDocumentComponent implements OnInit {
     private route: ActivatedRoute,
     private documentService: UploadDocumentService,
     private formulaireService: FormulaireService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -58,10 +58,13 @@ export class EditDocumentComponent implements OnInit {
     if (this.documentId && this.formulaire) {
       this.downloadingInProgress = true;
 
-      this.documentService.generateUpdatedDocx(this.documentId, this.formulaire)
+      this.documentService
+        .generateUpdatedDocx(this.documentId, this.formulaire)
         .subscribe(
           (response) => {
-            const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+            const blob = new Blob([response], {
+              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            });
 
             const url = URL.createObjectURL(blob);
 

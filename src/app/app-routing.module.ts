@@ -23,7 +23,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  {path:'',component:LoginComponent},
+  { path: '', component: LoginComponent },
 
   {
     path: 'adddocument',
@@ -33,20 +33,73 @@ const routes: Routes = [
   },
   { path: 'documentsuploaded', component: DocumentsUploadedComponent },
   { path: 'documentsmodified', component: GeneratedDocumentComponent },
-  { path: 'addservice', component: AddserviceComponent },
-  { path: 'addrole', component: AddRoleComponent },
-  { path: 'services-list', component: ServicesListComponent },
-  { path: 'roles-list', component: RolesListComponent },
-  { path: 'modifiers-champs/:id', component: ModifierChampsComponent },
-  { path: 'addformulaire', component: FormulaireComponent },
-  { path: 'formulaire-list', component: FormulaireListComponent },
+  {
+    path: 'addservice',
+    component: AddserviceComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+  {
+    path: 'addrole',
+    component: AddRoleComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+  {
+    path: 'services-list',
+    component: ServicesListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+  {
+    path: 'roles-list',
+    component: RolesListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+  {
+    path: 'modifiers-champs/:id',
+    component: ModifierChampsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Supervisor'] },
+  },
+  {
+    path: 'addformulaire',
+    component: FormulaireComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Supervisor'] },
+  },
+  {
+    path: 'formulaire-list',
+    component: FormulaireListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Supervisor'] },
+  },
   {
     path: 'edit/:id/:iddoc/:name',
     component: EditDocumentComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Supervisor'] },
   },
-  { path: 'addUser', component: UserComponent },
-  { path: 'users-list', component: UserListComponent },
-  { path: 'updateUser/:id', component: UpdateUserComponent },
+  {
+    path: 'addUser',
+    component: UserComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+  {
+    path: 'users-list',
+    component: UserListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
+
+  {
+    path: 'updateUser/:id',
+    component: UpdateUserComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+  },
   {
     path: 'loadDocumentsByServiceName/:serviceName',
     component: DocumentsByServiceNameComponent,

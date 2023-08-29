@@ -28,16 +28,6 @@
             <tr *ngFor="let document of documents | async">
               <td>{{ document.name }}</td>
               <td>
-                <a
-                  [href]="getDownloadUrl(document.iddoc)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-info btn-sm"
-                  style="margin-right: 10px"
-                >
-                  Télécharger
-                </a>
-
                 <div *ngIf="this.userService.roleMatch(['Supervisor'])">
                   <button
                     (click)="confirmDelete(document.iddoc)"

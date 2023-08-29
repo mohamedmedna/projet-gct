@@ -1,15 +1,17 @@
 package com.projetgct.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.util.Map;
@@ -25,7 +27,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,13 +42,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetgct.entities.Document;
 import com.projetgct.entities.Formulaire;
 import com.projetgct.entities.GeneratedDocument;
-import com.projetgct.entities.JwtRequest;
-import com.projetgct.entities.JwtResponse;
 import com.projetgct.entities.Servic;
-import com.projetgct.entities.User;
 import com.projetgct.repositories.DocumentRepo;
 import com.projetgct.repositories.GeneratedDocumentRepo;
-import com.projetgct.services.JwtService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -106,19 +103,23 @@ public class DocumentController {
 	}
 
 	@GetMapping("/download/{iddoc}")
-	public ResponseEntity<ByteArrayResource> downloadDocument(@PathVariable("iddoc") Long iddoc) {
-		Document document = repo.findById(iddoc).orElse(null);
+	public ResponseEntity<Resource> downloadDocument(@PathVariable("iddoc") Long iddoc) {
+	    Document document = repo.findById(iddoc).orElse(null);
 
-		if (document == null) {
-			return ResponseEntity.notFound().build();
-		}
+	    if (document == null) {
+	        return ResponseEntity.notFound().build();
+	    }
 
-		ByteArrayResource resource = new ByteArrayResource(document.getDoc_content());
+	    ByteArrayResource resource = new ByteArrayResource(document.getDoc_content());
 
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + document.getName())
-				.contentType(MediaType.APPLICATION_OCTET_STREAM).contentLength(document.getDoc_content().length)
-				.body(resource);
+	    return ResponseEntity.ok()
+	    		.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getName() + ".docx" + "\"")
+	            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+	            .contentLength(document.getDoc_content().length)
+	            .body(resource);
 	}
+
+
 
 	@GetMapping("/documents")
 	public ResponseEntity<List<Document>> getAllDocuments(@RequestParam(required = false) String nom) {
