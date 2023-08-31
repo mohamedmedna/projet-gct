@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,10 +38,6 @@ import jakarta.transaction.Transactional;
 @RestController
 public class UserController {
 
-	
-
-
-
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -55,50 +52,66 @@ public class UserController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
+	@Value("${app.init.role.name}")
+	private String roleName;
+
+	@Value("${app.init.role.description}")
+	private String roleDescription;
+
+	@Value("${app.init.service.name}")
+	private String serviceName;
+
+	@Value("${app.init.user.name}")
+	private String userName;
+
+	@Value("${app.init.user.username}")
+	private String userUsername;
+
+	@Value("${app.init.user.password}")
+	private String userPassword;
+
 	@PostConstruct
 	@Transactional
 	public String initRoleAndUserAdmin() {
-	    Optional<Role> existingAdminRole = roleRepository.findById("Admin");
+		Optional<Role> existingAdminRole = roleRepository.findById(roleName);
 
-	    try {
-	        if (!existingAdminRole.isPresent()) {
-	            Role adminRole = new Role();
-	            adminRole.setRoleName("Admin");
-	            adminRole.setRoleDescription("Admin Role");
-	            roleRepository.save(adminRole);
+		try {
+			if (!existingAdminRole.isPresent()) {
+				Role adminRole = new Role();
+				adminRole.setRoleName(roleName);
+				adminRole.setRoleDescription(roleDescription);
+				roleRepository.save(adminRole);
 
-	            Optional<Servic> existingService = servicRepository.findByNomservice("Administration");
-	            
-	            if (!existingService.isPresent()) {
-	                Servic servic = new Servic();
-	                servic.setNomservice("Administration");
-	                servicRepository.save(servic);
+				Optional<Servic> existingService = servicRepository.findByNomservice(serviceName);
 
-	                User adminUser = new User();
-	                adminUser.setNomPrenom("Admin Account");
-	                adminUser.setUserName("admin");
-	                adminUser.setPassword("admin");
-	                adminUser.setServic(servic);
+				if (!existingService.isPresent()) {
+					Servic servic = new Servic();
+					servic.setNomservice(serviceName);
+					servicRepository.save(servic);
 
-	                Set<Role> adminRoles = new HashSet<>();
-	                adminRoles.add(adminRole);
-	                adminUser.setRole(adminRoles);
-	                userRepository.save(adminUser);
+					User adminUser = new User();
+					adminUser.setNomPrenom(userName);
+					adminUser.setUserName(userUsername);
+					adminUser.setPassword(userPassword);
+					adminUser.setServic(servic);
 
-	                return "Role, User, and Service admin Initialized!";
-	            } else {
-	                return "Role and User admin Initialized, but Service already exists.";
-	            }
-	        } else {
-	            return "Role and User admin already exist.";
-	        }
-	    } catch (Exception e) {
-	        return "Error";
-	    }
+					Set<Role> adminRoles = new HashSet<>();
+					adminRoles.add(adminRole);
+					adminUser.setRole(adminRoles);
+					userRepository.save(adminUser);
+
+					return "Role, User, and Service admin Initialized!";
+				} else {
+					return "Role and User admin Initialized, but Service already exists.";
+				}
+			} else {
+				return "Role and User admin already exist.";
+			}
+		} catch (Exception e) {
+			return "Error";
+		}
 	}
-
-
 
 	public String getEncodedPassword(String password) {
 		return passwordEncoder.encode(password);
@@ -169,9 +182,6 @@ public class UserController {
 		}
 
 	}
-	
-	
-
 
 	@PutMapping("/user/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {

@@ -16,6 +16,9 @@ export class AddServiceService {
   updateservice(id: any, data: any): Observable<any> {
     return this.http.put(this.baseUrl + 'service/' + id, data);
   }
+  getServicById(id: any): Observable<Servic> {
+    return this.http.get(this.baseUrl + 'service/' + id);
+  }
 
   getServices(): Observable<Servic[]> {
     return this.http.get<Servic[]>(this.baseUrl + 'servics');

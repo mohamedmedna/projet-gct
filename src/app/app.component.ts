@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,13 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'projetgct';
-  constructor(public router: Router) {}
+  showNavbar: boolean = true;
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.showNavbar = !(activatedRoute.snapshot.url[0]?.path === 'login');
+      });
+  }
 }

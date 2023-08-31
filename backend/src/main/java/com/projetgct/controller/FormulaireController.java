@@ -3,18 +3,15 @@ package com.projetgct.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.projetgct.entities.Formulaire;
-import com.projetgct.entities.User;
 import com.projetgct.repositories.FormulaireRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin("http://localhost:4200")
@@ -56,76 +53,75 @@ public class FormulaireController {
 		}
 	}
 
-	
 	@GetMapping("/formulaire/{id}")
 	public ResponseEntity<Formulaire> getFormulaireById(@PathVariable("id") Long Id) {
-		Optional<Formulaire> formulaireOptional =repo.findById(Id);
+		Optional<Formulaire> formulaireOptional = repo.findById(Id);
 		if (formulaireOptional.isPresent()) {
 			return new ResponseEntity<>(formulaireOptional.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	
+
 	}
 
+	/*
+	 * @GetMapping("/listesformulaires")
+	 * 
+	 * @ResponseBody public List<String> getAllFormsnames() { List<Formulaire>
+	 * formulaires = repo.findAll(); return
+	 * formulaires.stream().map(Formulaire::getNom).collect(Collectors.toList()); }
+	 */
 
-
-/*	@GetMapping("/listesformulaires")
-	@ResponseBody
-	public List<String> getAllFormsnames() {
-		List<Formulaire> formulaires = repo.findAll();
-		return formulaires.stream().map(Formulaire::getNom).collect(Collectors.toList());
-	}*/
-	
 	@GetMapping("/listesformulaires")
 	@ResponseBody
 	public List<String> getAllFormsnames() {
-	    List<Formulaire> formulaires = repo.findAll();
-	    List<String> formNames = new ArrayList<>();
+		List<Formulaire> formulaires = repo.findAll();
+		List<String> formNames = new ArrayList<>();
 
-	    for (Formulaire formulaire : formulaires) {
-	        formNames.add(formulaire.getNom());
-	    }
+		for (Formulaire formulaire : formulaires) {
+			formNames.add(formulaire.getNom());
+		}
 
-	    return formNames;
+		return formNames;
 	}
-
 
 	@PutMapping("/{id}/update-champ-visibility")
 	public ResponseEntity<Formulaire> updateChampVisibility(@PathVariable("id") Long id,
-			@RequestParam("champ") String champ, @RequestParam("visible") boolean visible) {
-		Optional<Formulaire> optionalFormulaire = repo.findById(id);
-		if (optionalFormulaire.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	        @RequestParam("champ") String champ, @RequestParam("visible") boolean visible) {
+	    Optional<Formulaire> optionalFormulaire = repo.findById(id);
+	    if (!optionalFormulaire.isPresent()) {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 
-		Formulaire formulaire = optionalFormulaire.get();
-		switch (champ) {
-		case "numConsultation":
-			formulaire.setNumConsultationestVisible(visible);
-			break;
-		case "titreConsultation":
-			formulaire.setTitreConsultationestVisible(visible);
-			break;
-		case "objetConsultation":
-			formulaire.setObjetConsultationestVisible(visible);
-			break;
-		case "conditionsParticipation":
-			formulaire.setConditionsParticipationestVisible(visible);
-			break;
-		case "delaiLivraison":
-			formulaire.setDelaiLivraisonestVisible(visible);
-			break;
-		case "dureeGarantie":
-			formulaire.setDureeGarantieestVisible(visible);
-			break;
-		default:
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	    Formulaire formulaire = optionalFormulaire.get();
+	    switch (champ) {
+	        case "numConsultation":
+	            formulaire.setNumConsultationestVisible(visible);
+	            break;
+	        case "titreConsultation":
+	            formulaire.setTitreConsultationestVisible(visible);
+	            break;
+	        case "objetConsultation":
+	            formulaire.setObjetConsultationestVisible(visible);
+	            break;
+	        case "conditionsParticipation":
+	            formulaire.setConditionsParticipationestVisible(visible);
+	            break;
+	        case "delaiLivraison":
+	            formulaire.setDelaiLivraisonestVisible(visible);
+	            break;
+	        case "dureeGarantie":
+	            formulaire.setDureeGarantieestVisible(visible);
+	            break;
+	        default:
+	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    }
 
-		Formulaire updatedFormulaire = repo.save(formulaire);
-		return new ResponseEntity<>(updatedFormulaire, HttpStatus.OK);
+	    Formulaire updatedFormulaire = repo.save(formulaire);
+	    return new ResponseEntity<>(updatedFormulaire, HttpStatus.OK);
 	}
+
+
 
 	@DeleteMapping("/formulaire/{id}")
 	public ResponseEntity<HttpStatus> deleteFormulaire(@PathVariable Long id) {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.projetgct.entities.Servic;
+import com.projetgct.entities.User;
 import com.projetgct.repositories.ServiceRepo;
 
 @Controller
@@ -42,24 +43,17 @@ public class Serviccontroller {
 		}
 	}
 
-	/*@GetMapping("/servicess")
-	@ResponseBody
-	public List<String> getAllServicesnames() {
-		List<Servic> services = repo.findAll();
-		return services.stream().map(Servic::getNomservice).collect(Collectors.toList());
-	}*/
-	
 	@GetMapping("/servicess")
 	@ResponseBody
 	public List<String> getAllServicesnames() {
-	    List<Servic> services = repo.findAll();
-	    List<String> serviceNames = new ArrayList<>();
+		List<Servic> services = repo.findAll();
+		List<String> serviceNames = new ArrayList<>();
 
-	    for (Servic service : services) {
-	        serviceNames.add(service.getNomservice());
-	    }
+		for (Servic service : services) {
+			serviceNames.add(service.getNomservice());
+		}
 
-	    return serviceNames;
+		return serviceNames;
 	}
 
 	@GetMapping("/servics")
@@ -77,7 +71,17 @@ public class Serviccontroller {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/service/{id}")
+	public ResponseEntity<Servic> getServicById(@PathVariable("id") Long Id) {
+		Optional<Servic> servicData = repo.findById(Id);
+		if (servicData.isPresent()) {
+			return new ResponseEntity<>(servicData.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
+	}
 	@PutMapping("/service/{id}")
 	public ResponseEntity<Servic> updateservic(@PathVariable("id") Long id, @RequestBody Servic servic) {
 		Optional<Servic> servicdata = repo.findById(id);

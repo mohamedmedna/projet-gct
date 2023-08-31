@@ -14,16 +14,17 @@ export class AdddocumentComponent implements OnInit {
   name!: string;
   formulairenom!: string;
   file!: File;
-  nomservice!: string;
+  //nomservice!: string;
 
   services!: string[];
   forms!: string[];
   @ViewChild('documentForm') documentForm!: NgForm;
-  serviceName = this.userAuth.getServiceName();
+  nomservice = this.userAuth.getServiceName();
 
   ngOnInit(): void {
-    this.getServices();
+    //this.getServices();
     this.getForms();
+    //this.nomservice=this.serviceName
   }
 
   constructor(
@@ -33,7 +34,7 @@ export class AdddocumentComponent implements OnInit {
     private userAuth: UserAuthService
   ) {}
 
-  getServices(): void {
+  /* getServices(): void {
     this.uploaddocumentservice.getServices().subscribe(
       (services) => {
         this.services = services;
@@ -42,7 +43,7 @@ export class AdddocumentComponent implements OnInit {
         console.error('Error retrieving services:', error);
       }
     );
-  }
+  }*/
 
   getForms(): void {
     this.formservice.getForms().subscribe(
@@ -77,7 +78,7 @@ export class AdddocumentComponent implements OnInit {
         (response) => {
           console.log('Document ajouté avec succès');
           this.router.navigateByUrl(
-            '/loadDocumentsByServiceName/' + this.serviceName
+            '/loadDocumentsByServiceName/' + this.nomservice
           );
         },
         (error) => {

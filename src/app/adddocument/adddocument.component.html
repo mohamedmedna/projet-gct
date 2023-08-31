@@ -21,7 +21,7 @@
       Le nom du document est requis.
     </div>
     <div>
-      <label for="nomservice">Nom du service:</label>
+      <!--label for="nomservice">Nom du service:</label>
       <select
         id="nomservice"
         name="nomservice"
@@ -31,7 +31,17 @@
         <option *ngFor="let service of services" [value]="service">
           {{ service }}
         </option>
-      </select>
+      </select-->
+
+      <label for="nomservice">Nom du service:</label>
+      <input
+        type="text"
+        id="nomservice"
+        name="nomservice"
+        [(ngModel)]="nomservice"
+        required
+        disabled
+      />
     </div>
     <br />
     <label for="formulairenom">Formulaire Associé:</label>

@@ -32,6 +32,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
+import { UpdateServiceComponent } from './update-service/update-service.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { UpdateUserComponent } from './update-user/update-user.component';
     AddRoleComponent,
     RolesListComponent,
     ForbiddenComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+    UpdateServiceComponent
   ],
   imports: [
     BrowserModule,

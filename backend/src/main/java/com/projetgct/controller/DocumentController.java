@@ -2,8 +2,11 @@ package com.projetgct.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -45,6 +48,8 @@ import com.projetgct.entities.GeneratedDocument;
 import com.projetgct.entities.Servic;
 import com.projetgct.repositories.DocumentRepo;
 import com.projetgct.repositories.GeneratedDocumentRepo;
+
+
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -200,7 +205,9 @@ public class DocumentController {
 		String pythonScript = pythonScriptPath.getFile().getAbsolutePath();
 		String docFolderPath = docFolder.getFile().getAbsolutePath();
 		String modifiedFilePath = docFolderPath + "/output_modified.docx";
-
+      
+          
+ 
 		File replacementsFile = File.createTempFile("replacements", ".json");
 		try (FileWriter fileWriter = new FileWriter(replacementsFile)) {
 			ObjectMapper objectMapper = new ObjectMapper();

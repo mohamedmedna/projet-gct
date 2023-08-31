@@ -1,0 +1,17 @@
+<div class="form-container">
+  <h2 class="form-title">Modifier une service</h2>
+
+  <form (ngSubmit)="onSubmit()" #serviceForm="ngForm">
+    <label for="nomservice" class="form-label">Nom du service:</label>
+    <input
+      type="text"
+      id="nomservice"
+      class="form-input"
+      name="nomservice"
+      [(ngModel)]="servic.nomservice"
+      required
+    />
+
+    <button type="submit" class="form-submit">Submit</button>
+  </form>
+</div>

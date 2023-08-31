@@ -45,7 +45,7 @@ export class UserService {
     return this.httpclient.put(baseUrl + '/user' + '/' + id, data);
   }
 
-  getUserById(id: any): Observable<User> {
+  getUserById(id: any): Observable<any> {
     return this.httpclient.get(baseUrl + '/user/' + id);
   }
 
